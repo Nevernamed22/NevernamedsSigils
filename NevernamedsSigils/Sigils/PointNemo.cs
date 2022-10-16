@@ -34,7 +34,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToResolveOnBoard()
         {
-            return base.Card.slot && base.Card.slot.opposingSlot && !base.Card.slot.opposingSlot.Card && Singleton<BoardManager>.Instance.GetCardQueuedForSlot(base.Card.slot.opposingSlot);
+            return true;
         }
         public override IEnumerator OnResolveOnBoard()
         {
@@ -62,7 +62,8 @@ namespace NevernamedsSigils
         private static List<Ability> waterbornes = new List<Ability>() {
             Ability.Submerge,
             Ability.SubmergeSquid,
-            SubaquaticSpines.ability
+            SubaquaticSpines.ability,
+            CoastGuard.ability
         };
 
     }

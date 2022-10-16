@@ -151,6 +151,35 @@ namespace NevernamedsSigils
                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/mess.png"),
                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/mess_pixel.png")
                );
+
+            SigilSetupUtility.NewCard("Nevernamed Termite",
+               "Termite",
+               1,
+               2,
+               new List<CardMetaCategory> { },
+               CardTemple.Nature,
+               description: "",
+               bonesCost: 2,
+                tribes: new List<Tribe>() { Tribe.Insect },
+                abilities: new List<Ability>() { },
+               defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/termite.png"),
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/termite_emission.png")
+               );
+
+            SigilSetupUtility.NewCard("Nevernamed SwarmedMayfly",
+               "Mayfly",
+               1,
+               1,
+               new List<CardMetaCategory> { },
+               CardTemple.Nature,
+               description: "",
+               bonesCost: 1,
+                tribes: new List<Tribe>() { Tribe.Insect },
+                abilities: new List<Ability>() { Ability.Flying, Ability.Brittle },
+               defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/mayfly.png"),
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/mayfly_emission.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/mayfly_pixel.png")
+               );           
         }
     }
 }

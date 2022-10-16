@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Drop", "If [creature] is drawn as part of your opening hand, it will be automatically played on a random board space for free.",
                       typeof(Drop),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> {  },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: false,

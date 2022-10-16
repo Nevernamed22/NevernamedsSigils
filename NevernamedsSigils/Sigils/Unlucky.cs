@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Unlucky", "While [creature] is alive on the board, cards played by the opponent have a chance to have debuffed stats, or lose a random sigil.",
                       typeof(Unlucky),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> {  },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

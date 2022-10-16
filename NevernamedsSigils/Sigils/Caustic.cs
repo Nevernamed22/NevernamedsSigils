@@ -33,16 +33,15 @@ namespace NevernamedsSigils
                 return ability;
             }
         }
-        public override bool RespondsToTakeDamage(PlayableCard source)
+        public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
         {
-            return source != null && source.Health > 0 && !source.HasAbility(Ability.MadeOfStone);
+            return !wasSacrifice && killer != null && killer.Health > 0 && !killer.HasAbility(Ability.MadeOfStone);
         }
-        public override IEnumerator OnTakeDamage(PlayableCard source)
+        public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
         {
             yield return base.PreSuccessfulTriggerSequence();
-            base.Card.Anim.StrongNegationEffect();
             yield return new WaitForSeconds(0.55f);
-            yield return source.Die(false, base.Card);
+            yield return killer.Die(false, base.Card);
             yield return base.LearnAbility(0.4f);
             yield break;
         }

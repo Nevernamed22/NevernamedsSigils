@@ -36,7 +36,7 @@ namespace NevernamedsSigils
         {
             if (cardSlot.Card == null)
             {
-                CardInfo mayfly = CardLoader.GetCardByName("Nevernamed Mayfly");
+                CardInfo mayfly = CardLoader.GetCardByName("Nevernamed SwarmedMayfly");
                 mayfly.Mods.Add(base.Card.CondenseMods(new List<Ability>() { BuzzOff.ability }));
                 yield return Singleton<BoardManager>.Instance.CreateCardInSlot(mayfly, cardSlot, 0.1f, true);
             }

@@ -24,9 +24,13 @@
     <None Remove="Resources\Cards\festeringguts_emission.png" />
     <None Remove="Resources\Cards\Guts.png" />
     <None Remove="Resources\Cards\guts_emission.png" />
+    <None Remove="Resources\Cards\mayfly.png" />
+    <None Remove="Resources\Cards\mayfly_emission.png" />
     <None Remove="Resources\Cards\mess.png" />
     <None Remove="Resources\Cards\ratling.png" />
     <None Remove="Resources\Cards\ratling_emission.png" />
+    <None Remove="Resources\Cards\termite.png" />
+    <None Remove="Resources\Cards\termite_emission.png" />
     <None Remove="Resources\Cards\web.png" />
     <None Remove="Resources\Cards\web_emission.png" />
     <None Remove="Resources\Other\ambitious.png" />
@@ -51,6 +55,7 @@
     <None Remove="Resources\PixelCards\enchantedpine_pixel.png" />
     <None Remove="Resources\PixelCards\festeringguts_pixel.png" />
     <None Remove="Resources\PixelCards\guts_pixel.png" />
+    <None Remove="Resources\PixelCards\mayfly_pixel.png" />
     <None Remove="Resources\PixelCards\mess_pixel.png" />
     <None Remove="Resources\PixelOther\ambitious_pixel.png" />
     <None Remove="Resources\PixelOther\bloodandbone_pixel.png" />
@@ -277,9 +282,13 @@
     <EmbeddedResource Include="Resources\Cards\festeringguts_emission.png" />
     <EmbeddedResource Include="Resources\Cards\guts.png" />
     <EmbeddedResource Include="Resources\Cards\guts_emission.png" />
+    <EmbeddedResource Include="Resources\Cards\mayfly.png" />
+    <EmbeddedResource Include="Resources\Cards\mayfly_emission.png" />
     <EmbeddedResource Include="Resources\Cards\mess.png" />
     <EmbeddedResource Include="Resources\Cards\ratling.png" />
     <EmbeddedResource Include="Resources\Cards\ratling_emission.png" />
+    <EmbeddedResource Include="Resources\Cards\termite.png" />
+    <EmbeddedResource Include="Resources\Cards\termite_emission.png" />
     <EmbeddedResource Include="Resources\Cards\web.png" />
     <EmbeddedResource Include="Resources\Cards\web_emission.png" />
     <EmbeddedResource Include="Resources\Other\ambitious.png" />
@@ -304,6 +313,7 @@
     <EmbeddedResource Include="Resources\PixelCards\enchantedpine_pixel.png" />
     <EmbeddedResource Include="Resources\PixelCards\festeringguts_pixel.png" />
     <EmbeddedResource Include="Resources\PixelCards\guts_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelCards\mayfly_pixel.png" />
     <EmbeddedResource Include="Resources\PixelCards\mess_pixel.png" />
     <EmbeddedResource Include="Resources\PixelOther\ambitious_pixel.png" />
     <EmbeddedResource Include="Resources\PixelOther\bloodandbone_pixel.png" />

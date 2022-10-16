@@ -35,7 +35,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToTakeDamage(PlayableCard source)
         {
-            return source != null && source.Attack > 0;
+            return source != null && source.Attack > 0 && !source.HasTrait(Trait.Giant);
         }
         public override IEnumerator OnTakeDamage(PlayableCard source)
         {

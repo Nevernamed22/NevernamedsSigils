@@ -65,36 +65,51 @@ namespace NevernamedsSigils
         }
         public PlayableCard twinCard;
         public bool twinset = false;
-        public override void ManagedUpdate()
+        public IEnumerator RecalculateTwinStatus()
         {
-            if (base.Card != null && base.Card.OnBoard && twinset)
+            if (twinCard != null && !twinCard.Dead)
             {
-                if (Singleton<TurnManager>.Instance == null || Singleton<TurnManager>.Instance.GameEnded)
+                if (twinCard.Status.damageTaken != twindamagetakenlastchecked)
                 {
-                    return;
-                }
-                if (LifeManager.Instance == null || LifeManager.Instance.Balance <= -5 || Singleton<TurnManager>.Instance.opponent.NumLives <= 0)
-                {
-                    return;
-                }
-                if (twinCard != null && !twinCard.Dead)
-                {
-                    if (twinCard.Status.damageTaken != twindamagetakenlastchecked)
+                    if (twinCard.Status.damageTaken != base.Card.Status.damageTaken)
                     {
-                        if (twinCard.Status.damageTaken != base.Card.Status.damageTaken)
-                        {
-                            base.Card.Status.damageTaken = twinCard.Status.damageTaken;
-                        }
-                        twindamagetakenlastchecked = twinCard.Status.damageTaken;
+                        base.Card.Status.damageTaken = twinCard.Status.damageTaken;
                     }
-                }
-                if (twinCard == null || twinCard.Dead || !twinCard.OnBoard)
-                {
-                   // Debug.Log($"Balance: ({LifeManager.Instance.Balance}) - OpponentLives: ({Singleton<TurnManager>.Instance.opponent.NumLives}) - MaxOpponentLives: ({Singleton<TurnManager>.Instance.opponent.StartingLives})");                                                      
-                    if (!base.Card.Dead) BoardManager.Instance.StartCoroutine(base.Card.Die(false));
+                    twindamagetakenlastchecked = twinCard.Status.damageTaken;
                 }
             }
-
+            if (twinCard == null || twinCard.Dead || !twinCard.OnBoard)
+            {               
+                if (!base.Card.Dead) yield return base.Card.Die(false);
+            }
+            yield break;
+        }
+        public override bool RespondsToUpkeep(bool playerUpkeep)
+        {
+            return base.Card.OnBoard;
+        }
+        public override IEnumerator OnUpkeep(bool playerUpkeep)
+        {
+            yield return RecalculateTwinStatus();
+            yield break;
+        }
+        public override bool RespondsToOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)
+        {
+            return base.Card.OnBoard;
+        }
+        public override IEnumerator OnOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)
+        {
+            yield return RecalculateTwinStatus();
+            yield break;
+        }
+        public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+        {
+            return base.Card.OnBoard;
+        }
+        public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+        {
+            yield return RecalculateTwinStatus();
+            yield break;
         }
         int twindamagetakenlastchecked = 0;
         public override IEnumerator OnResolveOnBoard()

@@ -14,7 +14,7 @@ namespace NevernamedsSigils
         public static SpecialTriggeredAbility ability;
 		public static void Init()
 		{
-			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("One Half Squirrels", "The value represented with this sigil will be equal to half the number of Squirrels remaining in your side deck.",
+			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("One Half Squirrels", "The value represented with this sigil will be equal to half the number of Squirrels remaining in your side deck. ",
 			   typeof(OneHalfSquirrels),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/onehalfsquirrels.png"),
