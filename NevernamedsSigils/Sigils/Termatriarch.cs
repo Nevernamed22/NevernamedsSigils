@@ -37,7 +37,7 @@ namespace NevernamedsSigils
         {
             get
             {
-                CardInfo guts = CardLoader.GetCardByName("Nevernamed Termite");
+                CardInfo guts = CardLoader.GetCardByName("SigilNevernamed Termite");
                 if (base.Card != null)
                 {
                     //Get fathers

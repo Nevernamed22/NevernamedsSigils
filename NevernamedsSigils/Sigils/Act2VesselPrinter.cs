@@ -37,7 +37,7 @@ namespace NevernamedsSigils
         {
             get
             {
-                return CardLoader.GetCardByName("Nevernamed Act2EmptyVessel");
+                return CardLoader.GetCardByName("SigilNevernamed Act2EmptyVessel");
             }
         }
         public override bool RespondsToTakeDamage(PlayableCard source)

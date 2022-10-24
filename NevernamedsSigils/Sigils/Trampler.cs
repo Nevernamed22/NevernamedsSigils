@@ -1,5 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using System;
 using System.Collections;
@@ -34,7 +35,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToTurnEnd(bool playerTurnEnd)
         {
-            return base.Card != null && base.Card.OpponentCard != playerTurnEnd;
+            return base.Card != null && base.Card.OpponentCard != playerTurnEnd && !base.Card.HasAbility(Stalwart.ability);
         }
         public override IEnumerator OnTurnEnd(bool playerTurnEnd)
         {
@@ -117,9 +118,15 @@ namespace NevernamedsSigils
         }
         protected virtual IEnumerator PostSuccessfulMoveSequence(CardSlot oldSlot)
         {
-            if (oldSlot.Card == null && base.Card && base.Card.Info.name == "Nevernamed NightMare")
+            if (base.Card.Info.GetExtendedProperty("TramplerLeaveBehind") != null)
             {
-                yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("Nevernamed NightmareFuel"), oldSlot, 0.1f, true);
+                yield return new WaitForSeconds(0.1f);
+                if (oldSlot && oldSlot.Card == null)
+                {
+                    CardInfo segment = CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("TramplerLeaveBehind"));
+                    segment.mods.Add(base.Card.CondenseMods(new List<Ability>() {Trampler.ability }));
+                    yield return Singleton<BoardManager>.Instance.CreateCardInSlot(segment, oldSlot, 0.1f, true);
+                }
             }
             yield break;
         }

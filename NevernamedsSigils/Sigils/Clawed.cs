@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Sirenix;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
@@ -34,14 +35,21 @@ namespace NevernamedsSigils
         public static Ability ability;
         private IEnumerator SpawnCardOnSlot(CardSlot slot, bool Left)
         {
-            CardInfo claw = CardLoader.GetCardByName("Nevernamed ClawRight").Clone() as CardInfo;
-            if (Left) claw = CardLoader.GetCardByName("Nevernamed ClawLeft").Clone() as CardInfo;
-
-            foreach (CardModificationInfo mod in base.Card.Info.Mods.FindAll((CardModificationInfo x) => !x.nonCopyable))
+            CardInfo claw;
+            if (Left)
             {
-                CardModificationInfo clone = (CardModificationInfo)mod.Clone();
-                claw.mods.Add(clone);
+                string clawName = "SigilNevernamed ClawLeft";
+                if (Card.Info.GetExtendedProperty("ClawedLeftClawOverride") != null) { clawName = Card.Info.GetExtendedProperty("ClawedLeftClawOverride"); }
+                claw = CardLoader.GetCardByName(clawName).Clone() as CardInfo;
             }
+            else
+            {
+                string clawName = "SigilNevernamed ClawRight";
+                if (Card.Info.GetExtendedProperty("ClawedRightClawOverride") != null) { clawName = Card.Info.GetExtendedProperty("ClawedRightClawOverride"); }
+                claw = CardLoader.GetCardByName(clawName).Clone() as CardInfo;
+            }
+
+            claw.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Clawed.ability, Ability.DeathShield }));
 
             yield return Singleton<BoardManager>.Instance.CreateCardInSlot(claw, slot, 0.1f, true);
             yield break;
@@ -55,6 +63,7 @@ namespace NevernamedsSigils
             Singleton<ViewManager>.Instance.SwitchToView(View.Board, false, false);
             CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, true);
             CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, false);
+
 
             yield return new WaitForSeconds(0.1f);
             yield return base.PreSuccessfulTriggerSequence();

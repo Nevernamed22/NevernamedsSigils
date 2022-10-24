@@ -44,9 +44,12 @@ namespace NevernamedsSigils
             int bloodCost = 0, int bonesCost = 0, int energyCost = 0, List<GemType> gemsCost = null, List<Ability> abilities = null, Texture2D defaultTex = null, Texture2D emissionTex = null, Texture2D pixelTex = null, Texture2D altTexture = null, Texture2D altTextureEmission = null,
            Texture2D titleGraphic = null, List<Texture> decals = null, List<CardAppearanceBehaviour.Appearance> appearanceBehaviour = null, List<Tribe> tribes = null, bool preventSignature = false, List<Trait> traits = null,
             string defaultTailCard = null, string defaultEvolutionCard = null, string defaultEvolutionName = null, int defaultEvolutionTurns = 1, string defaultFrozenCard = null, Texture2D tailLostTexture = null,
-            List<SpecialTriggeredAbility> specialAbilities = null, SpecialStatIcon variableStat = SpecialStatIcon.None, bool hideStats = false, bool onePerDeck = false, GameObject animatedPortrait = null, bool flipPortraitWhenStrafing = false)
-        {
-            CardInfo newInfo = CardManager.New("Nevernamed", internalName, displayname, power, health, description);
+            List<SpecialTriggeredAbility> specialAbilities = null, SpecialStatIcon variableStat = SpecialStatIcon.None, bool hideStats = false, bool onePerDeck = false, GameObject animatedPortrait = null, bool flipPortraitWhenStrafing = false,string overrideDamID = null, string overrideDamBlockedDialogue = null, string overrideFactoryConduitSpawn = null,
+            string overrideRabbitHoleSpawn = null, string overrideAntSpawnerSpawn = null, string overrideBellistID = null, string overrideBellistBlockedDialogue = null, string overrideSquirrelShedderId = null, string overrideSkeletonCrewID = null, string overrideBeesWithinID = null,
+            string twisterForm = null, string transformerForm = null, string overrideLeftClaw = null, string overrideRightClaw = null, string customDoomedLifespan = null, string customGutSpewerGuts = null, string customExplodingCorpseGuts = null, string customOrganThiefGuts = null,
+            string harbingerLeaveBehind = null, string tramplerLeaveBehind = null, string flightyLeaveBehind = null, bool preventBones = false, bool preventCampfire = false, bool preventSigilGive = false, bool preventSigilTake = false)
+        { 
+            CardInfo newInfo = CardManager.New("SigilNevernamed", internalName, displayname, power, health, description);
             newInfo.metaCategories = categories;
             newInfo.temple = temple;
             newInfo.cost = bloodCost;
@@ -70,7 +73,34 @@ namespace NevernamedsSigils
             //if (!string.IsNullOrEmpty(defaultTailCard)) newInfo.SetTail(defaultTailCard);
             if (!string.IsNullOrEmpty(defaultTailCard)) newInfo.tailParams = new TailParams() { tail = CardLoader.GetCardByName(defaultTailCard) };
 
+            if (!string.IsNullOrEmpty(overrideDamID)) newInfo.SetExtendedProperty("CustomDamDefinition", overrideDamID);
+            if (!string.IsNullOrEmpty(overrideDamBlockedDialogue)) newInfo.SetExtendedProperty("CustomDamDefinitionDialogue", overrideDamID);
+            if (!string.IsNullOrEmpty(overrideRabbitHoleSpawn)) newInfo.SetExtendedProperty("CustomRabbitHoleDefinition", overrideRabbitHoleSpawn);
+            if (!string.IsNullOrEmpty(overrideAntSpawnerSpawn)) newInfo.SetExtendedProperty("CustomAntSpawnerDefinition", overrideAntSpawnerSpawn);
+            if (!string.IsNullOrEmpty(overrideFactoryConduitSpawn)) newInfo.SetExtendedProperty("CustomFactoryConduitDefinition", overrideFactoryConduitSpawn);
+            if (!string.IsNullOrEmpty(overrideBellistID)) newInfo.SetExtendedProperty("CustomBellDefinition", overrideBellistID);
+            if (!string.IsNullOrEmpty(overrideBellistBlockedDialogue)) newInfo.SetExtendedProperty("CustomBellDefinitionDialogue", overrideBellistBlockedDialogue);
+            if (!string.IsNullOrEmpty(overrideSquirrelShedderId)) newInfo.SetExtendedProperty("CustomSquirrelShedderDefinition", overrideSquirrelShedderId);
+            if (!string.IsNullOrEmpty(overrideSkeletonCrewID)) newInfo.SetExtendedProperty("CustomSkeletonCrewDefinition", overrideSkeletonCrewID);
+            if (!string.IsNullOrEmpty(overrideBeesWithinID)) newInfo.SetExtendedProperty("CustomBeesWithinDefinition", overrideBeesWithinID);
+            if (!string.IsNullOrEmpty(twisterForm)) newInfo.SetExtendedProperty("TwisterTransformation", twisterForm);
+            if (!string.IsNullOrEmpty(transformerForm)) newInfo.SetExtendedProperty("CustomTransformerTransformation", transformerForm);
+            if (!string.IsNullOrEmpty(overrideLeftClaw)) newInfo.SetExtendedProperty("ClawedLeftClawOverride", overrideLeftClaw);
+            if (!string.IsNullOrEmpty(overrideRightClaw)) newInfo.SetExtendedProperty("ClawedRightClawOverride", overrideRightClaw);
+            if (!string.IsNullOrEmpty(customGutSpewerGuts)) newInfo.SetExtendedProperty("GutSpewerGutOverride", customGutSpewerGuts);
+            if (!string.IsNullOrEmpty(customExplodingCorpseGuts)) newInfo.SetExtendedProperty("ExplodingCorpseGutOverride", customExplodingCorpseGuts);
+            if (!string.IsNullOrEmpty(customOrganThiefGuts)) newInfo.SetExtendedProperty("OrganThiefGutOverride", customOrganThiefGuts);
 
+            if (!string.IsNullOrEmpty(harbingerLeaveBehind)) newInfo.SetExtendedProperty("HarbingerLeaveBehind", harbingerLeaveBehind);
+            if (!string.IsNullOrEmpty(tramplerLeaveBehind)) newInfo.SetExtendedProperty("TramplerLeaveBehind", tramplerLeaveBehind);
+            if (!string.IsNullOrEmpty(flightyLeaveBehind)) newInfo.SetExtendedProperty("FlightyLeaveBehind", flightyLeaveBehind);
+
+            if (!string.IsNullOrEmpty(customDoomedLifespan)) newInfo.SetExtendedProperty("CustomDoomedDuration", customDoomedLifespan);
+
+            if (preventBones == true) { newInfo.SetExtendedProperty("PreventBones", "Yes"); }
+            if (preventCampfire == true) { newInfo.SetExtendedProperty("BannedFromCampfire", "Yes"); }
+            if (preventSigilGive == true) { newInfo.SetExtendedProperty("BannedSigilTransferVictim", "Yes"); }
+            if (preventSigilTake == true) { newInfo.SetExtendedProperty("BannedSigilTransferTarget", "Yes"); }
 
             //Setup Textures
             if (defaultTex != null) newInfo.SetPortrait(defaultTex);
@@ -91,7 +121,7 @@ namespace NevernamedsSigils
 
             if (appearanceBehaviour != null) newInfo.AddAppearances(appearanceBehaviour.ToArray());
 
-            CardManager.Add("Nevernamed", newInfo);
+            CardManager.Add("SigilNevernamed", newInfo);
 
             return newInfo;
         }

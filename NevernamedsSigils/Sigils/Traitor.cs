@@ -35,7 +35,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToResolveOnBoard()
         {
-            return (base.Card && base.Card.slot && base.Card.slot.opposingSlot && (base.Card.slot.opposingSlot.Card == null));
+            return (base.Card && base.Card.slot && base.Card.slot.opposingSlot && (base.Card.slot.opposingSlot.Card == null) && !base.Card.HasAbility(Stalwart.ability));
         }
         public override IEnumerator OnResolveOnBoard()
         {

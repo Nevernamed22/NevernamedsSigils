@@ -21,7 +21,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/haunter.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/haunter_pixel.png"));
 
             HaunterCustom.ability = newSigil.ability;
         }

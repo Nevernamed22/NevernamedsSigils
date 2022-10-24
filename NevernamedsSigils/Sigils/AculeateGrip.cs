@@ -100,9 +100,12 @@ namespace NevernamedsSigils
             else
             {
                 yield return base.PreSuccessfulTriggerSequence();
-                Vector3 a = (base.Card.Slot.transform.position + targetSlot.transform.position) / 2f;
-                Tween.Position(base.Card.transform, a + Vector3.up * 0.5f, 0.05f, 0f, Tween.EaseIn, Tween.LoopType.None, null, null, true);
-                yield return Singleton<BoardManager>.Instance.AssignCardToSlot(base.Card, targetSlot, 0.05f, null, true);
+                if (!base.Card.HasAbility(Stalwart.ability))
+                {
+                    Vector3 a = (base.Card.Slot.transform.position + targetSlot.transform.position) / 2f;
+                    Tween.Position(base.Card.transform, a + Vector3.up * 0.5f, 0.05f, 0f, Tween.EaseIn, Tween.LoopType.None, null, null, true);
+                    yield return Singleton<BoardManager>.Instance.AssignCardToSlot(base.Card, targetSlot, 0.05f, null, true);
+                }
                 yield return new WaitForSeconds(0.2f);
 
                 CardSlot hurtSlot = Singleton<BoardManager>.Instance.GetAdjacent(targetSlot, flag);

@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace NevernamedsSigils
             
             if (alteredOpposings.Count > 0) __result.AddRange(alteredOpposings);
 
-            if (__result.Count > 0 && __instance.HasTrait(NevernamedsTraits.DoubleAllStrikes))
+            if (__result.Count > 0 && __instance.Info.GetExtendedProperty("AllStrikesDoubled") != null)
             {
                 List<CardSlot> slots = new List<CardSlot>();
                 slots.AddRange(__result);

@@ -44,7 +44,7 @@ namespace NevernamedsSigils
         public static IEnumerator PlayQueuedCard(PlayableCard queuedCard)
         {
             Opponent self = TurnManager.Instance?.Opponent;
-            if (self != null && queuedCard != null && !queuedCard.OnBoard && queuedCard.QueuedSlot != null)
+            if (self != null && queuedCard != null && !queuedCard.OnBoard && queuedCard.QueuedSlot != null && !queuedCard.HasAbility(Stalwart.ability))
             {
                 if (!self.QueuedCardIsBlocked(queuedCard))
                 {

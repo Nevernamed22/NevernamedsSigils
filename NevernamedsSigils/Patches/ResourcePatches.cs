@@ -3,22 +3,28 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using InscryptionAPI.Card;
+using System.Collections;
+using UnityEngine;
 
 namespace NevernamedsSigils
 {
-    [HarmonyPatch(typeof(ResourcesManager), "AddBones")]
-    public class AddBonesPatch
+        [HarmonyPatch(typeof(ResourcesManager), nameof(ResourcesManager.AddBones))]
+    public class BonesPatch
     {
-        [HarmonyPrefix]
-        public static bool Prefix(int amount, CardSlot slot)
-        {
-            if (slot != null && slot.Card != null && slot.Card.HasTrait(NevernamedsTraits.NoBones)) return false;
-            else
+        [HarmonyPostfix]
+        static void PreventBones(ref IEnumerator __result, ref CardSlot slot)
+        {           
+            if (slot?.Card?.Info?.GetExtendedProperty("PreventBones") == null)
             {
-
-
-                return true;
+                return;
             }
+
+            IEnumerator GetEmptyEnumerator()
+            {
+                yield break;
+            }
+            __result = GetEmptyEnumerator();
         }
     }
     [HarmonyPatch(typeof(BoardManager), "GetValueOfSacrifices")]
@@ -86,6 +92,10 @@ namespace NevernamedsSigils
                          && __instance.EnergyCost <= Singleton<ResourcesManager>.Instance.PlayerEnergy
                          && __instance.GemsCostRequirementMet()
                          && Singleton<BoardManager>.Instance.SacrificesCreateRoomForCard(__instance, Singleton<BoardManager>.Instance.PlayerSlotsCopy);
+            }
+            if (__instance?.Info?.GetExtendedProperty("PreventPlay") != null)
+            {               
+                __result = false;
             }
         }
     }

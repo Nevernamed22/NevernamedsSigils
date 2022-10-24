@@ -41,7 +41,7 @@ namespace NevernamedsSigils
         {
             base.Card.TemporarilyRemoveAbilityFromCard(ExceptionalSacrifice.ability);
             base.Card.temporaryMods.Add(new CardModificationInfo(Ability.TripleBlood));
-            if (base.Card.Info.name == "Nevernamed YaraMaYhaWho")
+            if (base.Card.Info.name == "BeastNevernamed YaraMaYhaWho")
             {
                 base.Card.temporaryMods.Add(new CardModificationInfo(3, 0) { nameReplacement = "Bloodstarved Beast" });
             }

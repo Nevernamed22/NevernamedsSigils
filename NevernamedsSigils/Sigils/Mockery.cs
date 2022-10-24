@@ -42,7 +42,7 @@ namespace NevernamedsSigils
         {
             PlayableCard opposer = base.Card.slot.opposingSlot.Card;
 
-            if (base.Card.Info.name == "Nevernamed Niao")
+            if (base.Card.Info.name == "BeastNevernamed Niao")
             {
                 CardModificationInfo cardModificationInfo = base.Card.Info.Mods.Find((CardModificationInfo x) => x.singletonId == "niao");
                 if (cardModificationInfo == null)

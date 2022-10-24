@@ -1,5 +1,6 @@
 ﻿using DiskCardGame;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace NevernamedsSigils
         {
             if (__instance.OnBoard && __instance.slot)
             {
-                if (__instance.HasTrait(Trait.Pelt) || __instance.Info.name == "Nevernamed SelkieSkin")
+                if (__instance.HasTrait(Trait.Pelt) || __instance.Info.name == "BeastNevernamed SelkieSkin")
                 {
                     List<CardSlot> viableslots = new List<CardSlot>();
                     if (__instance.slot.IsPlayerSlot) viableslots = Singleton<BoardManager>.Instance.playerSlots;
@@ -58,10 +59,19 @@ namespace NevernamedsSigils
                         }
                     }
                 }
-
+                if (__instance.HasAbility(DogGone.ability) == true && __instance?.slot?.opposingSlot?.Card?.IsOfTribe(Tribe.Canine) == true) { __result += 2; }
+                if (__instance.HasAbility(Snakebite.ability) == true && __instance?.slot?.opposingSlot?.Card?.IsOfTribe(Tribe.Reptile) == true) { __result += 2; }
+                if (__instance.HasAbility(DeerlyDeparted.ability) == true && __instance?.slot?.opposingSlot?.Card?.IsOfTribe(Tribe.Hooved) == true) { __result += 2; }
+                if (__instance.HasAbility(FowlPlay.ability) == true && __instance?.slot?.opposingSlot?.Card?.IsOfTribe(Tribe.Bird) == true) { __result += 2; }
+                if (__instance.HasAbility(Insectivore.ability) == true && __instance?.slot?.opposingSlot?.Card?.IsOfTribe(Tribe.Insect) == true) { __result += 2; }
+                if (__instance.HasAbility(Crusher.ability) == true && __instance?.slot?.opposingSlot?.Card?.HasTrait(Trait.Terrain) == true) { __result += 2; }
+                if (__instance.HasAbility(Eager.ability) == true && __instance.GetComponent<Eager>() != null && __instance.GetComponent<Eager>().livedTurns < 1) { __result += 2; }
+                if (__instance.slot.Index == 0 || __instance.slot.Index == (__instance.OpponentCard ? BoardManager.Instance.GetSlots(true).Count - 1 : BoardManager.Instance.GetSlots(false).Count - 1))
+                {
+                    __result += Tools.GetNumberOfSigilOnBoard(!__instance.OpponentCard, EspritDeCorp.ability);
+                }
             }
         }
-
     }
     [HarmonyPatch(typeof(PlayableCard), "GetPassiveHealthBuffs")]
     public class HealthBuffs

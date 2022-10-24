@@ -13,9 +13,11 @@ namespace NevernamedsSigils
     public class Burning : AbilityBehaviour
     {
         public static Texture2D fireTex;
+        public static Texture2D blueFireTex;
         public static void Init()
         {
             fireTex = Tools.LoadTex("NevernamedsSigils/Resources/Other/fireparticle.png");
+            blueFireTex = Tools.LoadTex("NevernamedsSigils/Resources/Other/bluefire_particle.png");
 
 
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Burning", "At the end of the owner's turn, [creature] takes 1 damage. Also, when [creature] is struck, the striker gains this sigil.",
@@ -32,7 +34,7 @@ namespace NevernamedsSigils
         public static Ability ability;
         public override void ManagedFixedUpdate()
         {
-            if (base.Card && base.Card.OnBoard && !base.Card.Dead && SaveManager.SaveFile.IsPart1)
+            if (base.Card && base.Card.OnBoard && !base.Card.Dead/* && SaveManager.SaveFile.IsPart1*/)
             {
                 if (timer > 0)
                 {
@@ -41,7 +43,7 @@ namespace NevernamedsSigils
                 else
                 {
                     timer = UnityEngine.Random.Range(0.1f, 0.5f);
-                    Card.SpawnParticlesOnCard(Burning.fireTex, true);
+                    Card.SpawnParticlesOnCard(SaveManager.SaveFile.IsPart1 ?  Burning.fireTex : Burning.blueFireTex, SaveManager.SaveFile.IsPart1 ? -0.1f : 0.1f);
                 }
             }
             base.ManagedFixedUpdate();

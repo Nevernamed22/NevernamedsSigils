@@ -13,6 +13,10 @@ namespace NevernamedsSigils
 {
     public static class Tools
     {
+        public static int GetNumberOfSigilOnBoard(bool playerSide, Ability sigil)
+        {
+            return Singleton<BoardManager>.Instance.GetSlots(playerSide).FindAll((CardSlot x) => x != null && x.Card != null && x.Card.HasAbility(sigil)).Count;
+        }
         public static bool CardHasSigilInList(this PlayableCard card, List<Ability> sigils)
         {
             bool toReturn = false;
@@ -177,7 +181,8 @@ namespace NevernamedsSigils
             }
             yield break;
         }
-        public static void SpawnParticlesOnCard(this PlayableCard target, Texture2D tex, bool reduceY = false)
+        public static GameObject Particle;
+        public static void SpawnParticlesOnCard(this PlayableCard target, Texture2D tex,float yOffset = 0)
         {
             if (target.Anim && target.Anim is PaperCardAnimationController)
             {
@@ -197,12 +202,36 @@ namespace NevernamedsSigils
                         gameObject.transform.position = anim.deathParticles.transform.position;
                         gameObject.transform.localScale = anim.deathParticles.transform.localScale;
                         gameObject.transform.rotation = anim.deathParticles.transform.rotation;
-                        if (reduceY)
-                        {
-                            particle.transform.position = new Vector3(particle.transform.position.x, particle.transform.position.y - 0.1f, particle.transform.position.z);
-                        }
+                        
+                            particle.transform.position = new Vector3(particle.transform.position.x, particle.transform.position.y + yOffset, particle.transform.position.z);
+                        
                         UnityEngine.Object.Destroy(gameObject, 6f);
                     }
+                }
+            }
+            else
+            {
+                if (Particle == null)
+                {
+                    Particle = Plugin.bundle.LoadAsset<GameObject>("MiscBurningParticles");                   
+                }
+                GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(Particle);
+                ParticleSystem particle = gameObject.GetComponent<ParticleSystem>();
+                if (particle)
+                {
+                    ParticleSystem.MainModule mainMod = particle.main;
+                    particle.startColor = Color.white;
+                    particle.GetComponent<ParticleSystemRenderer>().material = new Material(particle.GetComponent<ParticleSystemRenderer>().material) { mainTexture = tex  };
+                    //particle.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissiveColor", new Color(255, 224, 181) * 2);
+                    mainMod.startColor = new ParticleSystem.MinMaxGradient(Color.white);
+                    gameObject.SetActive(true);
+                    gameObject.transform.position = target.transform.position;
+                    gameObject.transform.SetParent(target.transform);
+                    gameObject.transform.localScale = new Vector3(0.165f, 0.165f, 0.165f);
+                    gameObject.transform.rotation = target.transform.rotation;
+                    particle.transform.position = new Vector3(particle.transform.position.x, particle.transform.position.y + yOffset, particle.transform.position.z);
+
+                    UnityEngine.Object.Destroy(gameObject, 6f);
                 }
             }
         }

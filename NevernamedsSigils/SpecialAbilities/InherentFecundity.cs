@@ -13,7 +13,7 @@ namespace NevernamedsSigils
         public  static SpecialTriggeredAbility ability;
         public static void Init()
         {
-            ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Special Ability", typeof(SpecialCardBehaviour)).Id;
+            ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "InherentFecundity", typeof(InherentFecundity)).Id;
         }
         public override bool RespondsToResolveOnBoard()
         {

@@ -72,7 +72,7 @@ namespace NevernamedsSigils
                     yield return attackSlot(destination.opposingSlot);
                     yield return new WaitForSeconds(0.8f);
                 }
-                yield return this.MoveToSlot(destination);
+                if (!base.Card.HasAbility(Stalwart.ability)) yield return this.MoveToSlot(destination);
                 yield return base.LearnAbility(0f);
             }
             else
@@ -83,11 +83,12 @@ namespace NevernamedsSigils
             yield break;
         }
         public IEnumerator attackSlot(CardSlot target)
-        {          
+        {
             if (base.Card && base.Card.slot && target)
             {
-                FakeCombatHandler.DoFakeCombat(base.Card.slot, new List<CardSlot>() { target });
-            }          
+                FakeCombatHandler.FakeCombatThing fakecombat = new FakeCombatHandler.FakeCombatThing();
+                yield return fakecombat.FakeCombat(!base.Card.OpponentCard, null, base.Card.slot, new List<CardSlot>() { target });
+            }
             yield break;
         }
         protected IEnumerator MoveToSlot(CardSlot destination)

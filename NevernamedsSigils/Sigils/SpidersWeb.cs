@@ -54,7 +54,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
         {
-            return !base.Card.Dead && !otherCard.Dead && otherCard.OpponentCard != base.Card.OpponentCard && playedCards.Contains(otherCard);
+            return !base.Card.Dead && !otherCard.Dead && otherCard.OpponentCard != base.Card.OpponentCard && playedCards.Contains(otherCard) && !otherCard.HasAbility(Stalwart.ability);
         }
         public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)
         {

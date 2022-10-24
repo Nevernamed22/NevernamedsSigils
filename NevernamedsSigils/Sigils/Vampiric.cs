@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/vampiric.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/vampiric_pixel.png"));
 
             Vampiric.ability = newSigil.ability;
         }
@@ -42,7 +42,7 @@ namespace NevernamedsSigils
         public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
         {
             yield return base.PreSuccessfulTriggerSequence();
-            if (base.Card.Info.name == "Nevernamed Biscione")
+            if (base.Card.Info.name == "BeastNevernamed Biscione")
             {
                 CardModificationInfo cardModificationInfo = base.Card.Info.Mods.Find((CardModificationInfo x) => x.singletonId == "biscione");
                 if (cardModificationInfo == null)

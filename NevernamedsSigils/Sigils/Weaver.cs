@@ -34,7 +34,7 @@ namespace NevernamedsSigils
 		}
 		public override bool RespondsToTurnEnd(bool playerTurnEnd)
 		{
-			return base.Card != null && base.Card.OpponentCard != playerTurnEnd;
+			return base.Card != null && base.Card.OpponentCard != playerTurnEnd && !base.Card.HasAbility(Stalwart.ability);
 		}
 		public override IEnumerator OnTurnEnd(bool playerTurnEnd)
 		{
@@ -47,8 +47,8 @@ namespace NevernamedsSigils
 		}
 		protected virtual IEnumerator DoStrafe(CardSlot toLeft, CardSlot toRight)
 		{
-			bool toLeftValid = toLeft != null && (toLeft.Card == null || toLeft.Card.Info.name == "Nevernamed Web");
-			bool toRightValid = toRight != null && (toRight.Card == null || toRight.Card.Info.name == "Nevernamed Web");
+			bool toLeftValid = toLeft != null && (toLeft.Card == null || toLeft.Card.Info.name == "BeastNevernamed Web");
+			bool toRightValid = toRight != null && (toRight.Card == null || toRight.Card.Info.name == "BeastNevernamed Web");
 
 			if (this.movingLeft && !toLeftValid)
 			{
@@ -98,7 +98,7 @@ namespace NevernamedsSigils
 		}
 		protected virtual IEnumerator PostSuccessfulMoveSequence(CardSlot oldSlot)
 		{
-				yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("Nevernamed Web"), oldSlot, 0.1f, true);
+				yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("SigilNevernamed Web"), oldSlot, 0.1f, true);
 			yield break;
 		}
 		protected bool movingLeft;

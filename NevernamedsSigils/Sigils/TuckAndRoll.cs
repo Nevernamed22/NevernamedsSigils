@@ -35,7 +35,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToUpkeep(bool playerUpkeep)
         {
-            return playerUpkeep != base.Card.OpponentCard;
+            return playerUpkeep != base.Card.OpponentCard && !base.Card.HasAbility(Stalwart.ability);
         }
         private int GetPower(CardSlot slot, bool checkQueue)
         {

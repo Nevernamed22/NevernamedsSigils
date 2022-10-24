@@ -10,9 +10,9 @@ namespace NevernamedsSigils
 {
     public class FakeCombatHandler
     {
-        public static void DoSimpleFakeCombat(int damage, CardSlot attacker, CardSlot target)
+        public static IEnumerator DoSimpleFakeCombat(int damage, CardSlot attacker, CardSlot target)
         {
-            if (BoardManager.Instance) BoardManager.Instance.StartCoroutine(HandleSimpleFakeCombat(damage, attacker, target));
+            yield return HandleSimpleFakeCombat(damage, attacker, target);
         }
         private static IEnumerator HandleSimpleFakeCombat(int damage, CardSlot attacker, CardSlot target)
         {
@@ -25,22 +25,13 @@ namespace NevernamedsSigils
             yield return target.Card.TakeDamage(damage, attacker.Card);
             yield break;
         }
-        public static void DoFakeCombat(CardSlot attackingSlot, List<CardSlot> overrideTargets = null)
-        {
-            FakeCombatThing fakecombat = new FakeCombatThing();
-            if (attackingSlot && attackingSlot.Card) fakecombat.StartFakeCombat(attackingSlot.Card, overrideTargets);
-        }
         public class FakeCombatThing
         {
-            public void StartFakeCombat(PlayableCard attacker, List<CardSlot> overrideTargets = null)
-            {
-                attacker.StartCoroutine(this.FakeCombat(!attacker.OpponentCard, null, attacker.slot, overrideTargets));
-            }
             public int DamageDealtThisPhase { get; private set; }
-            public IEnumerator FakeCombat(bool playerIsAttacker, SpecialBattleSequencer specialSequencer, CardSlot attacker, List<CardSlot> overrideTargets = null)
+            public IEnumerator FakeCombat(bool playerIsAttacker, SpecialBattleSequencer specialSequencer, CardSlot attacker, List<CardSlot> overrideTargets = null, int overrideDMG = -1)
             {
                 this.DamageDealtThisPhase = 0;
-                yield return this.SlotAttackSequence(attacker, overrideTargets);
+                yield return this.SlotAttackSequence(attacker, overrideTargets, overrideDMG);
 
                 if (this.DamageDealtThisPhase > 0 && !isCombatPhase)
                 {
@@ -75,7 +66,7 @@ namespace NevernamedsSigils
                 }
                 yield break;
             }
-            public IEnumerator SlotAttackSlot(CardSlot attackingSlot, CardSlot opposingSlot, float waitAfter = 0f)
+            public IEnumerator SlotAttackSlot(CardSlot attackingSlot, CardSlot opposingSlot, float waitAfter = 0f, int overrideDMG = -1)
             {
                 yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.SlotTargetedForAttack, false, new object[]
                 {
@@ -85,8 +76,7 @@ namespace NevernamedsSigils
                 yield return new WaitForSeconds(0.025f);
                 if (attackingSlot.Card != null)
                 {
-                    bool doingAttackAnimation = attackingSlot.Card.Anim.DoingAttackAnimation;
-                    if (doingAttackAnimation)
+                    if (attackingSlot.Card.Anim.DoingAttackAnimation)
                     {
                         yield return new WaitUntil(() => !attackingSlot.Card.Anim.DoingAttackAnimation);
                         yield return new WaitForSeconds(0.25f);
@@ -101,18 +91,11 @@ namespace NevernamedsSigils
                     {
                         if (attackingSlot.Card.CanAttackDirectly(opposingSlot))
                         {
-                            this.DamageDealtThisPhase += attackingSlot.Card.Attack;
+                            this.DamageDealtThisPhase += overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack;
                             yield return Singleton<CombatPhaseManager>.Instance.VisualizeCardAttackingDirectly(attackingSlot, opposingSlot, 0);
-                            bool flag4 = attackingSlot.Card.TriggerHandler.RespondsToTrigger(Trigger.DealDamageDirectly, new object[]
+                            if (attackingSlot.Card.TriggerHandler.RespondsToTrigger(Trigger.DealDamageDirectly, new object[] { overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack }))
                             {
-                            attackingSlot.Card.Attack
-                            });
-                            if (flag4)
-                            {
-                                yield return attackingSlot.Card.TriggerHandler.OnTrigger(Trigger.DealDamageDirectly, new object[]
-                                {
-                                attackingSlot.Card.Attack
-                                });
+                                yield return attackingSlot.Card.TriggerHandler.OnTrigger(Trigger.DealDamageDirectly, new object[] { overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack });
                             }
                         }
                         else
@@ -122,14 +105,12 @@ namespace NevernamedsSigils
                             {
                                 Tween.Position(attackingSlot.Card.transform, attackingSlot.Card.transform.position + Vector3.up * heightOffset, 0.05f, 0f, Tween.EaseInOut, Tween.LoopType.None, null, null, true);
                             }
+
                             attackingSlot.Card.Anim.PlayAttackAnimation(attackingSlot.Card.IsFlyingAttackingReach(), opposingSlot, null);
                             yield return new WaitForSeconds(0.07f);
                             attackingSlot.Card.Anim.SetAnimationPaused(true);
                             PlayableCard attackingCard = attackingSlot.Card;
-                            yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.CardGettingAttacked, false, new object[]
-                            {
-                            opposingSlot.Card
-                            });
+                            yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.CardGettingAttacked, false, new object[] { opposingSlot.Card });
                             if (attackingCard != null && attackingCard.Slot != null)
                             {
                                 attackingSlot = attackingCard.Slot;
@@ -141,8 +122,8 @@ namespace NevernamedsSigils
                                 }
                                 attackingSlot.Card.Anim.SetAnimationPaused(false);
                                 yield return new WaitForSeconds(0.05f);
-                                int overkillDamage = attackingSlot.Card.Attack - opposingSlot.Card.Health;
-                                yield return opposingSlot.Card.TakeDamage(attackingSlot.Card.Attack, attackingSlot.Card);
+                                int overkillDamage = overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack - opposingSlot.Card.Health;
+                                yield return opposingSlot.Card.TakeDamage(overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack, attackingSlot.Card);
                                 yield return this.DealOverkillDamage(overkillDamage, attackingSlot, opposingSlot);
                                 if (attackingSlot.Card != null && heightOffset > 0f)
                                 {
@@ -156,7 +137,7 @@ namespace NevernamedsSigils
                 }
                 yield break;
             }
-            private IEnumerator SlotAttackSequence(CardSlot slot, List<CardSlot> overrideTargets = null)
+            private IEnumerator SlotAttackSequence(CardSlot slot, List<CardSlot> overrideTargets = null, int overrideDMG = -1)
             {
                 List<CardSlot> opposingSlots = slot.Card.GetOpposingSlots();
                 if (overrideTargets != null) opposingSlots = overrideTargets;
@@ -165,7 +146,7 @@ namespace NevernamedsSigils
                 foreach (CardSlot opposingSlot in opposingSlots)
                 {
                     Singleton<ViewManager>.Instance.SwitchToView(Singleton<BoardManager>.Instance.CombatView, false, false);
-                    yield return this.SlotAttackSlot(slot, opposingSlot, (opposingSlots.Count > 1) ? 0.1f : 0f);
+                    yield return this.SlotAttackSlot(slot, opposingSlot, (opposingSlots.Count > 1) ? 0.1f : 0f, overrideDMG);
                 }
                 Singleton<CombatPhaseManager>.Instance.VisualizeClearSniperAbility();
                 yield break;

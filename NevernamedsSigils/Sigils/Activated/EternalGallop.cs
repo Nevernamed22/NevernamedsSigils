@@ -66,7 +66,7 @@ namespace NevernamedsSigils
             base.Card.RenderInfo.flippedPortrait = this.movingLeft;
             base.Card.RenderCard();
 
-            if (destination != null && destinationValid)
+            if (destination != null && destinationValid && !base.Card.HasAbility(Stalwart.ability))
             {
                 CardSlot oldSlot = base.Card.Slot;
                 yield return Singleton<BoardManager>.Instance.AssignCardToSlot(base.Card, destination, 0.1f, null, true);

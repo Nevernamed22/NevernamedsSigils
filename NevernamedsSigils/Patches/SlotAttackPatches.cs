@@ -6,9 +6,19 @@ using System.Text;
 using UnityEngine;
 using BepInEx;
 using System.Collections;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
+    [HarmonyPatch(typeof(PlayableCard), "CanAttackDirectly", MethodType.Normal)]
+    public class CanAttackDirectlyPatch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(ref CardSlot opposingSlot, ref bool __result, PlayableCard __instance)
+        {
+            if (opposingSlot.Card && opposingSlot.Card.HasAbility(Immaterial.ability)) { __result = true; }
+        }
+    }
     [HarmonyPatch(typeof(PlayableCard), "AttackIsBlocked", MethodType.Normal)]
     public class AttackIsBlockedPatch
     {
@@ -116,7 +126,7 @@ namespace NevernamedsSigils
     {
         [HarmonyPostfix]
         public static IEnumerator Postfix(IEnumerator enumerator, CardSlot attackingSlot, CardSlot opposingSlot, float waitAfter = 0f)
-        {        
+        {
             if (attackingSlot.Card != null && opposingSlot.Card != null && opposingSlot.Card.FaceDown && opposingSlot.Card.HasAbility(SubaquaticSpines.ability) && !attackingSlot.Card.AttackIsBlocked(opposingSlot) && (!attackingSlot.Card.HasAbility(Ability.Flying) || opposingSlot.Card.HasAbility(Ability.Reach)))
             {
                 yield return enumerator;
@@ -127,6 +137,39 @@ namespace NevernamedsSigils
             {
                 yield return enumerator;
 
+            }
+            yield break;
+        }
+    }
+    [HarmonyPatch(typeof(PlayableCard), "TakeDamage", MethodType.Normal)]
+    public class TakeDamagePatch
+    {
+        [HarmonyPrefix]
+        public static void Prefix(out int __state, PlayableCard __instance, ref int damage, ref PlayableCard attacker)
+        {
+            __state = damage;
+            if (__instance && __instance.HasAbility(Soak.ability)) { __state = damage - 1; damage--; }
+        }
+        [HarmonyPostfix]
+        public static IEnumerator Postfix(IEnumerator enumerator, int __state, PlayableCard __instance, int damage, PlayableCard attacker)
+        {
+            yield return enumerator;
+            if (__state <= 0 && __instance.NotDead())
+            {
+                __instance.Anim.PlayHitAnimation();
+                if (__instance.TriggerHandler.RespondsToTrigger(Trigger.TakeDamage, new object[] { attacker }))
+                {
+                    yield return __instance.TriggerHandler.OnTrigger(Trigger.TakeDamage, new object[] { attacker });
+                }
+
+                if (attacker != null)
+                {
+                    if (attacker.TriggerHandler.RespondsToTrigger(Trigger.DealDamage, new object[] { damage, __instance }))
+                    {
+                        yield return attacker.TriggerHandler.OnTrigger(Trigger.DealDamage, new object[] { damage, __instance });
+                    }
+                    yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.OtherCardDealtDamage, false, new object[] { attacker, attacker.Attack, __instance });
+                }
             }
             yield break;
         }

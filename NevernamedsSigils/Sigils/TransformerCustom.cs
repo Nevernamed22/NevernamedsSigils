@@ -1,5 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using System;
 using System.Collections;
@@ -24,22 +25,6 @@ namespace NevernamedsSigils
 
             TransformerCustom.ability = newSigil.ability;
         }
-
-        public static Dictionary<string, string> baseTransforms = new Dictionary<string, string>()
-            {
-                //Test Transformations
-                //{"Nevernamed CamelSpider", "De Bug"},
-                //{"De Bug", "Nevernamed CamelSpider"},
-
-                //Real ones
-                {"Nevernamed CrayfishBi", "Nevernamed CrayfishDuo"},
-                {"Nevernamed CrayfishDuo", "Nevernamed CrayfishBi"},
-                {"Nevernamed Hallucigenia", "Nevernamed HallucigeniaFlipped" },
-                {"Nevernamed HallucigeniaFlipped", "Nevernamed Hallucigenia" },
-                {"Nevernamed RedPanda", "Nevernamed RedPandaSleeping" },
-                {"Nevernamed RedPandaSleeping", "Nevernamed RedPanda" },
-
-            };
         public static Ability ability;
         public override Ability Ability
         {
@@ -58,10 +43,9 @@ namespace NevernamedsSigils
         public CardModificationInfo statTransformation;
         public override IEnumerator OnUpkeep(bool playerUpkeep)
         {
-            if (baseTransforms == null) { Debug.LogError("BaseTransforms list was null!"); yield break; }
-            if (baseTransforms.ContainsKey(base.Card.Info.name)) //Is actually gonna transform into a card
+            if (Card.Info.GetExtendedProperty("CustomTransformerTransformation") != null) //Is actually gonna transform into a card
             {
-                CardInfo target = CardLoader.GetCardByName(baseTransforms[base.Card.Info.name]);
+                CardInfo target = CardLoader.GetCardByName(Card.Info.GetExtendedProperty("CustomTransformerTransformation"));
                 foreach (CardModificationInfo mod in base.Card.Info.Mods.FindAll((CardModificationInfo x) => !x.nonCopyable))
                 {
                     CardModificationInfo clone = (CardModificationInfo)mod.Clone();

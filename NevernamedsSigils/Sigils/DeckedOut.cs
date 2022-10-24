@@ -42,7 +42,7 @@ namespace NevernamedsSigils
                 switch (sel)
                 {
                     case 2:
-                        card = CardLoader.GetCardByName("Nevernamed Act2EmptyVessel");
+                        card = CardLoader.GetCardByName("SigilNevernamed Act2EmptyVessel");
                         break;
                     case 3:
                         card = CardLoader.GetCardByName("Skeleton");

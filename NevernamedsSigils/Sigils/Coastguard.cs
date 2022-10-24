@@ -21,7 +21,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/coastguard.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/coastguard_pixel.png"));
 
             CoastGuard.ability = newSigil.ability;
         }
@@ -44,7 +44,7 @@ namespace NevernamedsSigils
         }
 		public override bool RespondsToOtherCardResolve(PlayableCard otherCard)
 		{
-			return otherCard != null && otherCard.Slot != null && ((otherCard.Slot.IsPlayerSlot && !base.Card.Slot.IsPlayerSlot) || (!otherCard.Slot.IsPlayerSlot && base.Card.Slot.IsPlayerSlot)) && otherCard.Slot != base.Card.Slot.opposingSlot;
+			return otherCard != null && otherCard.Slot != null && ((otherCard.Slot.IsPlayerSlot && !base.Card.Slot.IsPlayerSlot) || (!otherCard.Slot.IsPlayerSlot && base.Card.Slot.IsPlayerSlot)) && otherCard.Slot != base.Card.Slot.opposingSlot && !base.Card.HasAbility(Stalwart.ability);
 		}
 
 		public override IEnumerator OnOtherCardResolve(PlayableCard otherCard)

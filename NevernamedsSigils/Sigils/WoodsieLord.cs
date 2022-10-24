@@ -55,7 +55,7 @@ namespace NevernamedsSigils
                 foreach (CardSlot targetSlot in availableSlots)
                 {
                     yield return new WaitForSeconds(0.1f);
-                    yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("Nevernamed EnchantedPine"), targetSlot, 0.15f, true);
+                    yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("SigilNevernamed EnchantedPine"), targetSlot, 0.15f, true);
                 }
 
                 yield return new WaitForSeconds(0.3f);

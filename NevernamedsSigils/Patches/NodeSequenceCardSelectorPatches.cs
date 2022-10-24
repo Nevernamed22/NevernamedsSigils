@@ -3,6 +3,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
@@ -14,7 +15,7 @@ namespace NevernamedsSigils
         {
             var list = __result;
 
-            list.RemoveAll((CardInfo x) => x.traits.Contains(NevernamedsTraits.BannedSigilTransferTarget) );
+            list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedSigilTransferTarget") != null);
 
             __result = list;
         }
@@ -29,7 +30,7 @@ namespace NevernamedsSigils
         {
             var list = __result;
 
-            list.RemoveAll((CardInfo x) => x.traits.Contains(NevernamedsTraits.BannedSigilTransferVictim));
+            list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedSigilTransferVictim") != null);
 
             __result = list;
         }
@@ -44,7 +45,7 @@ namespace NevernamedsSigils
         {
             var list = __result;
 
-            list.RemoveAll((CardInfo x) => x.traits.Contains(NevernamedsTraits.BannedFromCampfire));
+            list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedFromCampfire") != null);
 
             __result = list;
         }

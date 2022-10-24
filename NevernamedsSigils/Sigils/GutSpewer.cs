@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Sirenix;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
@@ -37,7 +38,8 @@ namespace NevernamedsSigils
         {
             get
             {
-                CardInfo guts = CardLoader.GetCardByName("Nevernamed Guts");
+                CardInfo guts = (base.Card.Info.GetExtendedProperty("GutSpewerGutOverride") != null) ? CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("GutSpewerGutOverride")) : CardLoader.GetCardByName("SigilNevernamed Guts");
+
                 if (base.Card != null)
                 {
                     List<Ability> abilities = base.Card.Info.Abilities;

@@ -1,9 +1,11 @@
 ﻿using DiskCardGame;
 using GBC;
 using HarmonyLib;
+using InscryptionAPI.Card;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace NevernamedsSigils
 {
@@ -13,9 +15,9 @@ namespace NevernamedsSigils
         [HarmonyPrefix]
         public static void PixelDisplayCards(List<Ability> abilities, PlayableCard card)
         {
-           if (card != null)
+            if (card != null)
             {
-                for (int i = abilities.Count -1; i >= 0; i--)
+                for (int i = abilities.Count - 1; i >= 0; i--)
                 {
                     if (card.Status.hiddenAbilities.Contains(abilities[i]))
                     {
@@ -30,8 +32,24 @@ namespace NevernamedsSigils
                     }
                 }
 
-               
+
             }
         }
     }
+
+  /*  [HarmonyPatch(typeof(AbilityIconInteractable), "LoadIcon", 0)]
+    public class LoadIconPatch
+    {
+        [HarmonyPostfix]
+        public static void SlotAttackSlot(CardInfo info, AbilityInfo ability, bool opponentCard, Texture __result)
+        {
+            if (ability.ability == Doomed.ability && info.GetExtendedProperty("CustomDoomedDuration") != null)
+            {
+                //Debug.Log("got thing");
+                int num;
+                bool succeed = int.TryParse(info.GetExtendedProperty("CustomDoomedDuration"), out num);
+                if (succeed && Doomed.countDownIcons.ContainsKey(num)) { __result = Doomed.countDownIcons[num]; Debug.Log("parsed and was in dictionary"); }
+            }
+        }
+    }*/
 }

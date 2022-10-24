@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Sirenix;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
@@ -13,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Exploding Corpse", "When [creature] perishes, all empty spaces on the board are filled with Guts. Guts are defined as 0 power, 1 health.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Exploding Corpse", "When [creature] perishes, all empty spaces on the board are filled with it's innards.",
                       typeof(ExplodingCorpseCustom),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 4,
@@ -28,22 +29,17 @@ namespace NevernamedsSigils
         {
             get
             {
-                CardInfo guts = CardLoader.GetCardByName("Nevernamed Guts");
+                CardInfo guts = (base.Card.Info.GetExtendedProperty("ExplodingCorpseGutOverride") != null) ? CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("ExplodingCorpseGutOverride")) : CardLoader.GetCardByName("SigilNevernamed Guts");
+
                 if (base.Card != null)
                 {
-                    List<Ability> abilities = base.Card.Info.Abilities;
-                    foreach (CardModificationInfo cardModificationInfo in base.Card.TemporaryMods)
-                    {
-                        abilities.AddRange(cardModificationInfo.abilities);
-                    }
-                    abilities.RemoveAll((Ability x) => x == ExplodingCorpseCustom.ability);
 
-
-                    if (abilities.Count > 0)
+                    CardModificationInfo info = base.Card.CondenseMods(new List<Ability>() {ExplodingCorpseCustom.ability });
+                    if (info.abilities.Count > 0)
                     {
                         CardModificationInfo cardModificationInfo2 = new CardModificationInfo();
                         cardModificationInfo2.fromCardMerge = true;
-                        cardModificationInfo2.abilities = new List<Ability>() { Tools.RandomElement(abilities) };
+                        cardModificationInfo2.abilities = new List<Ability>() { Tools.RandomElement(info.abilities) };
                         guts.Mods.Add(cardModificationInfo2);
                     }
                 }

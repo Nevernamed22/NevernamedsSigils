@@ -45,11 +45,14 @@ namespace NevernamedsSigils
             bool isGoat = otherCard.Info.name == "Goat";
             CardSlot targetSlot = otherCard.slot;
 
-           yield return otherCard.Die(true, base.Card, true);
+            yield return otherCard.Die(true, base.Card, true);
 
-            Vector3 midpoint = (base.Card.Slot.transform.position + targetSlot.transform.position) / 2f;
-            Tween.Position(base.Card.transform, midpoint + Vector3.up * 0.5f, 0.1f, 0f, Tween.EaseIn, Tween.LoopType.None, null, null, true);
-            yield return Singleton<BoardManager>.Instance.AssignCardToSlot(base.Card, targetSlot, 0.1f, null, true);
+            if (!base.Card.HasAbility(Stalwart.ability))
+            {
+                Vector3 midpoint = (base.Card.Slot.transform.position + targetSlot.transform.position) / 2f;
+                Tween.Position(base.Card.transform, midpoint + Vector3.up * 0.5f, 0.1f, 0f, Tween.EaseIn, Tween.LoopType.None, null, null, true);
+                yield return Singleton<BoardManager>.Instance.AssignCardToSlot(base.Card, targetSlot, 0.1f, null, true);
+            }
 
             yield return new WaitForSeconds(0.1f);
             base.Card.Anim.StrongNegationEffect();

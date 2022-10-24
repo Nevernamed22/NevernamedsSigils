@@ -27,9 +27,7 @@ namespace NevernamedsSigils
             yield return new WaitForSeconds(0.15f);
             base.Card.Anim.PlayTransformAnimation();
             yield return new WaitForSeconds(0.15f);
-            CardModificationInfo cardModificationInfo2 = new CardModificationInfo();
-            cardModificationInfo2.healthAdjustment = 1;
-            cardModificationInfo2.attackAdjustment = 1;
+            CardModificationInfo cardModificationInfo2 = new CardModificationInfo(1, 1);
             base.PlayableCard.temporaryMods.Add(cardModificationInfo2);
             yield return new WaitForSeconds(0.15f);
             yield break;

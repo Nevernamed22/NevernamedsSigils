@@ -63,7 +63,7 @@ namespace NevernamedsSigils
 				Shitself = true;
 
 				yield return new WaitForSeconds(0.2f);
-				CardInfo info = CardLoader.GetCardByName("Nevernamed Mess");
+				CardInfo info = CardLoader.GetCardByName("SigilNevernamed Mess");
 				
 				PlayableCard tail = CardSpawner.SpawnPlayableCardWithCopiedMods(info, base.Card, Incontinent.ability);
 				tail.transform.position = slot.transform.position + Vector3.back * 2f + Vector3.up * 2f;

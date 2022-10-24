@@ -1,5 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using System;
 using System.Collections;
@@ -24,7 +25,7 @@ namespace NevernamedsSigils
 
             Twister.ability = newSigil.ability;
         }
-        public static Dictionary<string, string> baseTransforms = new Dictionary<string, string>()
+        /*public static Dictionary<string, string> baseTransforms = new Dictionary<string, string>()
             {
                 //Test Transformations
 
@@ -36,7 +37,7 @@ namespace NevernamedsSigils
 
                 {"Nevernamed MauiDolphin", "Nevernamed MauiDolphinSubmerged"},
 
-            };
+            };*/
         public static Ability ability;
         public override Ability Ability
         {
@@ -59,10 +60,9 @@ namespace NevernamedsSigils
 
         public override IEnumerator OnTakeDamage(PlayableCard source)
         {
-            if (baseTransforms == null) { Debug.LogError("BaseTransforms list was null!"); yield break; }
-            if (baseTransforms.ContainsKey(base.Card.Info.name)) //Is actually gonna transform into a card
+            if (Card.Info.GetExtendedProperty("TwisterTransformation") != null)
             {
-                CardInfo target = CardLoader.GetCardByName(baseTransforms[base.Card.Info.name]);
+                CardInfo target = CardLoader.GetCardByName(Card.Info.GetExtendedProperty("TwisterTransformation"));
                 foreach (CardModificationInfo mod in base.Card.Info.Mods.FindAll((CardModificationInfo x) => !x.nonCopyable))
                 {
                     CardModificationInfo clone = (CardModificationInfo)mod.Clone();

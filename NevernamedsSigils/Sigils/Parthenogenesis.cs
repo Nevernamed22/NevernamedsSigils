@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Sirenix;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
@@ -13,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Parthenogenesis", "When [creature] dies to combat, a larva is left in it's old space that evolves into an exact clone after 1 turn.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Parthenogenesis", "When [creature] dies to combat, a larval form is left in it's old space that evolves into an exact clone after 1 turn.",
                       typeof(Parthenogenesis),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 4,
@@ -33,14 +34,16 @@ namespace NevernamedsSigils
         }
         public static Ability ability;
 
-        public  CardInfo Grub
+        public CardInfo Grub
         {
             get
             {
-                CardInfo grub = CardLoader.GetCardByName("Nevernamed CloneGrub");
+                CardInfo grub = (base.Card.Info.GetExtendedProperty("ParthenogenesisOverride") != null) ? CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("ParthenogenesisOverride")) : CardLoader.GetCardByName("SigilNevernamed CloneGrub");
                 if (base.Card != null && grub != null)
                 {
-                    grub.evolveParams = new EvolveParams() { evolution = base.Card.Info, turnsToEvolve = 2 };
+                    int evol = 2;
+                    if (grub.evolveParams != null) { evol = grub.evolveParams.turnsToEvolve <= 1 ? 2 : grub.evolveParams.turnsToEvolve + 1; }
+                    grub.evolveParams = new EvolveParams() { evolution = base.Card.Info, turnsToEvolve = evol };
                 }
                 return grub;
             }

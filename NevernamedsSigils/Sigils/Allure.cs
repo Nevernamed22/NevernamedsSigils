@@ -55,11 +55,11 @@ namespace NevernamedsSigils
 
                     PlayableCard fleer = null;
 
-                    if (toLeft != null && toLeft.Card != null && !toLeft.Card.HasTrait(Trait.Giant))
+                    if (toLeft != null && toLeft.Card != null && !toLeft.Card.HasTrait(Trait.Giant) && !toLeft.Card.HasAbility(Stalwart.ability))
                     {
                         fleer = toLeft.Card;
                     }
-                    else if (toRight != null && toRight.Card != null && !toRight.Card.HasTrait(Trait.Giant))
+                    else if (toRight != null && toRight.Card != null && !toRight.Card.HasTrait(Trait.Giant)&& !toRight.Card.HasAbility(Stalwart.ability))
                     {
                         fleer = toRight.Card;
                     }

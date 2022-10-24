@@ -1,5 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using System;
 using System.Collections;
@@ -19,7 +20,7 @@ namespace NevernamedsSigils
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: false,
-                      tex: null,
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/organthief.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/organthief_pixel.png"));
 
             OrganThief.ability = newSigil.ability;
@@ -41,13 +42,16 @@ namespace NevernamedsSigils
         {
             get
             {
-                CardInfo guts = CardLoader.GetCardByName("NevernamedGuts");             
+                CardInfo guts = (base.Card.Info.GetExtendedProperty("OrganThiefGutOverride") != null) ? CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("OrganThiefGutOverride")) : CardLoader.GetCardByName("SigilNevernamed Guts");
+                if (lastKilled != null) guts.Mods.Add(lastKilled);
                 return guts;
             }
         }
+        private CardModificationInfo lastKilled;
         public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
         {
             yield return base.PreSuccessfulTriggerSequence();
+            lastKilled = card.CondenseMods();
             yield return new WaitForSeconds(0.3f);
 
             yield return base.CreateDrawnCard();

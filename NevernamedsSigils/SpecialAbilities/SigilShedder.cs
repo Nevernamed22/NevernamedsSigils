@@ -42,6 +42,7 @@ namespace NevernamedsSigils
             cardModificationInfo.negateAbilities.AddRange(base.PlayableCard.Info.Abilities);
             mice.AddRange(base.PlayableCard.Info.Abilities);
             base.PlayableCard.AddTemporaryMod(cardModificationInfo);
+            string cardDef = (base.Card.Info.GetExtendedProperty("OverrideSigilShedderDefinition") != null) ? base.Card.Info.GetExtendedProperty("OverrideSigilShedderDefinition") : "SigilNevernamed UnnaturalCreature";
 
             if (mice.Count > 0)
             {
@@ -54,7 +55,7 @@ namespace NevernamedsSigils
                     yield return new WaitForSeconds(0.2f);
                 }
 
-                CardInfo mouse = CardLoader.GetCardByName("Nevernamed Ratling");
+                CardInfo mouse = CardLoader.GetCardByName(cardDef);
                 CardModificationInfo newsigil = new CardModificationInfo(ability);
                 newsigil.fromCardMerge = true;
                 mouse.mods.Add(newsigil);
@@ -71,7 +72,7 @@ namespace NevernamedsSigils
                     Singleton<ViewManager>.Instance.SwitchToView(View.Hand, false, false);
                     yield return new WaitForSeconds(0.2f);
                 }
-                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName("Nevernamed Ratling"), null, 0.25f, null);
+                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName(cardDef), null, 0.25f, null);
                 yield return new WaitForSeconds(0.1f);
             }
 

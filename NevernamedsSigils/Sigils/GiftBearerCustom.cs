@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Sirenix;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
@@ -27,7 +28,7 @@ namespace NevernamedsSigils
 
         public static Dictionary<string, List<string>> presetcardpools = new Dictionary<string, List<string>>()
         {
-            {"Nevernamed AderynYCorph" ,  new List<string>(){ "Nevernamed FauxKaycee", "Nevernamed FauxReginald", "Nevernamed FauxLouis", "Nevernamed FauxKaminski", "Nevernamed FauxJonah", "Nevernamed FauxKevin", "Nevernamed FauxSean", "Nevernamed FauxTamara", "Nevernamed FauxDaniel", "Nevernamed FauxCody", "Nevernamed FauxDavid", "Nevernamed FauxTahnee", "Nevernamed FauxBerke", "Nevernamed FauxLuke", "Nevernamed FauxYou" } }
+            {"BeastNevernamed AderynYCorph" ,  new List<string>(){ "BeastNevernamed FauxKaycee", "BeastNevernamed FauxReginald", "BeastNevernamed FauxLouis", "BeastNevernamed FauxKaminski", "BeastNevernamed FauxJonah", "BeastNevernamed FauxKevin", "BeastNevernamed FauxSean", "BeastNevernamed FauxTamara", "BeastNevernamed FauxDaniel", "BeastNevernamed FauxCody", "BeastNevernamed FauxDavid", "BeastNevernamed FauxTahnee", "BeastNevernamed FauxBerke", "BeastNevernamed FauxLuke", "BeastNevernamed FauxYou" } }
         };
 
         public override Ability Ability
@@ -48,7 +49,7 @@ namespace NevernamedsSigils
             get
             {
 
-                CardInfo result = CardLoader.GetCardByName("Nevernamed Guts");
+                CardInfo result = CardLoader.GetCardByName("SigilNevernamed Guts");
                 if (presetcardpools.ContainsKey(base.Card.Info.name))
                 {
                     List<string> cardList = presetcardpools[base.Card.Info.name];
@@ -63,7 +64,7 @@ namespace NevernamedsSigils
                 else
                 {
                     bool isRare = false;
-                    if (base.Card.Info.name == "Nevernamed Gruagach") isRare = true;
+                    if (base.Card.Info.GetExtendedProperty("CustomGiftBearerSpawnsRare") != null) isRare = true;
                     CardInfo gift = Tools.GetRandomCardOfTempleAndQuality(base.Card.Info.temple, Tools.GetActAsInt(), isRare, Tribe.None, false).Clone() as CardInfo;
                     gift.Mods.Add(base.Card.CondenseMods(new List<Ability>() { GiftBearerCustom.ability }));
                     result = gift;

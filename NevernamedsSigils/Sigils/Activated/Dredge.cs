@@ -49,7 +49,7 @@ namespace NevernamedsSigils
             if (Singleton<CardDrawPiles>.Instance.Deck.CardsInDeck > 0)
             {
                 string classFullName = "NevernamedsInscryptionMod.DecoratorCrabTalker";
-                if (Card.Info.name == "Nevernamed DecoratorCrab" && Card.TriggerHandler.specialAbilities.ConvertAll((x) => x.Item2).ToList().Exists((x) => x is TalkingCard && x.GetType().FullName == classFullName))
+                if (Card.Info.name == "BeastNevernamed DecoratorCrab" && Card.TriggerHandler.specialAbilities.ConvertAll((x) => x.Item2).ToList().Exists((x) => x is TalkingCard && x.GetType().FullName == classFullName))
                 {
                     (Card.TriggerHandler.specialAbilities.ConvertAll((x) => x.Item2).ToList().Find((x) => x is TalkingCard && x.GetType().FullName == classFullName) as TalkingCard).TriggerSoloDialogue("DecoratorCrabUseSigil");
                 }
@@ -62,7 +62,7 @@ namespace NevernamedsSigils
             else
             {
                 string classFullName = "NevernamedsInscryptionMod.DecoratorCrabTalker";
-                if (Card.Info.name == "Nevernamed DecoratorCrab" && Card.TriggerHandler.specialAbilities.ConvertAll((x) => x.Item2).ToList().Exists((x) => x is TalkingCard && x.GetType().FullName == classFullName))
+                if (Card.Info.name == "BeastNevernamed DecoratorCrab" && Card.TriggerHandler.specialAbilities.ConvertAll((x) => x.Item2).ToList().Exists((x) => x is TalkingCard && x.GetType().FullName == classFullName))
                 {
                     (Card.TriggerHandler.specialAbilities.ConvertAll((x) => x.Item2).ToList().Find((x) => x is TalkingCard && x.GetType().FullName == classFullName) as TalkingCard).TriggerSoloDialogue("DecoratorCrabUseSigilFail");
                 }
