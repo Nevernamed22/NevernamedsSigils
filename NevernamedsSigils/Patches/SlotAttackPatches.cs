@@ -73,9 +73,15 @@ namespace NevernamedsSigils
                 if (!attackingSlot.Card.HasAbility(Ability.AllStrike))
                 {
                     PlayableCard card = attackingSlot.Card;
+                    
                     if (attackingSlot.Card.HasAbility(TrophyHunter.ability))
                     {
                         PlayableCard target = Tools.GetStrongestCardOnBoard(!card.slot.IsPlayerSlot);
+                        if (target && target.slot) opposingSlot = target.slot;
+                    }
+                    else if(attackingSlot.Card.HasAbility(Bully.ability))
+                    {
+                        PlayableCard target = Tools.GetStrongestCardOnBoard(!card.slot.IsPlayerSlot, true);
                         if (target && target.slot) opposingSlot = target.slot;
                     }
                     else if (attackingSlot.Card.HasAbility(HomeRun.ability) && attackingSlot.Card.GetComponent<HomeRun>())
@@ -97,6 +103,10 @@ namespace NevernamedsSigils
                     else if (card.HasAbility(CrookedStrikeRight.ability) && !card.HasAbility(CrookedStrikeLeft.ability))
                     {
                         if (Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, false) != null) { opposingSlot = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, false); }
+                    }
+                    if (card.GetComponent<WaveringStrike>())
+                    {
+                        if (Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, card.GetComponent<WaveringStrike>().isLeft) != null) { opposingSlot = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, card.GetComponent<WaveringStrike>().isLeft); }
                     }
                 }
 
@@ -127,16 +137,22 @@ namespace NevernamedsSigils
         [HarmonyPostfix]
         public static IEnumerator Postfix(IEnumerator enumerator, CardSlot attackingSlot, CardSlot opposingSlot, float waitAfter = 0f)
         {
-            if (attackingSlot.Card != null && opposingSlot.Card != null && opposingSlot.Card.FaceDown && opposingSlot.Card.HasAbility(SubaquaticSpines.ability) && !attackingSlot.Card.AttackIsBlocked(opposingSlot) && (!attackingSlot.Card.HasAbility(Ability.Flying) || opposingSlot.Card.HasAbility(Ability.Reach)))
+                    yield return enumerator;
+            if (attackingSlot.Card != null)
             {
-                yield return enumerator;
-                yield return new WaitForSeconds(0.55f);
-                yield return attackingSlot.Card.TakeDamage(1, opposingSlot.Card);
-            }
-            else
-            {
-                yield return enumerator;
+                if (attackingSlot.Card.HasAbility(SplashDamage.ability))
+                {
+                    CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, true);
+                    CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, false);
 
+                    if (toLeft && toLeft.Card != null) { yield return toLeft.Card.TakeDamage(1, attackingSlot.Card); }
+                    if (toRight && toRight.Card != null) { yield return toRight.Card.TakeDamage(1, attackingSlot.Card); }
+                }
+                if (opposingSlot.Card != null && opposingSlot.Card.FaceDown && opposingSlot.Card.HasAbility(SubaquaticSpines.ability) && !attackingSlot.Card.AttackIsBlocked(opposingSlot) && (!attackingSlot.Card.HasAbility(Ability.Flying) || opposingSlot.Card.HasAbility(Ability.Reach)))
+                {
+                    yield return new WaitForSeconds(0.55f);
+                    yield return attackingSlot.Card.TakeDamage(1, opposingSlot.Card);
+                }
             }
             yield break;
         }
@@ -148,7 +164,13 @@ namespace NevernamedsSigils
         public static void Prefix(out int __state, PlayableCard __instance, ref int damage, ref PlayableCard attacker)
         {
             __state = damage;
-            if (__instance && __instance.HasAbility(Soak.ability)) { __state = damage - 1; damage--; }
+            if (__instance)
+            {
+                if (__instance.HasShield() && __instance.GetComponent<Healshield>()) { __instance.GetComponent<Healshield>().tookDamageThisTurn = true; }
+                if (__instance.HasAbility(Resilient.ability) && damage > 1) { __state = 1; damage = 1; }
+                if (__instance.HasAbility(Soak.ability) && damage > 0) { __state--; damage--; }
+                if (__instance.HasAbility(Sturdy.ability) && damage > 0) { __state--; damage--; }
+            }
         }
         [HarmonyPostfix]
         public static IEnumerator Postfix(IEnumerator enumerator, int __state, PlayableCard __instance, int damage, PlayableCard attacker)
@@ -171,6 +193,22 @@ namespace NevernamedsSigils
                     yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.OtherCardDealtDamage, false, new object[] { attacker, attacker.Attack, __instance });
                 }
             }
+            yield break;
+        }
+    }
+
+    [HarmonyPatch(typeof(CombatPhaseManager), "DealOverkillDamage", MethodType.Normal)]
+    public class OverkillDamagePatch
+    {
+        [HarmonyPostfix]
+        public static IEnumerator PostFix(IEnumerator enumerator, int damage, CardSlot attackingSlot, CardSlot opposingSlot)
+        {
+            if (attackingSlot && attackingSlot.Card && attackingSlot.Card.HasAbility(Mauler.ability))
+            {
+                yield return new WaitForSeconds(0.1f);
+                yield return Singleton<LifeManager>.Instance.ShowDamageSequence(damage, damage, !attackingSlot.Card.slot.IsPlayerSlot, 0.1f, null, 0f, true);
+            }
+            else { yield return enumerator; }
             yield break;
         }
     }

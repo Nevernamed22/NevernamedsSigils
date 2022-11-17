@@ -78,7 +78,7 @@ namespace NevernamedsSigils
             else
             {
                 Singleton<ViewManager>.Instance.Controller.SwitchToControlMode(Singleton<BoardManager>.Instance.ChoosingSlotViewMode, false);
-                Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+                Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Locked;
 
                 BoardManager instance = Singleton<BoardManager>.Instance;
                 List<CardSlot> opponentSlotsCopy = Singleton<BoardManager>.Instance.OpponentSlotsCopy;
@@ -111,7 +111,7 @@ namespace NevernamedsSigils
                 }
 
                 Singleton<ViewManager>.Instance.Controller.SwitchToControlMode(Singleton<BoardManager>.Instance.DefaultViewMode, false);
-                Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Locked;
+                Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
             }
             yield break;
         }

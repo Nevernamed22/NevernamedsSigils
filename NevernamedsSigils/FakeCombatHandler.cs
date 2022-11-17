@@ -68,12 +68,9 @@ namespace NevernamedsSigils
             }
             public IEnumerator SlotAttackSlot(CardSlot attackingSlot, CardSlot opposingSlot, float waitAfter = 0f, int overrideDMG = -1)
             {
-                yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.SlotTargetedForAttack, false, new object[]
-                {
-                opposingSlot,
-                attackingSlot.Card
-                });
+                yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.SlotTargetedForAttack, false, new object[] { opposingSlot, attackingSlot.Card });
                 yield return new WaitForSeconds(0.025f);
+
                 if (attackingSlot.Card != null)
                 {
                     if (attackingSlot.Card.Anim.DoingAttackAnimation)
@@ -82,35 +79,32 @@ namespace NevernamedsSigils
                         yield return new WaitForSeconds(0.25f);
                     }
 
-                    if (opposingSlot.Card != null && attackingSlot.Card.AttackIsBlocked(opposingSlot))
-                    {
-                        ProgressionData.SetAbilityLearned(Ability.PreventAttack);
-                        yield return Singleton<CombatPhaseManager>.Instance.ShowCardBlocked(attackingSlot.Card);
-                    }
+                    //Repulsive Block
+                    if (opposingSlot.Card != null && attackingSlot.Card.AttackIsBlocked(opposingSlot)) { ProgressionData.SetAbilityLearned(Ability.PreventAttack); yield return Singleton<CombatPhaseManager>.Instance.ShowCardBlocked(attackingSlot.Card); }
                     else
                     {
+                        //Direct
                         if (attackingSlot.Card.CanAttackDirectly(opposingSlot))
                         {
                             this.DamageDealtThisPhase += overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack;
                             yield return Singleton<CombatPhaseManager>.Instance.VisualizeCardAttackingDirectly(attackingSlot, opposingSlot, 0);
+
                             if (attackingSlot.Card.TriggerHandler.RespondsToTrigger(Trigger.DealDamageDirectly, new object[] { overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack }))
                             {
                                 yield return attackingSlot.Card.TriggerHandler.OnTrigger(Trigger.DealDamageDirectly, new object[] { overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack });
                             }
                         }
-                        else
+                        else //Blocked
                         {
                             float heightOffset = (opposingSlot.Card == null) ? 0f : opposingSlot.Card.SlotHeightOffset;
-                            if (heightOffset > 0f)
-                            {
-                                Tween.Position(attackingSlot.Card.transform, attackingSlot.Card.transform.position + Vector3.up * heightOffset, 0.05f, 0f, Tween.EaseInOut, Tween.LoopType.None, null, null, true);
-                            }
+                            if (heightOffset > 0f) { Tween.Position(attackingSlot.Card.transform, attackingSlot.Card.transform.position + Vector3.up * heightOffset, 0.05f, 0f, Tween.EaseInOut, Tween.LoopType.None, null, null, true); }
 
                             attackingSlot.Card.Anim.PlayAttackAnimation(attackingSlot.Card.IsFlyingAttackingReach(), opposingSlot, null);
                             yield return new WaitForSeconds(0.07f);
                             attackingSlot.Card.Anim.SetAnimationPaused(true);
                             PlayableCard attackingCard = attackingSlot.Card;
                             yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.CardGettingAttacked, false, new object[] { opposingSlot.Card });
+
                             if (attackingCard != null && attackingCard.Slot != null)
                             {
                                 attackingSlot = attackingCard.Slot;
@@ -123,17 +117,31 @@ namespace NevernamedsSigils
                                 attackingSlot.Card.Anim.SetAnimationPaused(false);
                                 yield return new WaitForSeconds(0.05f);
                                 int overkillDamage = overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack - opposingSlot.Card.Health;
+
                                 yield return opposingSlot.Card.TakeDamage(overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack, attackingSlot.Card);
                                 yield return this.DealOverkillDamage(overkillDamage, attackingSlot, opposingSlot);
-                                if (attackingSlot.Card != null && heightOffset > 0f)
-                                {
-                                    yield return Singleton<BoardManager>.Instance.AssignCardToSlot(attackingSlot.Card, attackingSlot.Card.Slot, 0.1f, null, false);
-                                }
+
+                                if (attackingSlot.Card != null && heightOffset > 0f) { yield return Singleton<BoardManager>.Instance.AssignCardToSlot(attackingSlot.Card, attackingSlot.Card.Slot, 0.1f, null, false); }
                             }
                             attackingCard = null;
                         }
                     }
                     yield return new WaitForSeconds(waitAfter);
+
+                    //Recreated Patches
+                    if (attackingSlot.Card.HasAbility(SplashDamage.ability))
+                    {
+                        CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, true);
+                        CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, false);
+
+                        if (toLeft && toLeft.Card != null) { yield return toLeft.Card.TakeDamage(1, attackingSlot.Card); }
+                        if (toRight && toRight.Card != null) { yield return toRight.Card.TakeDamage(1, attackingSlot.Card); }
+                    }
+                    if (opposingSlot.Card != null && opposingSlot.Card.FaceDown && opposingSlot.Card.HasAbility(SubaquaticSpines.ability) && !attackingSlot.Card.AttackIsBlocked(opposingSlot) && (!attackingSlot.Card.HasAbility(Ability.Flying) || opposingSlot.Card.HasAbility(Ability.Reach)))
+                    {
+                        yield return new WaitForSeconds(0.55f);
+                        yield return attackingSlot.Card.TakeDamage(1, opposingSlot.Card);
+                    }
                 }
                 yield break;
             }
@@ -153,7 +161,12 @@ namespace NevernamedsSigils
             }
             protected virtual IEnumerator DealOverkillDamage(int damage, CardSlot attackingSlot, CardSlot opposingSlot)
             {
-                if (attackingSlot.Card != null && attackingSlot.IsPlayerSlot && damage > 0)
+                if (attackingSlot && attackingSlot.Card && attackingSlot.Card.HasAbility(Mauler.ability))
+                {
+                    yield return new WaitForSeconds(0.1f);
+                    yield return Singleton<LifeManager>.Instance.ShowDamageSequence(damage, damage, !attackingSlot.Card.slot.IsPlayerSlot, 0.1f, null, 0f, true);
+                }
+                else if (attackingSlot.Card != null && attackingSlot.IsPlayerSlot && damage > 0)
                 {
                     PlayableCard queuedCard = Singleton<BoardManager>.Instance.GetCardQueuedForSlot(opposingSlot);
                     if (queuedCard != null)

@@ -43,10 +43,11 @@ namespace NevernamedsSigils
             bool didIt = false;
             foreach (CardSlot slot in availableSlots)
             {
-                if (slot.Card != null && slot.Card != base.Card && !slot.Card.HasTrait(Trait.Uncuttable) && !slot.Card.CardHasSigilInList(waterbornes))
+                if (slot.Card != null && slot.Card != base.Card && !slot.Card.HasTrait(Trait.Uncuttable) && !slot.Card.GetComponent<Submerge>())
                 {
                     slot.Card.Anim.PlayTransformAnimation();
-                    slot.Card.AddTemporaryMod(new CardModificationInfo(Ability.Submerge));
+                    if (base.Card.Info.name == "BeastNevernamed Aspidochelone" && slot.Card.OpponentCard == base.Card.OpponentCard) { slot.Card.AddTemporaryMod(new CardModificationInfo(SubaquaticSpines.ability)); }
+                    else { slot.Card.AddTemporaryMod(new CardModificationInfo(Ability.Submerge)); }
                     slot.Card.RenderCard();
                     base.Card.Anim.LightNegationEffect();
                     didIt = true;
@@ -59,12 +60,7 @@ namespace NevernamedsSigils
             }
             yield break;
         }
-        private static List<Ability> waterbornes = new List<Ability>() {
-            Ability.Submerge,
-            Ability.SubmergeSquid,
-            SubaquaticSpines.ability,
-            CoastGuard.ability
-        };
+        
 
     }
 }

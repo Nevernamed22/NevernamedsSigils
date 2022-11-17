@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Erratic", "At the end of the owner's turn, [creature] will move in the direction inscribed on the sigil will not move if the target slot is obstructed. Direction has a 50/50 chance to change after moving.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Erratic", "At the end of the owner's turn, [creature] will move in the direction inscribed on the sigil. It will not move if the target slot is obstructed. Direction has a 50/50 chance to change after moving.",
                       typeof(Erratic),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 0,

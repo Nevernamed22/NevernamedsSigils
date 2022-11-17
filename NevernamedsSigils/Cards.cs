@@ -10,6 +10,26 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
+            SigilSetupUtility.NewCard("SigilNevernamed WrigglingPereiopod",
+                "Wriggling Pereiopod",
+                0,
+                2,
+                new List<CardMetaCategory> { },
+                CardTemple.Nature,
+                description: "",
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/wrigglingpereiopod.png")
+                );
+
+            SigilSetupUtility.NewCard("SigilNevernamed WormyTail",
+                "Wormy Tail",
+                0,
+                2,
+                new List<CardMetaCategory> { },
+                CardTemple.Nature,
+                description: "",
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/wormytail.png")
+                );
+
             SigilSetupUtility.NewCard("SigilNevernamed Web",
                 "Web",
                 0,
@@ -21,7 +41,7 @@ namespace NevernamedsSigils
                 emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/web_emission.png"),
                 abilities: new List<Ability>() { WebSigil.ability, Remove.ability, Ability.Reach },
                 traits: new List<Trait>() { Trait.Terrain },
-                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance> { CardAppearanceBehaviour.Appearance.TerrainBackground },
+                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance> { CardAppearanceBehaviour.Appearance.TerrainBackground, CardAppearanceBehaviour.Appearance.TerrainLayout },
                 preventBones: true
                 );
 
@@ -37,8 +57,8 @@ namespace NevernamedsSigils
                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/guts_pixel.png"),
                 abilities: new List<Ability>() { Ability.Evolve },
                 traits: new List<Trait>() { Trait.Terrain },
-                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance> { CardAppearanceBehaviour.Appearance.TerrainBackground },
-                defaultEvolutionCard: "NevernamedSigils FesteringGuts",
+                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance> { CardAppearanceBehaviour.Appearance.TerrainBackground, CardAppearanceBehaviour.Appearance.TerrainLayout },
+                defaultEvolutionCard: "SigilNevernamed FesteringGuts",
                 defaultEvolutionTurns: 3
                 );
 
@@ -54,7 +74,7 @@ namespace NevernamedsSigils
                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/festeringguts_pixel.png"),
                 abilities: new List<Ability>() { Doomed.ability },
                 traits: new List<Trait>() { Trait.Terrain },
-                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance> { CardAppearanceBehaviour.Appearance.TerrainBackground }
+                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance> { CardAppearanceBehaviour.Appearance.TerrainBackground, CardAppearanceBehaviour.Appearance.TerrainLayout }
                 );
 
             SigilSetupUtility.NewCard("SigilNevernamed Act2EmptyVessel",
@@ -103,6 +123,7 @@ namespace NevernamedsSigils
                 description: "",
                 defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/clonegrub.png"),
                 emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/clonegrub_emission.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/clonegrub_pixel.png"),
                 abilities: new List<Ability>() { Ability.Evolve }
                 );
 
@@ -151,6 +172,7 @@ namespace NevernamedsSigils
                 tribes: new List<Tribe>() { Tribe.Insect },
                 abilities: new List<Ability>() { },
                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/termite.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/termite_pixel.png"),
                emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/termite_emission.png")
                );
 
@@ -198,6 +220,35 @@ namespace NevernamedsSigils
                emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/copiedroyal_emission.png"),
                 appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance> { CardAppearanceBehaviour.Appearance.RareCardBackground },
                 overrideSkeletonCrewID: "SkeletonPirate"
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed RemoteController",
+               "Remote Controller",
+               0,
+               2,
+               new List<CardMetaCategory> { },
+               CardTemple.Tech,
+               description: "",
+               energyCost: 1,
+                tribes: new List<Tribe>() {  },
+                abilities: new List<Ability>() { },
+               defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/remotecontroller.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/remotecontroller_pixel.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed SpiritBeast",
+               "Spirit Beast",
+               1,
+               2,
+               new List<CardMetaCategory> { },
+               CardTemple.Nature,
+               description: "",
+               bloodCost: 1,
+                tribes: new List<Tribe>() { },
+                abilities: new List<Ability>() { },
+               defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/spiritbeast.png"),
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/spiritbeast_emission.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/spiritbeast_pixel.png")
                );
         }
     }

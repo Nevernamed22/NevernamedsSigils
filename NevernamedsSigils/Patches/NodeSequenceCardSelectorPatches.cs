@@ -41,11 +41,28 @@ namespace NevernamedsSigils
     public class CampfireBoost_patch
     {
         [HarmonyPostfix]
-        public static void Postfix(ref List<CardInfo> __result)
+        public static void Postfix(ref List<CardInfo> __result, bool forAttackMod)
         {
             var list = __result;
 
             list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedFromCampfire") != null);
+            if (forAttackMod) { list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedFromCampfireDamage") != null); }
+            else { list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedFromCampfireHealth") != null); }
+
+            __result = list;
+        }
+    }
+
+
+    [HarmonyPatch(typeof(CardRemoveSequencer), "GetValidCards")] //campfire
+    public class BoneLordPatch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(ref List<CardInfo> __result)
+        {
+            var list = __result;
+
+            list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedFromBoneLord") != null);
 
             __result = list;
         }

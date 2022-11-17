@@ -87,7 +87,8 @@ namespace NevernamedsSigils
             if (!base.Card.HasAbility(FireResistant.ability))
             {
                 yield return base.PreSuccessfulTriggerSequence();
-                yield return base.Card.TakeDamage(1, null);
+                if (base.Card.HasAbility(Ability.ExplodeOnDeath)) { yield return base.Card.Die(false); }
+                else { yield return base.Card.TakeDamage(1, null); }
                 yield return base.LearnAbility(0.1f);
             }
             yield break;

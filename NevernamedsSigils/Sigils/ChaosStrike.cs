@@ -69,7 +69,15 @@ namespace NevernamedsSigils
 				FringeStrike.ability,
 				Trapjaw.ability,
 				TripleStrike.ability,
-				SwoopingStrike.ability
+				SwoopingStrike.ability,
+				PinnacleStrike.ability,
+				Ability.AllStrike,
+				OddStrike.ability,
+				EvenStrike.ability,
+				CenterStrike.ability,
+				DivisibilityStrike.ability,
+				SinisterStrike.ability,
+				DexterStrike.ability
 			};
 			validSigils.RemoveAll((Ability x) => base.Card.HasAbility(x));
 

@@ -36,20 +36,29 @@ namespace NevernamedsSigils
             }
         }
     }
-
-  /*  [HarmonyPatch(typeof(AbilityIconInteractable), "LoadIcon", 0)]
-    public class LoadIconPatch
+    [HarmonyPatch(typeof(BoardManager3D), "OffsetCardNearBoard", 0)]
+    public class OffsetSacrificeDemanderPatch
     {
-        [HarmonyPostfix]
-        public static void SlotAttackSlot(CardInfo info, AbilityInfo ability, bool opponentCard, Texture __result)
+        [HarmonyPrefix]
+        public static bool OffsetPatch(BoardManager3D __instance, bool offsetCard)
         {
-            if (ability.ability == Doomed.ability && info.GetExtendedProperty("CustomDoomedDuration") != null)
-            {
-                //Debug.Log("got thing");
-                int num;
-                bool succeed = int.TryParse(info.GetExtendedProperty("CustomDoomedDuration"), out num);
-                if (succeed && Doomed.countDownIcons.ContainsKey(num)) { __result = Doomed.countDownIcons[num]; Debug.Log("parsed and was in dictionary"); }
-            }
+            if (__instance.CurrentSacrificeDemandingCard && __instance.CurrentSacrificeDemandingCard.OnBoard) { return false; }
+            else return true;
         }
-    }*/
-}
+    }
+                /*  [HarmonyPatch(typeof(AbilityIconInteractable), "LoadIcon", 0)]
+                  public class LoadIconPatch
+                  {
+                      [HarmonyPostfix]
+                      public static void SlotAttackSlot(CardInfo info, AbilityInfo ability, bool opponentCard, Texture __result)
+                      {
+                          if (ability.ability == Doomed.ability && info.GetExtendedProperty("CustomDoomedDuration") != null)
+                          {
+                              //Debug.Log("got thing");
+                              int num;
+                              bool succeed = int.TryParse(info.GetExtendedProperty("CustomDoomedDuration"), out num);
+                              if (succeed && Doomed.countDownIcons.ContainsKey(num)) { __result = Doomed.countDownIcons[num]; Debug.Log("parsed and was in dictionary"); }
+                          }
+                      }
+                  }*/
+            }

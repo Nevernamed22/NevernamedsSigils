@@ -43,7 +43,7 @@ namespace NevernamedsSigils
         {
             get
             {
-                return TransformerCustom.ability;
+                return ability;
             }
         }
 

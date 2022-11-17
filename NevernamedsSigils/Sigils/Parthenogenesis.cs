@@ -21,7 +21,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/parthenogenesis.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/parthenogenesis_pixel.png"));
 
             Parthenogenesis.ability = newSigil.ability;
         }

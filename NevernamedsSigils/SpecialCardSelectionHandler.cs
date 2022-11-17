@@ -1,4 +1,5 @@
 ﻿using DiskCardGame;
+using HarmonyLib;
 using Pixelplacement;
 using System;
 using System.Collections;
@@ -10,36 +11,37 @@ namespace NevernamedsSigils
 {
     class SpecialCardSelectionHandler
     {
-        public static IEnumerator DoSpecialCardSelectionReturn(Action<CardInfo> cardToReturn, List<CardInfo> cards, bool destroySelected, bool useCardPile)
+        public static IEnumerator DoSpecialCardSelectionReturn(Action<CardInfo> cardToReturn, List<CardInfo> cards, bool destroySelected)
         {
             CardInfo selectedCard = null;
             yield return HandleInternalSelec(delegate (CardInfo c)
             {
                 selectedCard = c;
-            }, cards, destroySelected, useCardPile);
+            }, cards, destroySelected);
             Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
             cardToReturn(selectedCard);
             yield break;
 
         }
 
-        public static IEnumerator DoSpecialCardSelectionDraw(List<CardInfo> cards, bool destroySelected, bool useCardPile)
+        public static IEnumerator DoSpecialCardSelectionDraw(List<CardInfo> cards, bool destroySelected)
         {
             CardInfo selectedCard = null;
             yield return HandleInternalSelec(delegate (CardInfo c)
             {
                 selectedCard = c;
-            }, cards, destroySelected, useCardPile);
+            }, cards, destroySelected);
             Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
             yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(Tools.TrueClone(selectedCard), 0.25f);
         }
-        private static IEnumerator HandleInternalSelec(Action<CardInfo> cardSelectedCallback, List<CardInfo> cards, bool destroySelected, bool useCardPile)
+        private static IEnumerator HandleInternalSelec(Action<CardInfo> cardSelectedCallback, List<CardInfo> cards, bool destroySelected)
         {
             Singleton<ViewManager>.Instance.SwitchToView(View.DeckSelection, false, true);
             SelectableCard selectedCard = null;
-            CardPile pile = null;
-            if (useCardPile) pile = (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile;
-            yield return Singleton<BoardManager>.Instance.CardSelector.SelectCardFrom(cards, pile, delegate (SelectableCard x)
+
+            DoingSpecialCardSelection = true;
+            curSpecialCardSelectionCount = (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile.cards.Count;
+            yield return Singleton<BoardManager>.Instance.CardSelector.SelectCardFrom(cards, null, delegate (SelectableCard x)
             {
                 selectedCard = x;
             }, null, true);
@@ -48,5 +50,39 @@ namespace NevernamedsSigils
             cardSelectedCallback(selectedCard.Info);
             yield break;
         }
+
+        [HarmonyPatch(typeof(SelectableCardArray), "WaitForClearCardPile")]
+        public class ClearCardPilePatch
+        {
+            [HarmonyPostfix]
+            public static IEnumerator ClearCardPile(IEnumerator enumerator, CardPile pile, SelectableCardArray __instance)
+            {
+                CardPile actPile = (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile;
+                if (DoingSpecialCardSelection && actPile != null)
+                {
+                    yield return new WaitUntil(() => !actPile.DoingCardOperation);
+                    __instance.StartCoroutine(actPile.DestroyCards(0.5f));
+                }
+                yield return enumerator;
+                yield break;
+            }
+        }
+
+        [HarmonyPatch(typeof(SelectableCardArray), "CleanUpCards")]
+        public class ReAddCardPilePatch
+        {
+            [HarmonyPostfix]
+            public static IEnumerator ReAddCardPile(IEnumerator enumerator, SelectableCardArray __instance)
+            {
+                yield return enumerator;
+                if (DoingSpecialCardSelection && (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile != null)
+                {
+                    __instance.StartCoroutine((Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile.SpawnCards(curSpecialCardSelectionCount, 1f)); 
+                }
+                yield break;
+            }
+        }
+        public static bool DoingSpecialCardSelection;
+        public static int curSpecialCardSelectionCount;
     }
 }

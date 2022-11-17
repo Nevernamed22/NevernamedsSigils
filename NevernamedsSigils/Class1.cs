@@ -3,6 +3,7 @@ using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -162,6 +163,42 @@ namespace NevernamedsSigils
             LashOut.Init();
             Ravenous.Init();
             EspritDeCorp.Init();
+            Sanguine.Init();
+            UnbalancedLeadership.Init();
+            BoneDuke.Init();
+            Sturdy.Init();
+            Resilient.Init();
+            Mauler.Init();
+            FossilRecord.Init();
+            CallToArms.Init();
+            SplashDamage.Init();
+            Phantasmic.Init();
+            FilterFeeder.Init();
+            WaveringStrike.Init();
+            PinnacleStrike.Init();
+            OddStrike.Init();
+            EvenStrike.Init();
+            Valuable.Init();
+            Thief.Init();
+            CenterStrike.Init();
+            Herald.Init();
+            Revolve.Init();
+            DivisibilityStrike.Init();
+            Venator.Init();
+            Summoner.Init();
+            SharpestQuills.Init();
+            SinisterStrike.Init();
+            DexterStrike.Init();
+            RemoteControlled.Init();
+            Pushover.Init();
+            Healshield.Init();
+            Sentriple.Init();
+            Bloodrunner.Init();
+            SurgingQuills.Init();
+            SplitSentry.Init();
+            Snare.Init();
+            Bully.Init();
+            Legion.Init();
 
             //LATCH SIGILS
             WaterborneLatch.Init();
@@ -192,6 +229,10 @@ namespace NevernamedsSigils
             Bonefed.Init();
             Bonestrike.Init();
             UpgradeSubroutine.Init();
+            Causality.Init();
+            Carnivore.Init();
+            Deadbeat.Init();
+            Bloodbait.Init();
 
             //VARIABLE STATS
             AntPlusTwo.Init();
@@ -207,6 +248,7 @@ namespace NevernamedsSigils
             OneHalfSquirrels.Init();
             SinEater.Init();
             Ambitious.Init();
+            StrengthInNumbers.Init();
 
             //SPECIAL ABILITIES
             InherentFecundity.Init();
@@ -214,6 +256,7 @@ namespace NevernamedsSigils
             AbsorbOtherCards.Init();
             SigilShedder.Init();
             InherentUndying.Init();
+            InherentCardOnHit.Init();
 
             CustomAppearances.Init();
 
@@ -228,6 +271,22 @@ namespace NevernamedsSigils
                 }
                 return cards;
             };
+            StartCoroutine(LateAwaken());
+        }
+        private static IEnumerator LateAwaken()
+        {
+            yield return null;
+            if (ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.tribes.Contains(NevernamedsTribes.Arachnid)).Count > 0)
+            {
+                CardManager.BaseGameCards.CardByName("Amalgam").tribes.Add(NevernamedsTribes.Arachnid);
+                CardManager.BaseGameCards.CardByName("Hydra").tribes.Add(NevernamedsTribes.Arachnid);
+            }
+            if (ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.tribes.Contains(NevernamedsTribes.Crustacean)).Count > 0)
+            {
+                CardManager.BaseGameCards.CardByName("Amalgam").tribes.Add(NevernamedsTribes.Crustacean);
+                CardManager.BaseGameCards.CardByName("Hydra").tribes.Add(NevernamedsTribes.Crustacean);
+            }
+            yield break;
         }
         public static AssetBundle LoadBundle(string path)
         {

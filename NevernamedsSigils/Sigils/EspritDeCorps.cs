@@ -10,11 +10,11 @@ using UnityEngine;
 
 namespace NevernamedsSigils
 {
-    public class EspritDeCorp : ExtendedAbilityBehaviour
+    public class EspritDeCorp : AbilityBehaviour
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Esprit De Corp", "While [creature] is on the board, creatures in the leftmost and rightmost slots on the same side of the board gain 1 power.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Esprit De Corps", "While [creature] is on the board, creatures in the leftmost and rightmost slots on the same side of the board gain 1 power.",
                       typeof(EspritDeCorp),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 3,

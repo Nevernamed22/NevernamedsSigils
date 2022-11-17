@@ -8,11 +8,29 @@ using UnityEngine;
 using BepInEx.Logging;
 using System.Collections;
 using Pixelplacement;
+using DigitalRuby.LightningBolt;
 
 namespace NevernamedsSigils
 {
     public static class Tools
     {
+        public static IEnumerator CardZapCard(PlayableCard originator, PlayableCard target, float duration)
+        {
+            Singleton<TableVisualEffectsManager>.Instance.ThumpTable(0.3f);
+            AudioController.Instance.PlaySound3D("teslacoil_overload", MixerGroup.TableObjectsSFX, originator.transform.position, 1f, 0f, null, null, null, null, false);
+            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(ResourceBank.Get<GameObject>("Prefabs/Environment/TableEffects/LightningBolt"));
+            gameObject.GetComponent<LightningBoltScript>().StartObject = originator.gameObject;
+            gameObject.GetComponent<LightningBoltScript>().EndObject = target.gameObject;
+            yield return new WaitForSeconds(duration);
+            UnityEngine.Object.Destroy(gameObject, 0.25f);
+            gameObject = null;
+            yield break;
+        }
+        public static bool isEven(this int number)
+        {
+            if (number % 2 == 0) return true;
+            else return false;
+        }
         public static int GetNumberOfSigilOnBoard(bool playerSide, Ability sigil)
         {
             return Singleton<BoardManager>.Instance.GetSlots(playerSide).FindAll((CardSlot x) => x != null && x.Card != null && x.Card.HasAbility(sigil)).Count;
@@ -35,21 +53,27 @@ namespace NevernamedsSigils
             }
             return cards;
         }
-        public static CardModificationInfo CondenseMods(this PlayableCard card, List<Ability> excludedabilities = null)
+        public static CardModificationInfo CondenseMods(this PlayableCard card, List<Ability> excludedabilities = null, bool sigilsOnly = false)
         {
             CardModificationInfo mod = new CardModificationInfo();
             foreach (CardModificationInfo mod1 in card.temporaryMods)
             {
                 if (excludedabilities != null) mod.abilities.AddRange(mod1.abilities.FindAll((x) => !excludedabilities.Contains(x)));
                 else mod.abilities.AddRange(mod1.abilities);
-                mod.attackAdjustment += mod1.attackAdjustment;
-                mod.healthAdjustment += mod1.healthAdjustment;
+                if (!sigilsOnly)
+                {
+                    mod.attackAdjustment += mod1.attackAdjustment;
+                    mod.healthAdjustment += mod1.healthAdjustment;
+                }
             }
             foreach (CardModificationInfo mod2 in card.Info.mods)
             {
                 if (excludedabilities != null) mod.abilities.AddRange(mod2.abilities.FindAll((x) => !excludedabilities.Contains(x)));
-                mod.attackAdjustment += mod2.attackAdjustment;
-                mod.healthAdjustment += mod2.healthAdjustment;
+                if (!sigilsOnly)
+                {
+                    mod.attackAdjustment += mod2.attackAdjustment;
+                    mod.healthAdjustment += mod2.healthAdjustment;
+                }
             }
             if (mod.abilities.Count > 0) mod.fromCardMerge = true;
             return mod;
@@ -182,7 +206,7 @@ namespace NevernamedsSigils
             yield break;
         }
         public static GameObject Particle;
-        public static void SpawnParticlesOnCard(this PlayableCard target, Texture2D tex,float yOffset = 0)
+        public static void SpawnParticlesOnCard(this PlayableCard target, Texture2D tex, float yOffset = 0)
         {
             if (target.Anim && target.Anim is PaperCardAnimationController)
             {
@@ -202,9 +226,9 @@ namespace NevernamedsSigils
                         gameObject.transform.position = anim.deathParticles.transform.position;
                         gameObject.transform.localScale = anim.deathParticles.transform.localScale;
                         gameObject.transform.rotation = anim.deathParticles.transform.rotation;
-                        
-                            particle.transform.position = new Vector3(particle.transform.position.x, particle.transform.position.y + yOffset, particle.transform.position.z);
-                        
+
+                        particle.transform.position = new Vector3(particle.transform.position.x, particle.transform.position.y + yOffset, particle.transform.position.z);
+
                         UnityEngine.Object.Destroy(gameObject, 6f);
                     }
                 }
@@ -213,7 +237,7 @@ namespace NevernamedsSigils
             {
                 if (Particle == null)
                 {
-                    Particle = Plugin.bundle.LoadAsset<GameObject>("MiscBurningParticles");                   
+                    Particle = Plugin.bundle.LoadAsset<GameObject>("MiscBurningParticles");
                 }
                 GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(Particle);
                 ParticleSystem particle = gameObject.GetComponent<ParticleSystem>();
@@ -221,7 +245,7 @@ namespace NevernamedsSigils
                 {
                     ParticleSystem.MainModule mainMod = particle.main;
                     particle.startColor = Color.white;
-                    particle.GetComponent<ParticleSystemRenderer>().material = new Material(particle.GetComponent<ParticleSystemRenderer>().material) { mainTexture = tex  };
+                    particle.GetComponent<ParticleSystemRenderer>().material = new Material(particle.GetComponent<ParticleSystemRenderer>().material) { mainTexture = tex };
                     //particle.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissiveColor", new Color(255, 224, 181) * 2);
                     mainMod.startColor = new ParticleSystem.MinMaxGradient(Color.white);
                     gameObject.SetActive(true);
@@ -410,7 +434,7 @@ namespace NevernamedsSigils
             }
             return ab;
         }
-        public static PlayableCard GetStrongestCardOnBoard(bool playerSide)
+        public static PlayableCard GetStrongestCardOnBoard(bool playerSide, bool weakest = false)
         {
             PlayableCard strongest = null;
             List<CardSlot> viableslots = new List<CardSlot>();
@@ -420,9 +444,19 @@ namespace NevernamedsSigils
             {
                 if (slot && slot.Card)
                 {
-                    if (strongest == null || strongest.PowerLevel < slot.Card.PowerLevel)
+                    if (weakest)
                     {
-                        strongest = slot.Card;
+                        if (strongest == null || strongest.PowerLevel > slot.Card.PowerLevel)
+                        {
+                            strongest = slot.Card;
+                        }
+                    }
+                    else
+                    {
+                        if (strongest == null || strongest.PowerLevel < slot.Card.PowerLevel)
+                        {
+                            strongest = slot.Card;
+                        }
                     }
                 }
             }

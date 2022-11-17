@@ -70,6 +70,8 @@ namespace NevernamedsSigils
                 {
                     __result += Tools.GetNumberOfSigilOnBoard(!__instance.OpponentCard, EspritDeCorp.ability);
                 }
+                CardSlot toRight2 = Singleton<BoardManager>.Instance.GetAdjacent(__instance.Slot, false); ;
+                if (toRight2 && toRight2.Card && toRight2.Card.HasAbility(UnbalancedLeadership.ability)) { __result += 2; }
             }
         }
     }

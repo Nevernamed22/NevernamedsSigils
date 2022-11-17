@@ -9,7 +9,7 @@ using Sirenix;
 
 namespace NevernamedsSigils
 {
-    public class Termatriarch : DrawCreatedCard
+    public class Termatriarch : AbilityBehaviour
     {
         public static void Init()
         {
@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/termatriarch.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/termatriarch_pixel.png"));
 
             Termatriarch.ability = newSigil.ability;
         }
@@ -32,34 +32,7 @@ namespace NevernamedsSigils
             }
         }
         public static Ability ability;
-
-        public override CardInfo CardToDraw
-        {
-            get
-            {
-                CardInfo guts = CardLoader.GetCardByName("SigilNevernamed Termite");
-                if (base.Card != null)
-                {
-                    //Get fathers
-                    List<CardSlot> availableSlots = new List<CardSlot>(Singleton<BoardManager>.Instance.GetSlots(!base.Card.OpponentCard));
-                    List<CardSlot> fathers = availableSlots.FindAll((x) => x != null && x.Card != base.Card && x.Card.HasAbility(TermiteKing.ability));
-
-                    //Mother
-                    guts.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Termatriarch.ability, TermiteKing.ability }));
-
-                    //Father
-                    if (fathers != null && fathers.Count > 0)
-                    {
-                        PlayableCard chosenFather = Tools.RandomElement(fathers).Card;
-                        if (chosenFather != null)
-                        {
-                            guts.Mods.Add(chosenFather.CondenseMods(new List<Ability>() { Termatriarch.ability, TermiteKing.ability }));
-                        }
-                    }                                 
-                }
-                return guts;
-            }
-        }
+      
         public override bool RespondsToUpkeep(bool playerUpkeep)
         {
             return playerUpkeep != base.Card.OpponentCard && base.Card.OnBoard;
@@ -67,12 +40,24 @@ namespace NevernamedsSigils
         public override IEnumerator OnUpkeep(bool playerUpkeep)
         {
             List<CardSlot> availableSlots = new List<CardSlot>(Singleton<BoardManager>.Instance.GetSlots(!base.Card.OpponentCard));
-            if (availableSlots.Exists((CardSlot x) => x.Card != null && x.Card != base.Card &&  x.Card.HasAbility(TermiteKing.ability)))
+            foreach (CardSlot slot in availableSlots.FindAll((CardSlot x) => x.Card != null && x.Card != base.Card && x.Card.HasAbility(TermiteKing.ability)))
             {
                 yield return base.PreSuccessfulTriggerSequence();
-                yield return base.CreateDrawnCard();
-                yield return base.LearnAbility(0f);
+                if (Singleton<ViewManager>.Instance.CurrentView != View.Default)
+                {
+                    yield return new WaitForSeconds(0.2f);
+                    Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
+                    yield return new WaitForSeconds(0.2f);
+                }
+                CardInfo termite = CardLoader.GetCardByName("SigilNevernamed Termite");
+                termite.Mods.Add( base.Card.CondenseMods(new List<Ability>() { Termatriarch.ability, TermiteKing.ability }));
+                termite.Mods.Add(slot.Card.CondenseMods(new List<Ability>() { Termatriarch.ability, TermiteKing.ability }));
+                
+                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(termite);
+                yield return new WaitForSeconds(0.45f);
+                yield return base.LearnAbility(0.1f);
             }
+            yield break;
         }
     }
 }
