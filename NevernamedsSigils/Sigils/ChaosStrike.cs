@@ -77,7 +77,8 @@ namespace NevernamedsSigils
 				CenterStrike.ability,
 				DivisibilityStrike.ability,
 				SinisterStrike.ability,
-				DexterStrike.ability
+				DexterStrike.ability,
+				EnemyLines.ability
 			};
 			validSigils.RemoveAll((Ability x) => base.Card.HasAbility(x));
 

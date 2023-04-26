@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/clawinghand.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/clawinghand_pixel.png"));
 
             ClawingHand.ability = newSigil.ability;
         }

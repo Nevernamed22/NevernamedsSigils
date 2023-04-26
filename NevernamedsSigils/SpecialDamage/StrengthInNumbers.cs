@@ -28,7 +28,7 @@ namespace NevernamedsSigils
 		{
 			get
 			{
-				return WorldWideWeb.specialStatIcon;
+				return StrengthInNumbers.specialStatIcon;
 			}
 		}
 		public override int[] GetStatValues()

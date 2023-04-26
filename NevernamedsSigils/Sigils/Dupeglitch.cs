@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/dupeglitch.png"),
-                      pixelTex: null);
+                     pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/dupeglitch_pixel.png"));
 
             Dupeglitch.ability = newSigil.ability;
         }

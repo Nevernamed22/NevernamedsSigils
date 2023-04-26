@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/returnstrike.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/returnstrike_pixel.png"));
 
             ReturnStrike.ability = newSigil.ability;
         }

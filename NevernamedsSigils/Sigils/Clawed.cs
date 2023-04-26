@@ -68,18 +68,21 @@ namespace NevernamedsSigils
             yield return new WaitForSeconds(0.1f);
             yield return base.PreSuccessfulTriggerSequence();
 
-            if (toLeft != null)
+            bool skipLeft = Card.Info.GetExtendedProperty("ClawedLeftClawOverride") != null && Card.Info.GetExtendedProperty("ClawedLeftClawOverride") == "null";
+            bool skipRight = Card.Info.GetExtendedProperty("ClawedRightClawOverride") != null && Card.Info.GetExtendedProperty("ClawedRightClawOverride") == "null";
+
+            if (toLeft != null && !skipLeft)
             {
                 if (toLeft.Card != null) yield return toLeft.Card.Die(false, null, true);
                 yield return new WaitForSeconds(0.1f);
-                yield return this.SpawnCardOnSlot(toLeft, true);
+               if (toLeft.Card == null) yield return this.SpawnCardOnSlot(toLeft, true);
             }
 
-            if (toRight != null)
+            if (toRight != null && !skipRight)
             {
                 if (toRight.Card != null) yield return toRight.Card.Die(false, null, true);
                 yield return new WaitForSeconds(0.1f);
-                yield return this.SpawnCardOnSlot(toRight, false);
+                if (toRight.Card == null) yield return this.SpawnCardOnSlot(toRight, false);
             }
 
             if (toLeft != null || toRight != null)

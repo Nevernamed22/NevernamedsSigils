@@ -19,7 +19,7 @@ namespace NevernamedsSigils
                       powerLevel: 1,
                       stackable: false,
                       opponentUsable: false,
-                      tex: null,
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/recharge.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/recharge_pixel.png"));
 
             Recharge.ability = newSigil.ability;

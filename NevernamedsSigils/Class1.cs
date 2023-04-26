@@ -18,7 +18,7 @@ namespace NevernamedsSigils
     {
         private const string PluginGuid = "nevernamed.inscryption.sigils";
         private const string PluginName = "NevernamedsSigils";
-        private const string PluginVersion = "1.0.0.0";
+        private const string PluginVersion = "1.10.0.0";
 
         public static AssetBundle bundle;
         private void Awake()
@@ -31,6 +31,12 @@ namespace NevernamedsSigils
             harmony.PatchAll();
 
             NoBonesDecal = Tools.LoadTex("NevernamedsSigils/Resources/Other/preventbonesdecal.png");
+
+            PixelGemifiedDecal = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/PixelGemifiedDecal.png"));
+            PixelGemifiedOrangeLit = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/PixelGemifiedOrange.png"));
+            PixelGemifiedGreenLit = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/PixelGemifiedGreen.png"));
+            PixelGemifiedBlueLit = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/PixelGemifiedBlue.png"));
+
 
             NevernamedsTribes.InitTribes();
 
@@ -199,6 +205,34 @@ namespace NevernamedsSigils
             Snare.Init();
             Bully.Init();
             Legion.Init();
+            TrajectileQuills.Init();
+            BloodGusher.Init();
+            Propagation.Init();
+            EyeForBattle.Init();
+            Wingrider.Init();
+            Bisection.Init();
+            Emancipation.Init();
+            Cheater.Init();
+            Collector.Init();
+            CollateralDamage.Init();
+            Siphon.Init();
+            HookLineAndSinker.Init();
+            SquirrelKing.Init();
+            Spurred.Init();
+            SharpShot.Init();
+            EnemyLines.Init();
+            PainfulPresence.Init();
+            BloodBorn.Init();
+            Armortify.Init();
+            Distraction.Init();
+            FlankBlast.Init();
+            SplitDetonation.Init();
+            CardShedder.Init();
+            SapphireHeart.Init();
+            EmeraldHeart.Init();
+            RubyCore.Init();
+            SapphireCore.Init();
+            EmeraldCore.Init();
 
             //LATCH SIGILS
             WaterborneLatch.Init();
@@ -206,6 +240,11 @@ namespace NevernamedsSigils
             BurningLatch.Init();
             BurrowerLatch.Init();
             WeirdLatch.Init();
+            NullLatch.Init();
+            FrailLatch.Init();
+            HaunterLatch.Init();
+            OverclockedLatch.Init();
+            GemLatch.Init();
 
             //CONDUIT SIGILS
             //Act 1 "Bonds"
@@ -233,6 +272,7 @@ namespace NevernamedsSigils
             Carnivore.Init();
             Deadbeat.Init();
             Bloodbait.Init();
+            TrainedSwimmer.Init();
 
             //VARIABLE STATS
             AntPlusTwo.Init();
@@ -249,6 +289,12 @@ namespace NevernamedsSigils
             SinEater.Init();
             Ambitious.Init();
             StrengthInNumbers.Init();
+            PackPower.Init();
+            PackPowerPlus.Init();
+            TrinketVitality.Init();
+            HalfCharged.Init();
+            Greenhorn.Init();
+            Fabled.Init();
 
             //SPECIAL ABILITIES
             InherentFecundity.Init();
@@ -262,6 +308,13 @@ namespace NevernamedsSigils
 
             Cards.Init();
 
+            CardManager.BaseGameCards.CardByName("EmptyVessel").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/act2emptyves_pixel.png"));
+            CardManager.BaseGameCards.CardByName("EmptyVessel_GreenGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/emeraldvessel_pixel.png"));
+            CardManager.BaseGameCards.CardByName("EmptyVessel_OrangeGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/rubyvessel_pixel.png"));
+            CardManager.BaseGameCards.CardByName("EmptyVessel_BlueGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/sapphirevessel_pixel.png"));
+            
+
+
             CardManager.ModifyCardList += delegate (List<CardInfo> cards)
             {
                 foreach (CardInfo card in cards.Where(c => c.GetExtendedProperty("PreventBones") != null))
@@ -269,6 +322,10 @@ namespace NevernamedsSigils
                     if (card.decals == null) card.decals = new List<Texture>();
                     card.decals.Add(NoBonesDecal);
                 }
+               /* foreach (CardInfo card in cards)
+                {
+                    card.mods.Add(new CardModificationInfo() { gemify = true });
+                }*/
                 return cards;
             };
             StartCoroutine(LateAwaken());
@@ -296,5 +353,9 @@ namespace NevernamedsSigils
             }
         }
         public static Texture2D NoBonesDecal;
+        public static Sprite PixelGemifiedDecal;
+        public static Sprite PixelGemifiedOrangeLit;
+        public static Sprite PixelGemifiedBlueLit;
+        public static Sprite PixelGemifiedGreenLit;
     }
 }

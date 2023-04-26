@@ -149,6 +149,18 @@ namespace NevernamedsSigils
                emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/unnaturalcreature_emission.png")
                );
 
+            SigilSetupUtility.NewCard("SigilNevernamed ShadowedCreature",
+               "Shadowed Creature",
+               1,
+               1,
+               new List<CardMetaCategory> { },
+               CardTemple.Nature,
+               abilities: new List<Ability>() { Ability.Brittle},
+               description: "",
+               defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/shadowedcreature.png"),
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/shadowedcreature_emission.png")
+               );
+
             SigilSetupUtility.NewCard("SigilNevernamed Mess",
                "Mess",
                0,
@@ -250,6 +262,17 @@ namespace NevernamedsSigils
                emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/spiritbeast_emission.png"),
                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/spiritbeast_pixel.png")
                );
+
+            SigilSetupUtility.NewCard("SigilNevernamed Bud",
+                "Bud",
+                0,
+                3,
+                new List<CardMetaCategory> { },
+                CardTemple.Nature,
+                description: "",
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/bud.png"),
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/bud_emission.png")
+                );
         }
     }
 }

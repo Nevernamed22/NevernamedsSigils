@@ -35,14 +35,14 @@ namespace NevernamedsSigils
         public static Ability ability;
         public override bool RespondsToOtherCardResolve(PlayableCard otherCard)
         {
-            if (((otherCard.Info.IsFree() && otherCard.MaxHealth == 1) || otherCard.Info.name == "Goat") && (otherCard.OpponentCard == base.Card.OpponentCard) && (otherCard != base.Card) && (!otherCard.Info.traits.Contains(Trait.Terrain))) { return true; }
+            if (((otherCard.Info.IsFree() && otherCard.MaxHealth == 1) || otherCard.HasTrait(Trait.Goat)) && (otherCard.OpponentCard == base.Card.OpponentCard) && (otherCard != base.Card) && (!otherCard.Info.traits.Contains(Trait.Terrain))) { return true; }
             else return false;
         }
         public override IEnumerator OnOtherCardResolve(PlayableCard otherCard)
         {
             Singleton<ViewManager>.Instance.SwitchToView(View.Board, false, false);
             yield return base.PreSuccessfulTriggerSequence();
-            bool isGoat = otherCard.Info.name == "Goat";
+            bool isGoat = otherCard.HasTrait(Trait.Goat);
             CardSlot targetSlot = otherCard.slot;
 
             yield return otherCard.Die(true, base.Card, true);

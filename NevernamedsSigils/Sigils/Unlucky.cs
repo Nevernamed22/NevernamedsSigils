@@ -15,12 +15,12 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Unlucky", "While [creature] is alive on the board, cards played by the opponent have a chance to have debuffed stats, or lose a random sigil.",
                       typeof(Unlucky),
-                      categories: new List<AbilityMetaCategory> {  },
+                      categories: new List<AbilityMetaCategory> {  AbilityMetaCategory.Part1Rulebook },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/unlucky.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/unlucky_pixel.png"));
 
             Unlucky.ability = newSigil.ability;
         }
@@ -41,13 +41,13 @@ namespace NevernamedsSigils
         {
             if (UnityEngine.Random.value <= 0.5f)
             {
-                Debug.Log("Triggered");
+               // Debug.Log("Triggered");
                 int max = 3;
                 if (otherCard.GetAllAbilities().Count > 0) max = 4;
                 switch (UnityEngine.Random.Range(1, max))
                 {
                     case 1:
-                        Debug.Log("Debuffed Attack");
+                        //Debug.Log("Debuffed Attack");
                         if (otherCard.Attack > 0)
                         {
                             otherCard.AddTemporaryMod(new CardModificationInfo(-1, 0));
@@ -55,7 +55,7 @@ namespace NevernamedsSigils
                         }
                         break;
                     case 2:
-                        Debug.Log("Debuffed Health");
+                        //Debug.Log("Debuffed Health");
                         if (otherCard.Health > 1)
                         {
                             int reduc = 2;
@@ -65,7 +65,7 @@ namespace NevernamedsSigils
                         }
                         break;
                     case 3:
-                        Debug.Log("Debuffed Sigils");
+                        //Debug.Log("Debuffed Sigils");
                         otherCard.TemporarilyRemoveAbilityFromCard(Tools.RandomElement(otherCard.GetAllAbilities()));
                             otherCard.Anim.StrongNegationEffect();
                         break;

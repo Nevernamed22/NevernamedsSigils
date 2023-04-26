@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/commander.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/commander_pixel.png"));
 
             Commander.ability = newSigil.ability;
         }
@@ -71,7 +71,8 @@ namespace NevernamedsSigils
                 supporter.AddTemporaryMod(removeFlyingMod);
             }
 
-            yield return Singleton<TurnManager>.Instance.CombatPhaseManager.SlotAttackSlot(supporter.Slot, target.Slot, 0f);
+            FakeCombatHandler.FakeCombatThing fakecombat = new FakeCombatHandler.FakeCombatThing();
+            yield return fakecombat.FakeCombat(!supporter.OpponentCard, null, supporter.Slot, new List<CardSlot>() { target.Slot });
 
             if (removeFlyingMod != null)
             {

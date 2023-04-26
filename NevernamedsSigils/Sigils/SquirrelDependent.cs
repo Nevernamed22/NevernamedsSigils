@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/squirreldependent.png"),
-                      pixelTex: null);
+					  pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/squirreldependent_pixel.png"));
 
             SquirrelDependent.ability = newSigil.ability;
         }

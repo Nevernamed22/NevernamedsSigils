@@ -9,7 +9,7 @@ using System.Text;
 using UnityEngine;
 
 namespace NevernamedsSigils
-{ 
+{
     public class HaunterCustom : AbilityBehaviour
     {
         public static void Init()
@@ -42,6 +42,7 @@ namespace NevernamedsSigils
         public override IEnumerator OnPreDeathAnimation(bool wasSacrifice)
         {
             List<GameObject> createdSigils = new List<GameObject>();
+            if (Card.GetComponentInChildren<CardAbilityIcons>() == null) { yield break; }
             foreach (AbilityIconInteractable icon in Card.GetComponentInChildren<CardAbilityIcons>().abilityIcons)
             {
                 if (icon.Ability == HaunterCustom.ability) continue;
@@ -54,10 +55,13 @@ namespace NevernamedsSigils
                     rend.material = new Material(rend.material);
                 }
                 Texture tex = sigils.GetComponent<Renderer>().material.mainTexture;
-                sigils.GetComponent<Renderer>().material = new Material(Card.GetComponentInChildren<CardAbilityIcons>().emissiveIconMat);
+                sigils.GetComponent<Renderer>().material = Card.GetComponentInChildren<CardAbilityIcons>().emissiveIconMat != null ? new Material(Card.GetComponentInChildren<CardAbilityIcons>().emissiveIconMat) : sigils.GetComponent<Renderer>().material = new Material(Card.GetComponentInChildren<CardAbilityIcons>().defaultIconMat);
                 sigils.GetComponent<Renderer>().material.mainTexture = tex;
-                sigils.GetComponent<Renderer>().material.SetColor("_Color", GameColors.Instance.glowSeafoam);
+                sigils.GetComponent<Renderer>().material.SetColor("_Color", Tools.GetActAsInt() == 1 ? GameColors.Instance.glowSeafoam : GameColors.Instance.blue);
                 //Debug.Log(sigils.GetComponent<Renderer>().material.shader.name);
+
+                if (sigils.GetComponent<AbilityIconInteractable>() != null) UnityEngine.Object.Destroy(sigils.GetComponent<AbilityIconInteractable>());
+                if (sigils.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>() != null) UnityEngine.Object.Destroy(sigils.GetComponent<InscryptionCommunityPatch.Card.ActivatedAbilityIconInteractable>());
 
                 //Handle Rotation
                 int iterator = 0;
@@ -78,6 +82,8 @@ namespace NevernamedsSigils
 
                 sigils.SetActive(true);
                 createdSigils.Add(sigils);
+
+
             }
             if (createdSigils.Count > 0)
             {
@@ -105,8 +111,26 @@ namespace NevernamedsSigils
             abilities.AddRange(actualSigils);
             setUp = true;
             this.slot = slot;
-        }
 
+            if (Tools.GetActAsInt() == 3)
+            {
+                CustomCoroutine.FlickerSequence(delegate
+                {
+                    foreach (GameObject haunting in hauntSigils) { if (haunting != null) haunting.GetComponent<Renderer>().enabled = true; }
+                }, delegate
+                {
+                    foreach (GameObject haunting in hauntSigils) { if (haunting != null) haunting.GetComponent<Renderer>().enabled = false; }
+                }, false, true, 0.1f, 3, null);
+
+                if (slot.conduitFrame != null)
+                {
+                    conduitFakeFrame = UnityEngine.Object.Instantiate(slot.conduitFrame);
+                    conduitFakeFrame.transform.position = slot.conduitFrame.transform.position;
+                    conduitFakeFrame.SetActive(true);
+                }
+            }
+        }
+        public GameObject conduitFakeFrame;
         public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
         {
             return setUp && otherCard.Slot == slot;
@@ -118,6 +142,7 @@ namespace NevernamedsSigils
             otherCard.AddTemporaryMod(new CardModificationInfo { abilities = new List<Ability>(abilities), fromCardMerge = false, fromTotem = false });
             otherCard.Anim.PlayTransformAnimation();
             otherCard.RenderCard();
+            if (conduitFakeFrame != null) Destroy(conduitFakeFrame);
 
             List<GameObject> haunts = hauntSigils;
             foreach (GameObject haunt in haunts)
@@ -138,10 +163,11 @@ namespace NevernamedsSigils
                 {
                     Destroy(haunt);
                 }
+                if (conduitFakeFrame != null) Destroy(conduitFakeFrame);
                 Destroy(this);
             }
             foreach (GameObject floater in hauntSigils)
-            {           
+            {
                 if (floater.GetComponent<HauntedSigilFloatData>() != null)
                 {
                     HauntedSigilFloatData floatData = floater.GetComponent<HauntedSigilFloatData>();
@@ -191,21 +217,26 @@ namespace NevernamedsSigils
                     floatData.MovingUp = UnityEngine.Random.value <= 0.5f;
                 }
             }
-            if (particleTimer >= 0)
+            if (Tools.GetActAsInt() == 1)
             {
-                particleTimer -= Time.deltaTime;
-            }
-            else
-            {
-                GameObject particles = Instantiate(SpecialNodeHandler.Instance.cardMerger.transformParticles.gameObject, slot.transform.position, Quaternion.Euler(-90, 0, 0));
-                ParticleSystem.ShapeModule shape = particles.GetComponent<ParticleSystem>().shape;
-                ParticleSystem.VelocityOverLifetimeModule vel = particles.GetComponent<ParticleSystem>().velocityOverLifetime;
-                vel.enabled = false;
-                particles.SetActive(false);
-                particles.SetActive(true);
-                particleTimer = UnityEngine.Random.Range(0.1f, 0.4f);
+                if (particleTimer >= 0)
+                {
+                    particleTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    GameObject particles = Instantiate(SpecialNodeHandler.Instance.cardMerger.transformParticles.gameObject, slot.transform.position, Quaternion.Euler(-90, 0, 0));
+                    ParticleSystem.ShapeModule shape = particles.GetComponent<ParticleSystem>().shape;
+                    ParticleSystem.VelocityOverLifetimeModule vel = particles.GetComponent<ParticleSystem>().velocityOverLifetime;
+                    vel.enabled = false;
+                    particles.SetActive(false);
+                    particles.SetActive(true);
+                    particleTimer = UnityEngine.Random.Range(0.1f, 0.4f);
+                }
             }
         }
+
+
         public float particleTimer = 0.1f;
         public bool setUp;
         public CardSlot slot;

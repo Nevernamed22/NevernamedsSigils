@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/sharperquills.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/sharperquills_pixel.png"));
 
             SharperQuills.ability = newSigil.ability;
         }

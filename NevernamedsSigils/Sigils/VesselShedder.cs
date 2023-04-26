@@ -30,7 +30,7 @@ namespace NevernamedsSigils
             bool flag = cardSlot.Card == null;
             if (flag)
             {
-                yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("SigilNevernamed Act2EmptyVessel"), cardSlot, 0.1f, true);
+                yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("EmptyVessel"), cardSlot, 0.1f, true);
             }
             yield break;
         }

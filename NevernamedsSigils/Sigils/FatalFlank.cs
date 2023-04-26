@@ -10,7 +10,7 @@ using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
-    public class FatalFlank : AbilityBehaviour
+    public class FatalFlank : DrawCreatedCard
     {
         public static void Init()
         {
@@ -50,11 +50,33 @@ namespace NevernamedsSigils
         public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
         {
             yield return base.PreSuccessfulTriggerSequence();
-            CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, true);
-            CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, false);
-            if (toLeft != null && toLeft.Card == null) { yield return Singleton<BoardManager>.Instance.CreateCardInSlot(flanker, toLeft, 0.1f, true); }
-            if (toRight != null && toRight.Card == null) { yield return Singleton<BoardManager>.Instance.CreateCardInSlot(flanker, toRight, 0.1f, true); }       
+            if (killer != null && killer.HasAbility(Bisection.ability))
+            {
+                yield return base.CreateDrawnCard();
+                yield return base.CreateDrawnCard();
+            }
+            else
+            {
+                CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, true);
+                CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, false);
+                if (toLeft != null && toLeft.Card == null) { yield return Singleton<BoardManager>.Instance.CreateCardInSlot(flanker, toLeft, 0.1f, true); }
+                if (toRight != null && toRight.Card == null) { yield return Singleton<BoardManager>.Instance.CreateCardInSlot(flanker, toRight, 0.1f, true); }
+            }
             yield return base.LearnAbility(0f);
+        }
+        public override CardInfo CardToDraw
+        {
+            get
+            {
+                return flanker;
+            }
+        }
+        public override List<CardModificationInfo> CardToDrawTempMods
+        {
+            get
+            {
+                return null;
+            }
         }
     }
 }

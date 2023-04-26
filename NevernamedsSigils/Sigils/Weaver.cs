@@ -20,7 +20,7 @@ namespace NevernamedsSigils
 					  stackable: false,
 					  opponentUsable: false,
 					  tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/weaver.png"),
-					  pixelTex: null);
+					  pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/weaver_pixel.png"));
 
 			Weaver.ability = newSigil.ability;
 		}

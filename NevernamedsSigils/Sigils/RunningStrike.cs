@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/runningstrike.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/runningstrike_pixel.png"));
 
             RunningStrike.ability = newSigil.ability;
         }

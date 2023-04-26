@@ -79,7 +79,7 @@ namespace NevernamedsSigils
                 storedTempMods = new List<CardModificationInfo>();
                 if (opposing.temporaryMods != null && opposing.temporaryMods.Count > 0) storedTempMods.AddRange(opposing.temporaryMods);
                 storedDamage = opposing.Status.damageTaken;
-                UnityEngine.Object.Destroy(opposing);
+                UnityEngine.Object.Destroy(opposing.gameObject);
                 base.Card.RenderInfo.OverrideAbilityIcon(Snare.ability, Snare.closedIcon);
                 base.Card.RenderCard();
                 base.Card.Anim.LightNegationEffect();

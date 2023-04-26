@@ -65,6 +65,7 @@ namespace NevernamedsSigils
                     mod.attackAdjustment += mod1.attackAdjustment;
                     mod.healthAdjustment += mod1.healthAdjustment;
                 }
+                if (mod1.gemify) mod.gemify = true;
             }
             foreach (CardModificationInfo mod2 in card.Info.mods)
             {
@@ -74,6 +75,7 @@ namespace NevernamedsSigils
                     mod.attackAdjustment += mod2.attackAdjustment;
                     mod.healthAdjustment += mod2.healthAdjustment;
                 }
+                if (mod2.gemify) mod.gemify = true;
             }
             if (mod.abilities.Count > 0) mod.fromCardMerge = true;
             return mod;

@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: true,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/hartswithin.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/hartswithin_pixel.png"));
 
             HartsWithin.ability = newSigil.ability;
         }

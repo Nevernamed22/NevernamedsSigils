@@ -7,14 +7,26 @@ using UnityEngine;
 using System.Collections;
 using InscryptionAPI.Card;
 using Pixelplacement;
+using GBC;
 
 namespace NevernamedsSigils
 {
     public class OpponentResourceManager : NonCardTriggerReceiver
     {
+        public static GameObject pixelBonesIcon;
+        public static PixelNumeral pixelBonesCounter;
         public static OpponentResourceManager instance;
         public static Vector3 opponentBonesPosition = new Vector3(4.1795f, 5.01f, 2.761f);
 
+        private void Start()
+        {
+            if (pixelBonesIcon == null && Singleton<ResourcesManager>.Instance is PixelResourcesManager)
+            {
+                pixelBonesIcon = UnityEngine.Object.Instantiate(((PixelResourcesManager)Singleton<ResourcesManager>.Instance).bonesParent.gameObject);
+                pixelBonesCounter = pixelBonesIcon.GetComponentInChildren<PixelNumeral>();
+                pixelBonesIcon.transform.localPosition = new Vector3(2.0555f, 0.97f, 0f); 
+            }
+        }
         public override bool TriggerBeforeCards => true;
         public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
         {
@@ -45,7 +57,7 @@ namespace NevernamedsSigils
                     (res as Part1ResourcesManager).PushTokenDown(tokenRB);
 
                     Vector3 endValue = opponentBonesPosition + Vector3.up * (float)opponentBones * 0.1f;
-                   // gameObject.GetComponent<Collider>().enabled = false;
+                    // gameObject.GetComponent<Collider>().enabled = false;
                     Tween.Rotation(component.transform, new Vector3(-90f, 0f, 0f), 0.1f, 0f, Tween.EaseInOut, Tween.LoopType.None, null, null, true);
                     Tween.Position(component.transform, endValue, 0.25f, 0.5f, Tween.EaseInOut, Tween.LoopType.None, null, delegate ()
                     {
@@ -55,7 +67,19 @@ namespace NevernamedsSigils
                     yield return new WaitForSeconds(0.05f);
                 }
             }
+            else if (pixelBonesIcon != null)
+            {
+                AudioController.Instance.PlaySound2D("chipBlip2", MixerGroup.None, 0.4f, 0f, new AudioParams.Pitch(Mathf.Min(0.8f + (float)opponentBones * 0.05f, 1.2f)), null, null, null, false);
+                pixelBonesCounter.DisplayValue(opponentBones);
+                this.BounceRenderer(pixelBonesIcon.transform);
+            }
             yield break;
+        }
+        private void BounceRenderer(Transform rendererTransform)
+        {
+            Vector3 vector = rendererTransform.localPosition;
+            Tween.LocalPosition(rendererTransform, vector + Vector3.up * 0.02f, 0.025f, 0f, Tween.EaseOut, Tween.LoopType.None, null, null, true);
+            Tween.LocalPosition(rendererTransform, vector, 0.025f, 0.075f, Tween.EaseIn, Tween.LoopType.None, null, null, true);
         }
         public IEnumerator RemoveOpponentBones(int number)
         {
@@ -112,7 +136,7 @@ namespace NevernamedsSigils
     }
 
 
-    [HarmonyPatch(typeof(TurnManager), nameof(TurnManager.StartGame),  typeof(EncounterData))]
+    [HarmonyPatch(typeof(TurnManager), nameof(TurnManager.StartGame), typeof(EncounterData))]
     public class BattleStart
     {
         [HarmonyPrefix]

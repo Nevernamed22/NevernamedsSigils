@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Organ Thief", "When [creature] kills another creature, Guts are created in your hand. Guts are defined as 0 power, 1 health.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Organ Thief", "When [creature] kills another creature, it's remains are created in your hand.",
                       typeof(OrganThief),
                       categories: new List<AbilityMetaCategory> { },
                       powerLevel: 2,

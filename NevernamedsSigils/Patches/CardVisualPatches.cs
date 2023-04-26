@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     public class PixelDisplayCardsPatch
     {
         [HarmonyPrefix]
-        public static void PixelDisplayCards(List<Ability> abilities, PlayableCard card)
+        public static void PixelDisplayCards(ref List<Ability> abilities, PlayableCard card)
         {
             if (card != null)
             {
@@ -36,6 +36,55 @@ namespace NevernamedsSigils
             }
         }
     }
+
+   /* [HarmonyPatch(typeof(PixelCardDisplayer), nameof(PixelCardDisplayer.DisplayInfo))]
+    public class PixelCardDisplayInfoPatch
+    {
+        [HarmonyPrefix]
+        public static void PixelDisplayInfo(PixelCardDisplayer __instance, CardRenderInfo renderInfo, PlayableCard playableCard)
+        {
+            
+            if (renderInfo != null && renderInfo.baseInfo != null && renderInfo.baseInfo.mods.Find((CardModificationInfo x) => x.gemify == true) != null)
+            {
+                __instance.gameObject.AddComponent<PixelGemificationBorder>();
+            }
+            else if (__instance.gameObject.GetComponent<PixelGemificationBorder>() != null)
+            {
+                UnityEngine.Object.Destroy(__instance.gameObject.GetComponent<PixelGemificationBorder>());
+            }
+            
+            
+        }
+    }*/
+    [HarmonyPatch(typeof(PixelCardDisplayer), nameof(PixelCardDisplayer.UpdateBackground))]
+    public class PixelCardUpdateBackgroundPatch
+    {
+        [HarmonyPostfix]
+        public static void PixelUpdateBackground(PixelCardDisplayer __instance, CardInfo info)
+        {
+            foreach (CardAppearanceBehaviour.Appearance appearance in info.appearanceBehaviour)
+            {
+                CardAppearanceBehaviourManager.FullCardAppearanceBehaviour fullApp = CardAppearanceBehaviourManager.AllAppearances.Find((CardAppearanceBehaviourManager.FullCardAppearanceBehaviour x) => x.Id == appearance);
+                if (fullApp != null && fullApp.AppearanceBehaviour != null)
+                {
+                    Component behav = __instance.gameObject.GetComponent(fullApp.AppearanceBehaviour);
+                    if (behav == null) behav = __instance.gameObject.AddComponent(fullApp.AppearanceBehaviour);
+
+                    if (behav is PixelAppearanceBehaviour && (behav as PixelAppearanceBehaviour).OverrideBackground() != null)
+                    {
+                        Sprite back = (behav as PixelAppearanceBehaviour).OverrideBackground();
+                        SpriteRenderer component = __instance.GetComponent<SpriteRenderer>();
+                        if (component != null)
+                        {
+                            component.sprite = back;
+                        }
+                    }
+                    UnityEngine.Object.Destroy(behav);
+                }
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(BoardManager3D), "OffsetCardNearBoard", 0)]
     public class OffsetSacrificeDemanderPatch
     {
@@ -46,19 +95,19 @@ namespace NevernamedsSigils
             else return true;
         }
     }
-                /*  [HarmonyPatch(typeof(AbilityIconInteractable), "LoadIcon", 0)]
-                  public class LoadIconPatch
-                  {
-                      [HarmonyPostfix]
-                      public static void SlotAttackSlot(CardInfo info, AbilityInfo ability, bool opponentCard, Texture __result)
-                      {
-                          if (ability.ability == Doomed.ability && info.GetExtendedProperty("CustomDoomedDuration") != null)
-                          {
-                              //Debug.Log("got thing");
-                              int num;
-                              bool succeed = int.TryParse(info.GetExtendedProperty("CustomDoomedDuration"), out num);
-                              if (succeed && Doomed.countDownIcons.ContainsKey(num)) { __result = Doomed.countDownIcons[num]; Debug.Log("parsed and was in dictionary"); }
-                          }
-                      }
-                  }*/
-            }
+    /*  [HarmonyPatch(typeof(AbilityIconInteractable), "LoadIcon", 0)]
+      public class LoadIconPatch
+      {
+          [HarmonyPostfix]
+          public static void SlotAttackSlot(CardInfo info, AbilityInfo ability, bool opponentCard, Texture __result)
+          {
+              if (ability.ability == Doomed.ability && info.GetExtendedProperty("CustomDoomedDuration") != null)
+              {
+                  //Debug.Log("got thing");
+                  int num;
+                  bool succeed = int.TryParse(info.GetExtendedProperty("CustomDoomedDuration"), out num);
+                  if (succeed && Doomed.countDownIcons.ContainsKey(num)) { __result = Doomed.countDownIcons[num]; Debug.Log("parsed and was in dictionary"); }
+              }
+          }
+      }*/
+}

@@ -69,8 +69,26 @@ namespace NevernamedsSigils
 				BurningLatch.ability,
 				BurrowerLatch.ability,
 				SprinterLatch.ability,
-				WaterborneLatch.ability
+				WaterborneLatch.ability,
+				FrailLatch.ability,
+				HaunterLatch.ability,
 			};
+			if (Tools.GetActAsInt() == 2 || Tools.GetActAsInt() == 3)
+            {
+				validSigils.AddRange(new List<Ability>()
+				{
+					NullLatch.ability,
+					GemLatch.ability,
+				});			
+			}
+			if (Tools.GetActAsInt() == 2)
+            {
+				validSigils.AddRange(new List<Ability>()
+				{
+					OverclockedLatch.ability,
+				});
+			}
+
 			validSigils.RemoveAll((Ability x) => base.Card.HasAbility(x));
 
 			return Tools.SeededRandomElement(validSigils, Tools.GetRandomSeed());

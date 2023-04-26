@@ -73,13 +73,13 @@ namespace NevernamedsSigils
                 if (!attackingSlot.Card.HasAbility(Ability.AllStrike))
                 {
                     PlayableCard card = attackingSlot.Card;
-                    
+
                     if (attackingSlot.Card.HasAbility(TrophyHunter.ability))
                     {
                         PlayableCard target = Tools.GetStrongestCardOnBoard(!card.slot.IsPlayerSlot);
                         if (target && target.slot) opposingSlot = target.slot;
                     }
-                    else if(attackingSlot.Card.HasAbility(Bully.ability))
+                    else if (attackingSlot.Card.HasAbility(Bully.ability))
                     {
                         PlayableCard target = Tools.GetStrongestCardOnBoard(!card.slot.IsPlayerSlot, true);
                         if (target && target.slot) opposingSlot = target.slot;
@@ -111,7 +111,7 @@ namespace NevernamedsSigils
                 }
 
 
-                if (opposingSlot)
+                if (opposingSlot && (opposingSlot.Card == null || !opposingSlot.Card.HasAbility(TemptingTarget.ability)))
                 {
                     CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, true);
                     CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, false);
@@ -137,7 +137,7 @@ namespace NevernamedsSigils
         [HarmonyPostfix]
         public static IEnumerator Postfix(IEnumerator enumerator, CardSlot attackingSlot, CardSlot opposingSlot, float waitAfter = 0f)
         {
-                    yield return enumerator;
+            yield return enumerator;
             if (attackingSlot.Card != null)
             {
                 if (attackingSlot.Card.HasAbility(SplashDamage.ability))

@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: true,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/kinbearer.png"),
-                      pixelTex: null);
+                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/kinbearer_pixel.png"));
 
             KinBearer.ability = newSigil.ability;
         }

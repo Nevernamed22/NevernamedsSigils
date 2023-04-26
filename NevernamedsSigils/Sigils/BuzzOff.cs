@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/buzzoff.png"),
-                      pixelTex: null);
+                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/buzzoff_pixel.png"));
 
             BuzzOff.ability = newSigil.ability;
         }

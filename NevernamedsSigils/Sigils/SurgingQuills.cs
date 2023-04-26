@@ -50,13 +50,13 @@ namespace NevernamedsSigils
             {
                 return ability;
             }
-        }      
+        }
         private void ReRenderCard()
         {
             int capped = Math.Min(10, hitstaken);
             base.Card.RenderInfo.OverrideAbilityIcon(SurgingQuills.ability, countDownIcons.ContainsKey(capped) ? countDownIcons[capped] : baseIcon);
             base.Card.RenderCard();
-        }     
+        }
         public override bool RespondsToTakeDamage(PlayableCard source)
         {
             return true;
@@ -66,9 +66,9 @@ namespace NevernamedsSigils
             yield return base.PreSuccessfulTriggerSequence();
             base.Card.Anim.StrongNegationEffect();
             yield return new WaitForSeconds(0.55f);
-            yield return source.TakeDamage(hitstaken, base.Card);
+            if (source != null && source.Health > 0) yield return source.TakeDamage(hitstaken, base.Card);
             yield return base.LearnAbility(0.4f);
-            
+
             if (base.Card.NotDead())
             {
                 hitstaken++;

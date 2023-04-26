@@ -21,7 +21,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/immortalcoil.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/immortalcoil_pixel.png"));
 
             ImmortalCoil.ability = newSigil.ability;
         }
