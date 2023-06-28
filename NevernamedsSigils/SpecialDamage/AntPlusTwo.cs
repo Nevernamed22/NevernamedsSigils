@@ -19,7 +19,8 @@ namespace NevernamedsSigils
 			   typeof(AntPlusTwo),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/antplustwo.png"),
-			   pixelTex: null);
+			   pixelTex: null,
+			   gbcDescription: "[creature]s power is equal to the number of friendly ants on the board, plus two.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "AntPlusTwo", typeof(AntPlusTwo)).Id;
 			AntPlusTwo.specialStatIcon = icon.iconType;

@@ -9,12 +9,12 @@ using UnityEngine;
 
 namespace NevernamedsSigils
 {
-        [HarmonyPatch(typeof(ResourcesManager), nameof(ResourcesManager.AddBones))]
+    [HarmonyPatch(typeof(ResourcesManager), nameof(ResourcesManager.AddBones))]
     public class BonesPatch
     {
         [HarmonyPostfix]
         static void PreventBones(ref IEnumerator __result, ref CardSlot slot)
-        {           
+        {
             if (slot?.Card?.Info?.GetExtendedProperty("PreventBones") == null)
             {
                 return;
@@ -37,12 +37,16 @@ namespace NevernamedsSigils
             {
                 if (cardSlot != null && cardSlot.Card)
                 {
+
                     if (cardSlot.Card.HasAbility(ExceptionalSacrifice.ability)) __result += 5;
                     if (cardSlot.Card.HasAbility(TriflingSacrifice.ability)) __result += 1;
+                    if (cardSlot.Card.HasAbility(Bloated.ability) && (cardSlot.Card.Health - 1) > 0) __result += (cardSlot.Card.Health - 1);
+
                 }
             }
         }
     }
+
     [HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.Sacrifice))]
     public class SacrificePatch
     {
@@ -68,13 +72,19 @@ namespace NevernamedsSigils
         {
             if (__instance && !__instance.FaceDown && !__result)
             {
-                if (__instance.HasAbility(ExceptionalSacrifice.ability)) __result = true;
-                else if (__instance.HasAbility(TriflingSacrifice.ability)) __result = true;
+                List<Ability> overrideAbilities = new List<Ability>()
+                {
+                    TriflingSacrifice.ability,
+                    ExceptionalSacrifice.ability,
+                    Bloated.ability
+                };
+                if (__instance.HasAnyOfAbilities(overrideAbilities.ToArray())) __result = true;
                 if (Singleton<BoardManager>.Instance.CurrentSacrificeDemandingCard != null)
                 {
                     PlayableCard saccer = Singleton<BoardManager>.Instance.CurrentSacrificeDemandingCard;
                     if (saccer.HasAbility(BloodFromStone.ability)) __result = true;
                 }
+                if (__instance.Info.GetExtendedProperty("CardAlwaysSacrificeable") != null) { __result = true; }
             }
 
         }
@@ -94,9 +104,111 @@ namespace NevernamedsSigils
                          && Singleton<BoardManager>.Instance.SacrificesCreateRoomForCard(__instance, Singleton<BoardManager>.Instance.PlayerSlotsCopy);
             }
             if (__instance?.Info?.GetExtendedProperty("PreventPlay") != null)
-            {               
+            {
                 __result = false;
             }
+        }
+    }
+
+    //Runtime Cost Modifications
+    [HarmonyPatch(typeof(CardExtensions), nameof(CardExtensions.BloodCost))]
+    internal static class CardExtensions_BloodCost
+    {
+        public static void Postfix(PlayableCard card, ref int __result)
+        {
+            int modification = 0;
+            if (card && Singleton<BoardManager>.Instance) { }
+           {
+                if (card.InHand || !card.OpponentCard) //Friendly
+                {
+                    
+                    modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                    modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Exsanguination.ability)).Count;
+                    if (card != null && card.Info !=  null && card.HasAbility(Ability.Flying)) { modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+                }
+                else //Unfriendly
+                {
+                    modification -= Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                    modification -= Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Exsanguination.ability)).Count;
+                    if (card != null && card.Info != null && card.HasAbility(Ability.Flying)) { modification -= Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+                }
+            }
+
+            __result += modification;
+            __result = Math.Max(__result, 0);
+        }
+    }
+
+    [HarmonyPatch(typeof(CardExtensions), nameof(CardExtensions.BonesCost))]
+    internal static class CardExtensions_BonesCost
+    {
+        public static void Postfix(PlayableCard card, ref int __result)
+        {
+            int modification = 0;
+            if (card.InHand || !card.OpponentCard) //Friendly
+            {
+                modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                if (card != null && card.Info != null && card.HasAbility(Ability.Flying)) { modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+            }
+            else //Unfriendly
+            {
+                modification -= Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                if (card != null && card.Info != null && card.HasAbility(Ability.Flying)) { modification -= Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+            }
+
+            __result += modification;
+            __result = Math.Max(__result, 0);
+        }
+    }
+
+    [HarmonyPatch(typeof(CardExtensions), nameof(CardExtensions.GemsCost))]
+    internal static class CardExtensions_GemsCost
+    {
+        public static void Postfix(PlayableCard card, ref List<GemType> __result)
+        {
+            List<GemType> gemsModified = new List<GemType>();
+            gemsModified.AddRange(__result);
+
+            int gemsToRemove = 0;
+            if (card.InHand || !card.OpponentCard) //Friendly
+            {
+                gemsToRemove += Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                if (card != null && card.Info != null && card.HasAbility(Ability.Flying)) { gemsToRemove += Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+            }
+            else //Unfriendly
+            {
+                gemsToRemove += Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                if (card != null && card.Info != null && card.HasAbility(Ability.Flying)) { gemsToRemove += Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+            }
+
+            for (int i = 0; i < gemsToRemove; i++)
+            {
+                if (gemsModified.Count > 0) { gemsModified.RemoveAt(0); }
+                else { break; }
+            }
+            __result = gemsModified;
+        }
+    }
+
+    [HarmonyPatch(typeof(PlayableCard), nameof(PlayableCard.EnergyCost), MethodType.Getter)]
+    internal static class CardExtensions_EnergyCost
+    {
+        public static void Postfix(ref int __result, PlayableCard __instance)
+        {
+            int modification = 0;
+            if (__instance.InHand || !__instance.OpponentCard) //Friendly
+            {
+                modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                if (__instance != null && __instance.Info != null && __instance.HasAbility(Ability.Flying)) { modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+            }
+            else //Unfriendly
+            {
+                modification -= Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                if (__instance != null && __instance.Info != null && __instance.HasAbility(Ability.Flying)) { modification -= Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+            }
+
+            __result += modification;
+            __result = Math.Max(__result, 0);
         }
     }
 }

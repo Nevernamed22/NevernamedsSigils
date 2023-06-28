@@ -15,10 +15,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Decked Out", "When [creature] is struck, a card from a random temple's side deck is created in your hand.",
                       typeof(DeckedOut),
-                      categories: new List<AbilityMetaCategory> { },
+                      categories: new List<AbilityMetaCategory> { Plugin.Part2Modular },
                       powerLevel: 3,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: null,
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/deckedout_pixel.png"));
 
@@ -64,7 +64,21 @@ namespace NevernamedsSigils
             yield return base.PreSuccessfulTriggerSequence();
             yield return new WaitForSeconds(0.3f);
 
-            yield return base.CreateDrawnCard();
+            if (base.Card.OpponentCard)
+            {
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                {
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardToDraw);
+                    playableCard.SetIsOpponentCard(true);
+                    Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                    Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                    Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                }
+
+            }
+            else { yield return base.CreateDrawnCard(); }
 
             if (!base.Card.Dead)
             {

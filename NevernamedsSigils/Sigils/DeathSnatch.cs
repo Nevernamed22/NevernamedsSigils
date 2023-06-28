@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Death Snatch", "When [creature] perishes, draw a card from your deck.",
                       typeof(DeathSnatch),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair1 },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: false,
@@ -38,10 +38,31 @@ namespace NevernamedsSigils
         }
         public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
         {
+            if (base.Card.OpponentCard)
+            {
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                {
+                    CardInfo toQueue = Tools.GetRandomCardOfTempleAndQuality(base.Card.Info.temple, Tools.GetActAsInt(), false);
+                    if (toQueue != null)
+                    {
+                        PlayableCard playableCard = CardSpawner.SpawnPlayableCard(toQueue);
+                        playableCard.SetIsOpponentCard(true);
+                        Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                        Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                            Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                    }
+                }
+
+            }
+            else
+            {
                 yield return base.PreSuccessfulTriggerSequence();
-            yield return Singleton<CardDrawPiles>.Instance.DrawCardFromDeck(null, null);
-            Singleton<CardDrawPiles3D>.Instance.Pile.Draw();
+                yield return Singleton<CardDrawPiles>.Instance.DrawCardFromDeck(null, null);
+                if (Tools.GetActAsInt() != 2) Singleton<CardDrawPiles3D>.Instance.Pile.Draw();
                 yield return base.LearnAbility(0.1f);
+            }
             yield break;
         }
     }

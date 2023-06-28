@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Blood Gusher", "When [creature] attacks an opposing creature and it perishes, this card, as well as creatures to the left and right of this card, gain 1 health.",
                       typeof(BloodGusher),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: false,

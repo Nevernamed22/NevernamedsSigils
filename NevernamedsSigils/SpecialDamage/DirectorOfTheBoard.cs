@@ -19,7 +19,8 @@ namespace NevernamedsSigils
 			   typeof(DirectorOfTheBoard),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/directoroftheboard.png"),
-			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/directoroftheboard_pixel.png"));
+			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/directoroftheboard_pixel.png"),
+			   gbcDescription: "[creature]s power is equal to the total number of cards on the board, including opponent creatures.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "DirectorOfTheBoard", typeof(DirectorOfTheBoard)).Id;
 			DirectorOfTheBoard.specialStatIcon = icon.iconType;

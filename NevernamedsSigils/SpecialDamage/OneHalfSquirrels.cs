@@ -18,7 +18,8 @@ namespace NevernamedsSigils
 			   typeof(OneHalfSquirrels),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/onehalfsquirrels.png"),
-			   pixelTex: null);
+			   pixelTex: null,
+			   gbcDescription: "[creature]s power is equal to half the number of Squirrels remaining in your side deck.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "OneHalfSquirrels", typeof(OneHalfSquirrels)).Id;
 			OneHalfSquirrels.specialStatIcon = icon.iconType;

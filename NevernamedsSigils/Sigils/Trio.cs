@@ -52,8 +52,11 @@ namespace NevernamedsSigils
             yield return new WaitForSeconds(0.1f);
             bool toLeftValid = toLeft != null && toLeft.Card == null;
             bool toRightValid = toRight != null && toRight.Card == null;
-            yield return base.PreSuccessfulTriggerSequence();
 
+            if (toLeftValid || toRightValid)
+            {
+                yield return base.PreSuccessfulTriggerSequence();
+            }
             if (toLeftValid)
             {
                 yield return new WaitForSeconds(0.1f);
@@ -66,10 +69,6 @@ namespace NevernamedsSigils
                 yield return this.SpawnCardOnSlot(toRight);
             }
 
-            if (toLeftValid || toRightValid)
-            {
-                yield return base.LearnAbility(0f);
-            }
             yield break;
         }
     }

@@ -48,9 +48,26 @@ namespace NevernamedsSigils
         }
         public override IEnumerator OnTakeDamage(PlayableCard source)
         {
-            yield return base.PreSuccessfulTriggerSequence();
-            yield return base.CreateDrawnCard();
-            yield return base.LearnAbility(0.1f);
+            if (base.Card.OpponentCard)
+            {
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                {
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardToDraw);
+                    playableCard.SetIsOpponentCard(true);
+                    Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                    Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                    Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                }
+
+            }
+            else
+            {
+                yield return base.PreSuccessfulTriggerSequence();
+                yield return base.CreateDrawnCard();
+                yield return base.LearnAbility(0.1f);
+            }
             yield break;
         }
     }

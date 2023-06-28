@@ -19,7 +19,8 @@ namespace NevernamedsSigils
                typeof(PackPower),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook },
                tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/packpower.png"),
-               pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/packpower_pixel.png"));
+               pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/packpower_pixel.png"),
+               gbcDescription: "[creature]s power is equal to the number of items it's owner holds.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Pack Power", typeof(PackPower)).Id;
             specialStatIcon = icon.iconType;

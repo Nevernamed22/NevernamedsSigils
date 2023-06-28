@@ -1,5 +1,7 @@
 ﻿using DiskCardGame;
+using GBC;
 using HarmonyLib;
+using InscryptionCommunityPatch.PixelTutor;
 using Pixelplacement;
 using System;
 using System.Collections;
@@ -11,30 +13,44 @@ namespace NevernamedsSigils
 {
     class SpecialCardSelectionHandler
     {
-        public static IEnumerator DoSpecialCardSelectionReturn(Action<CardInfo> cardToReturn, List<CardInfo> cards, bool destroySelected)
+        public static IEnumerator ChoosePixelCard(Action<CardInfo> cardToReturn, List<CardInfo> cards)
+        {
+            PixelPlayableCard selectedCard = null;
+            yield return PixelBoardManager.Instance.GetComponent<PixelPlayableCardArray>().SelectPixelCardFrom(cards, delegate (PixelPlayableCard x)
+            {
+                selectedCard = x;
+            });
+
+            Tween.Position(selectedCard.transform, selectedCard.transform.position + Vector3.back * 4f, 0.1f, 0f, Tween.EaseIn);
+            UnityEngine.Object.Destroy(selectedCard.gameObject, 0.1f);
+
+            cardToReturn(selectedCard.Info);
+        }
+
+        public static IEnumerator DoSpecialCardSelectionReturn(Action<CardInfo> cardToReturn, List<CardInfo> cards)
         {
             CardInfo selectedCard = null;
             yield return HandleInternalSelec(delegate (CardInfo c)
             {
                 selectedCard = c;
-            }, cards, destroySelected);
+            }, cards);
             Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
             cardToReturn(selectedCard);
             yield break;
 
         }
 
-        public static IEnumerator DoSpecialCardSelectionDraw(List<CardInfo> cards, bool destroySelected)
+        public static IEnumerator DoSpecialCardSelectionDraw(List<CardInfo> cards)
         {
             CardInfo selectedCard = null;
             yield return HandleInternalSelec(delegate (CardInfo c)
             {
                 selectedCard = c;
-            }, cards, destroySelected);
+            }, cards);
             Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
             yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(Tools.TrueClone(selectedCard), 0.25f);
         }
-        private static IEnumerator HandleInternalSelec(Action<CardInfo> cardSelectedCallback, List<CardInfo> cards, bool destroySelected)
+        private static IEnumerator HandleInternalSelec(Action<CardInfo> cardSelectedCallback, List<CardInfo> cards)
         {
             Singleton<ViewManager>.Instance.SwitchToView(View.DeckSelection, false, true);
             SelectableCard selectedCard = null;
@@ -46,7 +62,7 @@ namespace NevernamedsSigils
                 selectedCard = x;
             }, null, true);
             Tween.Position(selectedCard.transform, selectedCard.transform.position + Vector3.back * 4f, 0.1f, 0f, Tween.EaseIn, Tween.LoopType.None, null, null, true);
-            if (destroySelected) UnityEngine.Object.Destroy(selectedCard.gameObject, 0.1f);
+            UnityEngine.Object.Destroy(selectedCard.gameObject, 0.1f);
             cardSelectedCallback(selectedCard.Info);
             yield break;
         }

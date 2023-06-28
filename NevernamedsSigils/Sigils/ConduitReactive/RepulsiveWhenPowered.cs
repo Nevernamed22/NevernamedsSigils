@@ -15,12 +15,13 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Repulsive When Powered", "While [creature] is within a conduit, if another creature would strike it, it does not.",
                       typeof(RepulsiveWhenPowered),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/ConduitReactive/repulsivewhenpowered.png"),
-                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/ConduitReactive/repulsivewhenpowered_pixel.png"));
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/ConduitReactive/repulsivewhenpowered_pixel.png"),
+                      isConduitCell: true);
 
             RepulsiveWhenPowered.ability = newSigil.ability;
         }

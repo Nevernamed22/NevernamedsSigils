@@ -3,7 +3,9 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using InscryptionAPI.Card;
+using GBC;
 
 namespace NevernamedsSigils
 {
@@ -65,6 +67,50 @@ namespace NevernamedsSigils
             list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedFromBoneLord") != null);
 
             __result = list;
+        }
+    }
+
+    [HarmonyPatch(typeof(MycologistsDialogueNPC), "Start")]
+    public class GBCMycosPatch
+    {
+        [HarmonyPrefix]
+        public static void MycosPrestart(MycologistsDialogueNPC __instance)
+        {
+            __instance.requiredCards.Clear();
+            __instance.fusedCards.Clear();
+            if (overrideDictionary.Count <= 0)
+            {
+                List<CardInfo> fusables = ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.GetExtendedProperty("GBCMycologistFusedVersion") != null);
+                List<CardInfo> fuseds = new List<CardInfo>();
+                foreach (CardInfo inf in fusables) { fuseds.Add(CardLoader.GetCardByName(inf.GetExtendedProperty("GBCMycologistFusedVersion"))); }
+                for (int i = 0; i < fusables.Count; i++) { overrideDictionary.Add(fusables[i], fuseds[i]); }
+
+                overrideDictionary.Add(CardLoader.GetCardByName("BlueMage"), CardLoader.GetCardByName("BlueMage_Fused"));
+                overrideDictionary.Add(CardLoader.GetCardByName("FieldMouse"), CardLoader.GetCardByName("FieldMouse_Fused"));
+                overrideDictionary.Add(CardLoader.GetCardByName("Gravedigger"), CardLoader.GetCardByName("Gravedigger_Fused"));
+                overrideDictionary.Add(CardLoader.GetCardByName("SentryBot"), CardLoader.GetCardByName("SentryBot_Fused"));
+
+                Dictionary<CardInfo, CardInfo> reordered = ReorderDictionary(overrideDictionary);
+                overrideDictionary = reordered;
+            }           
+            for(int i = 0; i < overrideDictionary.Count; i++)
+            {
+                __instance.requiredCards.Add(overrideDictionary.ElementAt(i).Key);
+                __instance.fusedCards.Add(overrideDictionary.ElementAt(i).Value);
+            }
+        }
+        public static Dictionary<CardInfo, CardInfo> overrideDictionary = new Dictionary<CardInfo, CardInfo>();
+        public static Dictionary<CardInfo, CardInfo> ReorderDictionary(Dictionary<CardInfo, CardInfo> toReorder)
+        {        
+            Dictionary<CardInfo, CardInfo> toReturn = new Dictionary<CardInfo, CardInfo>();
+            while(toReorder.Count > 0)
+            {
+                int indexToRemove = UnityEngine.Random.Range(0, toReorder.Count);
+                KeyValuePair<CardInfo, CardInfo> keyval = toReorder.ElementAt(indexToRemove);
+                toReturn.Add(keyval.Key, keyval.Value);
+                toReorder.Remove(keyval.Key);
+            }
+            return toReturn;
         }
     }
 }

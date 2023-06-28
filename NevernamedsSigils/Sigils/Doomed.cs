@@ -15,6 +15,7 @@ namespace NevernamedsSigils
         public static void Init()
         {
             baseIcon = Tools.LoadTex("NevernamedsSigils/Resources/Sigils/doomed.png");
+            basePixelIcon = Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/doomed_pixel.png");
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Doomed", "At the end of the turn, [creature] will perish.",
                       typeof(Doomed),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
@@ -22,20 +23,31 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: baseIcon,
-                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/doomed_pixel.png"));
+                      pixelTex: basePixelIcon);
 
             Doomed.ability = newSigil.ability;
             countDownIcons = new Dictionary<int, Texture>()
             {
+                {1, baseIcon },
                 {2, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/doomed2.png") },
                 {3, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/doomed3.png") },
                 {4, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/doomed4.png") },
                 {5, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/doomed5.png") },
             };
+            pixelCountDownIcons = new Dictionary<int, Texture>()
+            {
+                {1, basePixelIcon },
+                {2, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/doomed2_pixel.png") },
+                {3, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/doomed3_pixel.png") },
+                {4, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/doomed4_pixel.png") },
+                {5, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/doomed5_pixel.png") },
+            };
         }
         public static Ability ability;
         public static Dictionary<int, Texture> countDownIcons;
+        public static Dictionary<int, Texture> pixelCountDownIcons;
         public static Texture baseIcon;
+        public static Texture2D basePixelIcon;
         public override Ability Ability
         {
             get
@@ -45,7 +57,14 @@ namespace NevernamedsSigils
         }
         private void ReRenderCard(int num)
         {
-            base.Card.RenderInfo.OverrideAbilityIcon(Doomed.ability, countDownIcons.ContainsKey(num) ? countDownIcons[num] : baseIcon);
+            if (Tools.GetActAsInt() == 2)
+            {
+                base.Card.RenderInfo.OverrideAbilityIcon(Doomed.ability, pixelCountDownIcons.ContainsKey(num) ? pixelCountDownIcons[num] : basePixelIcon);
+            }
+            else
+            {
+                base.Card.RenderInfo.OverrideAbilityIcon(Doomed.ability, countDownIcons.ContainsKey(num) ? countDownIcons[num] : baseIcon);
+            }
             base.Card.RenderCard();
         }
         private int LifeSpan

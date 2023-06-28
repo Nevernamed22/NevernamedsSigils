@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using OpponentBones;
 
 namespace NevernamedsSigils
 {
@@ -15,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Bonelust", "When [creature] kills another creature, it generates 3 bones for it's owner.",
                       typeof(Bonelust),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, Plugin.Part2Modular, Plugin.GrimoraModChair3, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: false,
@@ -29,7 +30,11 @@ namespace NevernamedsSigils
         {
             yield return base.PreSuccessfulTriggerSequence();
             yield return new WaitForSeconds(0.1f);
-            yield return Singleton<ResourcesManager>.Instance.AddBones(3, deathSlot);
+            if (base.Card.OpponentCard)
+            {
+                yield return OpponentResourceManager.instance.AddOpponentBones(deathSlot, 3);
+            }
+            else yield return Singleton<ResourcesManager>.Instance.AddBones(3, deathSlot);
             yield return base.LearnAbility(0.4f);
             yield break;
         }

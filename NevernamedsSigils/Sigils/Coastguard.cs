@@ -16,10 +16,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Coastguard", "Submerges during the opponent's turn. When an opposing creature is placed opposite to an empty space, [creature] will move to that empty space while submerged.",
                       typeof(CoastGuard),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair1 },
                       powerLevel: 1,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/coastguard.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/coastguard_pixel.png"));
 

@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Collateral Damage", "At the end of the owner's turn, if [creature] is on the board, the nearest creature to this card will be dealt ten damage.",
                       typeof(CollateralDamage),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

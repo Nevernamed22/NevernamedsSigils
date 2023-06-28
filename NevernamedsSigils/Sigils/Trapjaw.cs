@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Trapjaw", "[creature] will attack to the left and the right of the opposing space if those slots are obstructed. If those slots are not obstructed, the strikes will be transferred to the directly opposing space.",
                       typeof(Trapjaw),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: true,

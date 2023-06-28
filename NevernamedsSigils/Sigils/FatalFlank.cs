@@ -43,6 +43,16 @@ namespace NevernamedsSigils
                 return flanker;
             }
         }
+        public override bool RespondsToPreDeathAnimation(bool wasSacrifice)
+        {
+            return true;
+        }
+        public override IEnumerator OnPreDeathAnimation(bool wasSacrifice)
+        {
+            storedSlot = base.Card.slot;
+            yield break;
+        }
+        public CardSlot storedSlot;
         public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
         {
             return !wasSacrifice;
@@ -57,10 +67,16 @@ namespace NevernamedsSigils
             }
             else
             {
-                CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, true);
-                CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, false);
-                if (toLeft != null && toLeft.Card == null) { yield return Singleton<BoardManager>.Instance.CreateCardInSlot(flanker, toLeft, 0.1f, true); }
-                if (toRight != null && toRight.Card == null) { yield return Singleton<BoardManager>.Instance.CreateCardInSlot(flanker, toRight, 0.1f, true); }
+                CardSlot toUse = null;
+                if (base.Card.slot != null) { toUse = base.Card.slot; }
+                else if (storedSlot != null) { toUse = storedSlot; }
+                if (toUse != null)
+                {
+                    CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(toUse, true);
+                    CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(toUse, false);
+                    if (toLeft != null && toLeft.Card == null) { yield return Singleton<BoardManager>.Instance.CreateCardInSlot(flanker, toLeft, 0.1f, true); }
+                    if (toRight != null && toRight.Card == null) { yield return Singleton<BoardManager>.Instance.CreateCardInSlot(flanker, toRight, 0.1f, true); }
+                }
             }
             yield return base.LearnAbility(0f);
         }

@@ -58,7 +58,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToTurnEnd(bool playerTurnEnd)
         {
-            return base.Card.OpponentCard != playerTurnEnd;
+            return base.Card.OpponentCard != playerTurnEnd && base.Card.OnBoard;
         }
         public override bool RespondsToTakeDamage(PlayableCard source)
         {
@@ -81,10 +81,8 @@ namespace NevernamedsSigils
         }
         public override IEnumerator OnTurnEnd(bool playerTurnEnd)
         {
-            //if ((Card.Anim as PaperCardAnimationController).deathParticles != null)
-
-
-            if (!base.Card.HasAbility(FireResistant.ability))
+            bool isInHotConduit = Singleton<ConduitCircuitManager>.Instance.GetConduitsForSlot(base.Card.slot).Exists(x => x.HasAbility(HotConduit.ability));
+            if (!base.Card.HasAbility(FireResistant.ability) && !isInHotConduit)
             {
                 yield return base.PreSuccessfulTriggerSequence();
                 if (base.Card.HasAbility(Ability.ExplodeOnDeath)) { yield return base.Card.Die(false); }

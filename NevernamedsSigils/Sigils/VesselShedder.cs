@@ -19,7 +19,7 @@ namespace NevernamedsSigils
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: false,
-                      tex: null,
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/vesselshedder.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/vesselshedder_pixel.png"));
 
             VesselShedder.ability = newSigil.ability;

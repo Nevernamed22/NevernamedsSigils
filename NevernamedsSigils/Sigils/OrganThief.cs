@@ -16,10 +16,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Organ Thief", "When [creature] kills another creature, it's remains are created in your hand.",
                       typeof(OrganThief),
-                      categories: new List<AbilityMetaCategory> { },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.Part2Modular, Plugin.GrimoraModChair1 },
                       powerLevel: 2,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/organthief.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/organthief_pixel.png"));
 
@@ -42,7 +42,26 @@ namespace NevernamedsSigils
         {
             get
             {
-                CardInfo guts = (base.Card.Info.GetExtendedProperty("OrganThiefGutOverride") != null) ? CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("OrganThiefGutOverride")) : CardLoader.GetCardByName("SigilNevernamed Guts");
+                CardInfo guts = null;
+                if ((base.Card.Info.GetExtendedProperty("OrganThiefGutOverride") != null))
+                {
+                    guts = CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("OrganThiefGutOverride"));
+                }
+                else
+                {
+                    switch (Tools.GetActAsInt())
+                    {
+                        case 3:
+                            guts = CardLoader.GetCardByName("SigilNevernamed Components");
+                            break;
+                        case 4:
+                            guts = CardLoader.GetCardByName("SigilNevernamed GutsGrimora");
+                            break;
+                        default:
+                            guts = CardLoader.GetCardByName("SigilNevernamed Guts");
+                            break;
+                    }
+                }
                 if (lastKilled != null) guts.Mods.Add(lastKilled);
                 return guts;
             }
@@ -54,7 +73,27 @@ namespace NevernamedsSigils
             lastKilled = card.CondenseMods();
             yield return new WaitForSeconds(0.3f);
 
-            yield return base.CreateDrawnCard();
+            if (base.Card.OpponentCard)
+            {
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                {
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardToDraw);
+                    playableCard.SetIsOpponentCard(true);
+                    if (lastKilled != null) playableCard.AddTemporaryMod(lastKilled);
+
+                    Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                    Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                    Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                }
+
+            }
+            else
+            {
+                yield return base.CreateDrawnCard();
+            }
+
 
             if (!base.Card.Dead)
             {

@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Lurk", "Submerges during the opponent's turn. When a creature moves into the space opposing [creature], they are dealt 1 damage.",
                       typeof(Lurk),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: false,
@@ -62,23 +62,33 @@ namespace NevernamedsSigils
                 this.lastShotTurn = Singleton<TurnManager>.Instance.TurnNumber;
                 Singleton<ViewManager>.Instance.SwitchToView(View.Board, false, true);
                 yield return new WaitForSeconds(0.25f);
+                bool midCombat = false;
                 if (otherCard != null && !otherCard.Dead)
                 {
                     yield return base.PreSuccessfulTriggerSequence();
-                    base.Card.Anim.LightNegationEffect();
-                    if (base.Card.Anim is DiskCardAnimationController)
+                    if (base.Card.Anim.Anim.speed == 0f)
                     {
-                        (base.Card.Anim as DiskCardAnimationController).SetWeaponMesh(DiskCardWeapon.Turret);
-                        (base.Card.Anim as DiskCardAnimationController).AimWeaponAnim(otherCard.Slot.transform.position);
-                        (base.Card.Anim as DiskCardAnimationController).ShowWeaponAnim();
+                        midCombat = true;
+                        base.Card.Anim.Anim.speed = 1f;
+                        yield return new WaitUntil(() => !base.Card.Anim.DoingAttackAnimation);
                     }
-                    yield return new WaitForSeconds(0.5f);
-                    bool impactFrameReached = false;
-                    base.Card.Anim.PlayAttackAnimation(false, otherCard.slot, delegate ()
+                    else
                     {
-                        impactFrameReached = true;
-                    });
-                    yield return new WaitUntil(() => impactFrameReached);
+                        base.Card.Anim.LightNegationEffect();
+                        if (base.Card.Anim is DiskCardAnimationController)
+                        {
+                            (base.Card.Anim as DiskCardAnimationController).SetWeaponMesh(DiskCardWeapon.Turret);
+                            (base.Card.Anim as DiskCardAnimationController).AimWeaponAnim(otherCard.Slot.transform.position);
+                            (base.Card.Anim as DiskCardAnimationController).ShowWeaponAnim();
+                        }
+                        yield return new WaitForSeconds(0.5f);
+                        bool impactFrameReached = false;
+                        base.Card.Anim.PlayAttackAnimation(false, otherCard.slot, delegate ()
+                        {
+                            impactFrameReached = true;
+                        });
+                        yield return new WaitUntil(() => impactFrameReached);
+                    }
                     yield return otherCard.TakeDamage(1, base.Card);
                 }
                 yield return base.LearnAbility(0.5f);
@@ -88,6 +98,12 @@ namespace NevernamedsSigils
                     base.Card.UpdateFaceUpOnBoardEffects();
                 }
                 Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+                if (midCombat && !otherCard.Dead)
+                {
+                    base.Card.Anim.PlayAttackAnimation(base.Card.IsFlyingAttackingReach(), otherCard.Slot, null);
+                    yield return new WaitForSeconds(0.07f);
+                    base.Card.Anim.SetAnimationPaused(paused: true);
+                }
             }
             yield break;
         }

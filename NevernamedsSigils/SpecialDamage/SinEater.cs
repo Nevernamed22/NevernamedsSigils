@@ -19,7 +19,8 @@ namespace NevernamedsSigils
 			   typeof(SinEater),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/sineater.png"),
-			   pixelTex: null);
+			   pixelTex: null,
+			   gbcDescription: "[creature]s power is equal to the amount of sigils present on the creatures that were sacrificed to play it.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "SinEater", typeof(SinEater)).Id;
 			SinEater.specialStatIcon = icon.iconType;

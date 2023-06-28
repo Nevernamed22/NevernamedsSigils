@@ -38,6 +38,30 @@ namespace NevernamedsSigils
         {
             return resolvingCard && !resolvingCard.OpponentCard && resolvingCard.HasAbility(Ability.Flying);
         }
+        public IEnumerator OnOtherCardResolveOpponentQueue(PlayableCard resolvingCard)
+        {
+            CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(resolvingCard.slot, true);
+            CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(resolvingCard.slot, false);
+            if (toLeft != null && toLeft.Card == null)
+            {
+                yield return base.PreSuccessfulTriggerSequence();
+                base.Card.QueuedSlot = null;
+                base.Card.OnPlayedFromOpponentQueue();
+                yield return Singleton<BoardManager>.Instance.ResolveCardOnBoard(base.Card, toLeft, 0.1f, null, true);
+                Singleton<TurnManager>.Instance.Opponent.Queue.Remove(base.Card);
+                yield return base.LearnAbility(0.5f);
+            }
+            else if (toRight != null && toRight.Card == null)
+            {
+                yield return base.PreSuccessfulTriggerSequence();
+                base.Card.QueuedSlot = null;
+                base.Card.OnPlayedFromOpponentQueue();
+                yield return Singleton<BoardManager>.Instance.ResolveCardOnBoard(base.Card, toLeft, 0.1f, null, true);
+                Singleton<TurnManager>.Instance.Opponent.Queue.Remove(base.Card);
+                yield return base.LearnAbility(0.5f);
+            }
+            yield break;
+        }
         public IEnumerator OnOtherCardResolveInHand(PlayableCard resolvingCard)
         {
             CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(resolvingCard.slot, true);

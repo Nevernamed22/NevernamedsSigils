@@ -16,9 +16,13 @@ namespace NevernamedsSigils
         {
             return 1;
         }       
+		public virtual bool AdditionalActivationParameters()
+        {
+			return true;
+        }
         public override bool CanActivate()
         {
-            return Singleton<BoardManager>.Instance.GetValueOfSacrifices(Singleton<BoardManager>.Instance.GetSlots(!base.Card.OpponentCard).FindAll((CardSlot x) => x.Card && x.Card != base.Card)) >= BloodRequired();
+            return (Singleton<BoardManager>.Instance.GetValueOfSacrifices(Singleton<BoardManager>.Instance.GetSlots(!base.Card.OpponentCard).FindAll((CardSlot x) => x.Card && x.Card != base.Card)) >= BloodRequired()) && AdditionalActivationParameters();
         }
         public override IEnumerator Activate()
         {

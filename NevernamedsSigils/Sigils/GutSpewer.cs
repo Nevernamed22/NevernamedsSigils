@@ -14,9 +14,9 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Gut Spewer", "When [creature] is played, Guts are created in your hand. Guts are defined as 0 power, 1 health.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Gut Spewer", "When [creature] is played, its innards are created in your hand.",
                       typeof(GutSpewer),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.GrimoraModChair1, Plugin.Part2Modular },
                       powerLevel: 2,
                       stackable: true,
                       opponentUsable: false,
@@ -38,8 +38,26 @@ namespace NevernamedsSigils
         {
             get
             {
-                CardInfo guts = (base.Card.Info.GetExtendedProperty("GutSpewerGutOverride") != null) ? CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("GutSpewerGutOverride")) : CardLoader.GetCardByName("SigilNevernamed Guts");
-
+                CardInfo guts = null;
+                if ((base.Card.Info.GetExtendedProperty("GutSpewerGutOverride") != null))
+                {
+                    guts = CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("GutSpewerGutOverride"));
+                }
+                else
+                {
+                    switch (Tools.GetActAsInt())
+                    {
+                        case 3:
+                            guts = CardLoader.GetCardByName("SigilNevernamed Components");
+                            break;
+                        case 4:
+                            guts = CardLoader.GetCardByName("SigilNevernamed GutsGrimora");
+                            break;
+                        default:
+                            guts = CardLoader.GetCardByName("SigilNevernamed Guts");
+                            break;
+                    }
+                }
                 if (base.Card != null)
                 {
                     List<Ability> abilities = base.Card.Info.Abilities;
@@ -47,7 +65,7 @@ namespace NevernamedsSigils
                     {
                         abilities.AddRange(cardModificationInfo.abilities);
                     }
-                    abilities.RemoveAll((Ability x) => x == GutSpewer.ability);
+                    abilities.RemoveAll((Ability x) => x == GutSpewer.ability || x == ExplodingCorpseCustom.ability);
 
                     if (abilities.Count > 0)
                     {
@@ -66,9 +84,26 @@ namespace NevernamedsSigils
         }
         public override IEnumerator OnResolveOnBoard()
         {
-            yield return base.PreSuccessfulTriggerSequence();
-            yield return base.CreateDrawnCard();
-            yield return base.LearnAbility(0f);
+            if (base.Card.OpponentCard)
+            {
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                {
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardToDraw);
+                    playableCard.SetIsOpponentCard(true);
+                    Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                    Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                    Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                }
+
+            }
+            else
+            {
+                yield return base.PreSuccessfulTriggerSequence();
+                yield return base.CreateDrawnCard();
+                yield return base.LearnAbility(0f);
+            }
             yield break;
         }
     }

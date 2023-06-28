@@ -3,6 +3,7 @@ using DiskCardGame;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
@@ -136,7 +137,7 @@ namespace NevernamedsSigils
                 description: "",
                 abilities: new List<Ability>() { Ability.Reach, Ability.GemDependant },
                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/enchantedpine_pixel.png")
-                );           
+                );
 
             SigilSetupUtility.NewCard("SigilNevernamed UnnaturalCreature",
                "Unnatural Creature",
@@ -155,7 +156,7 @@ namespace NevernamedsSigils
                1,
                new List<CardMetaCategory> { },
                CardTemple.Nature,
-               abilities: new List<Ability>() { Ability.Brittle},
+               abilities: new List<Ability>() { Ability.Brittle },
                description: "",
                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/shadowedcreature.png"),
                emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/shadowedcreature_emission.png")
@@ -204,14 +205,14 @@ namespace NevernamedsSigils
                );
 
             SigilSetupUtility.NewCard("SigilNevernamed CopiedProspecter",
-               "The Prospecter",
+               "The Prospector",
                2,
                3,
                new List<CardMetaCategory> { },
                CardTemple.Nature,
                description: "",
                bloodCost: 2,
-                tribes: new List<Tribe>() {  },
+                tribes: new List<Tribe>() { },
                 abilities: new List<Ability>() { Ability.WhackAMole, GoldRush.ability },
                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/copiedprospector.png"),
                emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/copiedprospector_emission.png"),
@@ -242,7 +243,7 @@ namespace NevernamedsSigils
                CardTemple.Tech,
                description: "",
                energyCost: 1,
-                tribes: new List<Tribe>() {  },
+                tribes: new List<Tribe>() { },
                 abilities: new List<Ability>() { },
                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/remotecontroller.png"),
                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/remotecontroller_pixel.png")
@@ -273,6 +274,194 @@ namespace NevernamedsSigils
                 defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/bud.png"),
                emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/bud_emission.png")
                 );
+
+            SigilSetupUtility.NewCard("SigilNevernamed Vomit",
+                "Vomit",
+                0,
+                1,
+                new List<CardMetaCategory> { },
+                CardTemple.Nature,
+                description: "",
+                abilities: new List<Ability>() { Ability.PreventAttack, Doomed.ability },
+                traits: new List<Trait>() { Trait.Terrain },
+                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { CardAppearanceBehaviour.Appearance.TerrainBackground, CardAppearanceBehaviour.Appearance.TerrainLayout },
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/vomit.png"),
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/vomit_emission.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/vomit_pixel.png")
+                );
+
+            SigilSetupUtility.NewCard("SigilNevernamed VomitGrimora",
+                "Vomit",
+                0,
+                1,
+                new List<CardMetaCategory> { },
+                CardTemple.Undead,
+                description: "",
+                abilities: new List<Ability>() { Ability.PreventAttack, Doomed.ability },
+                traits: new List<Trait>() { Trait.Terrain },
+                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { CardAppearanceBehaviour.Appearance.TerrainBackground, CardAppearanceBehaviour.Appearance.TerrainLayout },
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/vomitgrimora.png")
+                );
+
+            CardInfo morefish = SigilSetupUtility.NewCard("SigilNevernamed MoreFish",
+                  "More Fish",
+                  0,
+                  1,
+                  new List<CardMetaCategory> { },
+                  CardTemple.Nature,
+                  bonesCost: 3,
+                  description: "The bloated, everpregnant guppy... it always contains more fish...",
+                  defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/morefish.png"),
+                 emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/morefish_emission.png"),
+                 appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { CardAppearanceBehaviour.Appearance.RareCardBackground },
+                 abilities: new List<Ability>() { GiftBearerCustom.ability }
+                  ).SetExtendedProperty("GiftBearerCustomPoolIdentifier", "FishbotFishPool");
+            morefish.SetExtendedProperty("FishbotFishPool", "true");
+
+            SigilSetupUtility.NewCard("SigilNevernamed BadFish",
+                  "Bad Fish",
+                  0,
+                  1,
+                  new List<CardMetaCategory> { },
+                  CardTemple.Nature,
+                  bonesCost: 3,
+                  description: "",
+                  defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/badfish.png"),
+                 emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/badfish_emission.png"),
+                 appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { CardAppearanceBehaviour.Appearance.RareCardBackground },
+                 abilities: new List<Ability>() { Ability.BuffEnemy, Ability.Brittle }
+                  ).SetExtendedProperty("FishbotFishPool", "true");
+
+            SigilSetupUtility.NewCard("SigilNevernamed GoodFish",
+                  "Good Fish",
+                  2,
+                  2,
+                  new List<CardMetaCategory> { },
+                  CardTemple.Nature,
+                  description: "",
+                  bonesCost: 6,
+                  defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/goodfish.png"),
+                 emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/goodfish_emission.png"),
+                 appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { CardAppearanceBehaviour.Appearance.RareCardBackground },
+                 abilities: new List<Ability>() { Ability.Reach, Ability.Sentry, Ability.Sharp, Ability.Sniper }
+                  ).SetExtendedProperty("FishbotFishPool", "true");
+
+            SigilSetupUtility.NewCard("SigilNevernamed WolfPelt",
+               "Wolf Pelt", 0, 2, new List<CardMetaCategory> { }, CardTemple.Nature, description: "",
+                abilities: new List<Ability>() { }, traits: new List<Trait>() { Trait.Pelt, Trait.Terrain },
+                specialAbilities:new List<SpecialTriggeredAbility>() { Act2SpawnLice.ability },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/wolfpelt_pixel.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed Payload",
+               "Payload", 0, 1, new List<CardMetaCategory> { }, CardTemple.Nature, description: "",
+                abilities: new List<Ability>() { Endangered.ability, Ability.ExplodeOnDeath }, traits: new List<Trait>() { Trait.Terrain },
+                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { CardAppearanceBehaviour.Appearance.TerrainBackground, CardAppearanceBehaviour.Appearance.TerrainLayout },
+                  defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/payload.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/payload_pixel.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed Components",
+               "Components", 0, 1, new List<CardMetaCategory> { }, CardTemple.Tech, description: "",
+                abilities: new List<Ability>() { }, traits: new List<Trait>() { Trait.Terrain },
+                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                  defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/components.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed GutsGrimora",
+               "Guts", 0, 1, new List<CardMetaCategory> { }, CardTemple.Undead, description: "",
+                abilities: new List<Ability>() { Doomed.ability }, traits: new List<Trait>() { },
+                appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                  defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/gutsgrimora.png")
+               ).SetExtendedProperty("CustomDoomedDuration", "4");
+
+            SigilSetupUtility.NewCard("SigilNevernamed RawMeat",
+              "Raw Meat", 0, 1, new List<CardMetaCategory> { }, CardTemple.Nature, description: "",
+               abilities: new List<Ability>() { }, traits: new List<Trait>() {  },
+               appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/rawmeat_pixel.png"),
+                 preventBones: true
+              );
+
+            SigilSetupUtility.NewCard("SigilNevernamed ExcisedPowerCell",
+              "Excised Power Cell", 0, 1, new List<CardMetaCategory> { }, CardTemple.Tech, description: "",
+               abilities: new List<Ability>() { Ability.GainBattery, Recharge.ability, InstantEffect.ability }, traits: new List<Trait>() { Trait.Terrain },
+               appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/excisedpowercell_pixel.png"),
+                 preventBones: true
+              );
+
+            SigilSetupUtility.NewCard("SigilNevernamed BoneEffigy",
+              "Bone Effigy", 0, 1, new List<CardMetaCategory> { }, CardTemple.Undead, description: "",
+               abilities: new List<Ability>() { BoneDuke.ability, Unhammerable.ability }, traits: new List<Trait>() { Trait.Terrain },
+               appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/boneeffigy_pixel.png")
+              );
+
+            SigilSetupUtility.NewCard("SigilNevernamed DesecratedMox",
+             "Desecrated Mox", 0, 1, new List<CardMetaCategory> { }, CardTemple.Wizard, description: "",
+              abilities: new List<Ability>() {  MysteryMox.ability }, traits: new List<Trait>() { Trait.Terrain, Trait.Gem },
+              appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/desecratedmox_pixel.png"),
+                preventBones: true
+             );
+
+            SigilSetupUtility.NewCard("SigilNevernamed LooseFlesh",
+               "Loose Flesh", 0, 1, new List<CardMetaCategory> { }, CardTemple.Nature, description: "",
+                abilities: new List<Ability>() { Ability.Morsel },
+                  defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/looseflesh.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/looseflesh_pixel.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed RubyPillar",
+             "Ruby Pillar", 0, 4, new List<CardMetaCategory> { }, CardTemple.Wizard, description: "",
+              abilities: new List<Ability>() { Ability.GainGemOrange, Ability.Reach }, traits: new List<Trait>() { Trait.Terrain, Trait.Gem },
+              appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/rubypillar_pixel.png")
+             );
+
+            SigilSetupUtility.NewCard("SigilNevernamed EmeraldPillar",
+             "Emerald Pillar", 0, 4, new List<CardMetaCategory> { }, CardTemple.Wizard, description: "",
+              abilities: new List<Ability>() { Ability.GainGemGreen, Ability.Reach }, traits: new List<Trait>() { Trait.Terrain, Trait.Gem },
+              appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/emeraldpillar_pixel.png")
+             );
+
+            SigilSetupUtility.NewCard("SigilNevernamed SapphirePillar",
+             "Sapphire Pillar", 0, 4, new List<CardMetaCategory> { }, CardTemple.Wizard, description: "",
+              abilities: new List<Ability>() { Ability.GainGemBlue, Ability.Reach }, traits: new List<Trait>() { Trait.Terrain, Trait.Gem },
+              appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/sapphirepillar_pixel.png")
+             );
+
+            SigilSetupUtility.NewCard("SigilNevernamed Act2GoldNugget",
+             "Gold Nugget", 0, 2, new List<CardMetaCategory> { }, CardTemple.Wizard, description: "",
+              abilities: new List<Ability>() {  }, traits: new List<Trait>() { Trait.Terrain },
+              appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { CustomAppearances.PixelGoldBackground },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/goldnugget_pixel.png")
+             );
+
+            SigilSetupUtility.NewCard("SigilNevernamed MagicBomb",
+            "Magic Bomb", 0, 1, new List<CardMetaCategory> { }, CardTemple.Wizard, description: "",
+             abilities: new List<Ability>() { Ability.ExplodeOnDeath }, traits: new List<Trait>() { Trait.Terrain },
+                  defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/magicbomb.png"),
+               pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/magicbomb_pixel.png")
+            );
+
+            SigilSetupUtility.NewCard("SigilNevernamed SapphireSkeleton",
+             "Sapphire Skeleton", 1, 1, new List<CardMetaCategory> { }, CardTemple.Undead, description: "",
+              abilities: new List<Ability>() { Ability.Brittle, Ability.GainGemBlue },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/sapphireskeleton_pixel.png"));
+
+            SigilSetupUtility.NewCard("SigilNevernamed RubySkeleton",
+             "Ruby Skeleton", 1, 1, new List<CardMetaCategory> { }, CardTemple.Undead, description: "",
+              abilities: new List<Ability>() { Ability.Brittle, Ability.GainGemOrange },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/rubyskeleton_pixel.png"));
+
+            SigilSetupUtility.NewCard("SigilNevernamed EmeraldSkeleton",
+             "Emerald Skeleton", 1, 1, new List<CardMetaCategory> { }, CardTemple.Undead, description: "",
+              abilities: new List<Ability>() { Ability.Brittle, Ability.GainGemGreen },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/emeraldskeleton_pixel.png"));
         }
     }
 }

@@ -16,10 +16,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Moxcraft", "When [creature] is struck, a random mox is created in your hand.",
                       typeof(Moxcraft),
-                      categories: new List<AbilityMetaCategory> {  },
+                      categories: new List<AbilityMetaCategory> { Plugin.Part2Modular },
                       powerLevel: 3,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: null,
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/moxcraft_pixel.png"));
 
@@ -40,8 +40,25 @@ namespace NevernamedsSigils
         public override IEnumerator OnTakeDamage(PlayableCard source)
         {
             yield return base.PreSuccessfulTriggerSequence();
-            List<string> moxes = new List<string>() { "MoxEmerald", "MoxRuby", "MoxSapphire" };
-            yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName(Tools.RandomElement(moxes)), null, 0.25f);
+
+                List<string> moxes = new List<string>() { "MoxEmerald", "MoxRuby", "MoxSapphire" };
+            if (base.Card.OpponentCard)
+            {
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                {
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardLoader.GetCardByName(Tools.RandomElement(moxes)));
+                    playableCard.SetIsOpponentCard(true);
+                    Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                    Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                    Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                }
+            }
+            else
+            {
+                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName(Tools.RandomElement(moxes)), null, 0.25f);
+            }
             yield return base.LearnAbility(0.5f);
             yield break;
         }

@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Transformer", "At the end of the turn, [creature] will transform to or from it's alternate form.",
                       typeof(TransformerCustom),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: true,
@@ -60,6 +60,7 @@ namespace NevernamedsSigils
                     }
                     yield return base.PreSuccessfulTriggerSequence();
                     yield return base.Card.TransformIntoCard(target);
+                    Singleton<ResourcesManager>.Instance.ForceGemsUpdate();
                     yield return new WaitForSeconds(0.3f);
                     yield return base.LearnAbility(0.5f);
                 }

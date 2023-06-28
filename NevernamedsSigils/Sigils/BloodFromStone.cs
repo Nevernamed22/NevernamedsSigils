@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Blood From Stone", "You may sacrifice terrain cards in order to play [creature].",
                       typeof(BloodFromStone),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular,  },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: false,

@@ -16,10 +16,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Trampler", "At the end of the owner's turn, [creature] will move in the direction inscribed on the sigil. Cards in the way will be killed, and grant +1 attack power to the sigil bearer.",
                       typeof(Trampler),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 1,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/trampler.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/trampler_pixel.png"));
 

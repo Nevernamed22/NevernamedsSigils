@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Phantasmic", "At the end of the turn, [creature] will move in the direction inscribed in the sigil, phasing past obstacles and wrapping around to the other side of the board if movement is impossible.",
                       typeof(Phantasmic),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular},
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3},
                       powerLevel: 1,
                       stackable: false,
                       opponentUsable: true,

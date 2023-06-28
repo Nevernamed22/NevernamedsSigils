@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Divisibility Strike", "At the end of each turn, [creature] will alternate between striking all odd indexed opponent slots, and all even indexed opponent slots.",
                       typeof(DivisibilityStrike),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: false,

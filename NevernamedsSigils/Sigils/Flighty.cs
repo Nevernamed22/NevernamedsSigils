@@ -16,10 +16,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Flighty", "At the end of the turn, [creature] will move to a random available space.",
                       typeof(Flighty),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook, Plugin.GrimoraModChair3, Plugin.Part2Modular },
                       powerLevel: 0,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/flighty.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/flighty_pixel.png"));
 

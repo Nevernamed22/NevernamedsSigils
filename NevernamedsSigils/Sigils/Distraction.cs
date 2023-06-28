@@ -16,14 +16,15 @@ namespace NevernamedsSigils
         public static void Init()
         {
             baseIcon = Tools.LoadTex("NevernamedsSigils/Resources/Sigils/distraction.png");
+            basePixelIcon = Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction_pixel.png");
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Distraction", "When [creature] would be struck, a distraction is left in its place and [creature] moves to the right.",
                       typeof(Distraction),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: true,
                       tex: baseIcon,
-                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction_pixel.png"));
+                      pixelTex: basePixelIcon);
 
             Distraction.ability = newSigil.ability;
             countDownIcons = new Dictionary<int, Texture>()
@@ -38,9 +39,23 @@ namespace NevernamedsSigils
                 {8, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/distraction8.png") },
                 {9, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/distraction9.png") },
             };
+            pixelCountDownIcons = new Dictionary<int, Texture>()
+            {
+                {1, basePixelIcon },
+                {2, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction2_pixel.png") },
+                {3, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction3_pixel.png") },
+                {4, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction4_pixel.png") },
+                {5, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction5_pixel.png") },
+                {6, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction6_pixel.png") },
+                {7, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction7_pixel.png") },
+                {8, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction8_pixel.png") },
+                {9, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/distraction9_pixel.png") },
+            };
         }
         public static Dictionary<int, Texture> countDownIcons;
+        public static Dictionary<int, Texture> pixelCountDownIcons;
         public static Texture baseIcon;
+        public static Texture2D basePixelIcon;
         public static Ability ability;
         private bool initialised;
         private int tailsLeft;
@@ -73,7 +88,14 @@ namespace NevernamedsSigils
         }
         private void ReRenderCard()
         {
+            if (Tools.GetActAsInt() == 2)
+            {
+                base.Card.RenderInfo.OverrideAbilityIcon(Distraction.ability, pixelCountDownIcons.ContainsKey(tailsLeft) ? pixelCountDownIcons[tailsLeft] : basePixelIcon);
+            }
+            else
+            {
             base.Card.RenderInfo.OverrideAbilityIcon(Distraction.ability, countDownIcons.ContainsKey(tailsLeft) ? countDownIcons[tailsLeft] : baseIcon);
+            }
             base.Card.RenderCard();
         }
         public override bool RespondsToDrawn() { return true; }

@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Null Latch", "When [creature] perishes, its owner chooses a creature to gain the null conduit sigil.",
                       typeof(NullLatch),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3BuildACard},
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3BuildACard, Plugin.Part2Modular },
                       powerLevel: 1,
                       stackable: false,
                       opponentUsable: false,

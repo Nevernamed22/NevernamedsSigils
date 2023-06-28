@@ -15,10 +15,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Remote Controlled", "When [creature] is played, a Remote Controller is created in the owner's hand. When the remote controller is struck, [creature] will attack the striker.",
                       typeof(RemoteControlled),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular },
                       powerLevel: 3,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/remotecontrolled.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/remotecontrolled_pixel.png"));
 
@@ -53,9 +53,26 @@ namespace NevernamedsSigils
         }
         public override IEnumerator OnResolveOnBoard()
         {
-            yield return base.PreSuccessfulTriggerSequence();
-            yield return base.CreateDrawnCard();
-            yield return base.LearnAbility(0.5f);
+            if (base.Card.OpponentCard)
+            {
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                {
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardToDraw);
+                    playableCard.SetIsOpponentCard(true);
+                    Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                    Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                    Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                }
+
+            }
+            else
+            {
+                yield return base.PreSuccessfulTriggerSequence();
+                yield return base.CreateDrawnCard();
+                yield return base.LearnAbility(0.5f);
+            }
             yield break;
         }
         public override bool RespondsToOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)

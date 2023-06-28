@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/Activated/fetch.png"),
-                      pixelTex: null,
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/Activated/fetch_pixel.png"),
                       isActivated: true);
 
             Fetch.ability = newSigil.ability;

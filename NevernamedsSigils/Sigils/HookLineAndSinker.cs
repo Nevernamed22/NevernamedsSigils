@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Hook Line And Sinker", "When [creature] perishes by combat, the opposing creature will be pulled into it's old space.",
                       typeof(HookLineAndSinker),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, Plugin.Part2Modular },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: true,

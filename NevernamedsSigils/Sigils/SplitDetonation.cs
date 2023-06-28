@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Split Detonation", "When [creature] dies, diagonally adjacent enemy creatures are dealt 10 damage.",
                       typeof(SplitDetonation),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular },
                       powerLevel: 5,
                       stackable: false,
                       opponentUsable: true,

@@ -19,7 +19,8 @@ namespace NevernamedsSigils
 			   typeof(HerdingBeast),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/herdingbeast.png"),
-			   pixelTex: null);
+			   pixelTex: null,
+			   gbcDescription: "[creature]s power is equal to the number of hooved tribe creatures on the board, including opponent creatures.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "HerdingBeast", typeof(HerdingBeast)).Id;
 			HerdingBeast.specialStatIcon = icon.iconType;

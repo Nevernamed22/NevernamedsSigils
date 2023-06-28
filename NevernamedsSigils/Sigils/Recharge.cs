@@ -17,7 +17,7 @@ namespace NevernamedsSigils
                       typeof(Recharge),
                       categories: new List<AbilityMetaCategory> { },
                       powerLevel: 1,
-                      stackable: false,
+                      stackable: true,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/recharge.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/recharge_pixel.png"));

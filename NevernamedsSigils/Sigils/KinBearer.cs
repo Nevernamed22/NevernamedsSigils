@@ -49,15 +49,33 @@ namespace NevernamedsSigils
                 Tribe required = Tribe.None;
                 if ((base.Card.Info.temple == CardTemple.Nature) && (base.Card.Info.tribes.Count > 0)) required = Tools.RandomElement(base.Card.Info.tribes);
                 CardInfo gift = Tools.GetRandomCardOfTempleAndQuality(base.Card.Info.temple, Tools.GetActAsInt(), false, required, false).Clone() as CardInfo;
-                gift.Mods.Add(base.Card.CondenseMods(new List<Ability>() { GiftBearerCustom.ability }));
+                gift.Mods.Add(base.Card.CondenseMods(new List<Ability>() { KinBearer.ability }));
                 return gift;
             }
         }
         public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
         {
-            yield return base.PreSuccessfulTriggerSequence();
-            yield return base.CreateDrawnCard();
-            yield return base.LearnAbility(0.1f);
+
+            if (base.Card.OpponentCard)
+            {
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                {
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardToDraw);
+                    playableCard.SetIsOpponentCard(true);
+                    Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                    Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                    Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                }
+
+            }
+            else
+            {
+                yield return base.PreSuccessfulTriggerSequence();
+                yield return base.CreateDrawnCard();
+                yield return base.LearnAbility(0.1f);
+            }
             yield break;
         }
     }

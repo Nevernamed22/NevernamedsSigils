@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Split Sentry", "When a creature moves into the space opposing [creature], any creatures to their left or right are dealt 1 damage.",
                       typeof(SplitSentry),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: true,
@@ -43,10 +43,8 @@ namespace NevernamedsSigils
         private PlayableCard lastShotCard;
         private IEnumerator FireAtOpposingSlot(PlayableCard otherCard)
         {
-            // Debug.Log("fire triggered");
             if (otherCard != this.lastShotCard || Singleton<TurnManager>.Instance.TurnNumber != this.lastShotTurn)
             {
-                //Debug.Log("not last shot or not last turn");
                 this.lastShotCard = otherCard;
                 this.lastShotTurn = Singleton<TurnManager>.Instance.TurnNumber;
                 List<PlayableCard> targets = new List<PlayableCard>() { };
@@ -58,40 +56,52 @@ namespace NevernamedsSigils
                 {
                     targets.Add(Singleton<BoardManager>.Instance.GetAdjacent(otherCard.slot, false).Card);
                 }
-
-                // Debug.Log("target count " + targets.Count);
+                bool midCombat = false;
                 Singleton<ViewManager>.Instance.SwitchToView(View.Board, false, true);
                 for (int i = 0; i < targets.Count; i++)
                 {
                     if (base.Card != null && !base.Card.Dead && targets[i] != null && !targets[i].Dead)
                     {
-                        //Debug.Log("Target " + i);
                         PlayableCard indivTarget = targets[i];
                         yield return new WaitForSeconds(0.25f);
                         if (indivTarget != null && !indivTarget.Dead)
                         {
-                            //Debug.Log("Target not dead");
                             yield return base.PreSuccessfulTriggerSequence();
-                            base.Card.Anim.LightNegationEffect();
-                            if (base.Card.Anim is DiskCardAnimationController)
+                            if (base.Card.Anim.Anim.speed == 0f)
                             {
-                                (base.Card.Anim as DiskCardAnimationController).SetWeaponMesh(DiskCardWeapon.Turret);
-                                (base.Card.Anim as DiskCardAnimationController).AimWeaponAnim(indivTarget.Slot.transform.position);
-                                (base.Card.Anim as DiskCardAnimationController).ShowWeaponAnim();
+                                midCombat = true;                               
+                                base.Card.Anim.Anim.speed = 1f;
+                                yield return new WaitUntil(() => !base.Card.Anim.DoingAttackAnimation);
                             }
-                            yield return new WaitForSeconds(0.5f);
-                            bool impactFrameReached = false;
-                            base.Card.Anim.PlayAttackAnimation(base.Card.IsFlyingAttackingReach(), indivTarget.Slot, delegate ()
+                            else
                             {
-                                impactFrameReached = true;
-                            });
-                            yield return new WaitUntil(() => impactFrameReached);
+                                base.Card.Anim.LightNegationEffect();
+                                if (base.Card.Anim is DiskCardAnimationController)
+                                {
+                                    (base.Card.Anim as DiskCardAnimationController).SetWeaponMesh(DiskCardWeapon.Turret);
+                                    (base.Card.Anim as DiskCardAnimationController).AimWeaponAnim(indivTarget.Slot.transform.position);
+                                    (base.Card.Anim as DiskCardAnimationController).ShowWeaponAnim();
+                                }
+                                yield return new WaitForSeconds(0.5f);
+                                bool impactFrameReached = false;
+                                base.Card.Anim.PlayAttackAnimation(base.Card.IsFlyingAttackingReach(), indivTarget.Slot, delegate ()
+                                {
+                                    impactFrameReached = true;
+                                });
+                                yield return new WaitUntil(() => impactFrameReached);
+                            }
                             yield return indivTarget.TakeDamage(1, base.Card);
                         }
                     }
                 }
                 yield return base.LearnAbility(0.5f);
                 Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+                if (midCombat && !otherCard.Dead)
+                {
+                    base.Card.Anim.PlayAttackAnimation(base.Card.IsFlyingAttackingReach(), otherCard.Slot, null);
+                    yield return new WaitForSeconds(0.07f);
+                    base.Card.Anim.SetAnimationPaused(paused: true);
+                }
                 yield break;
             }
         }

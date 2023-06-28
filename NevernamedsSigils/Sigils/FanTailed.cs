@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Fan Tailed", "When [creature] is played, all friendly creatures on the board take flight.",
                       typeof(FanTailed),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, Plugin.GrimoraModChair3, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: false,

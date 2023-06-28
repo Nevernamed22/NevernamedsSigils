@@ -17,7 +17,8 @@ namespace NevernamedsSigils
                typeof(BloodAndBone),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
                tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/bloodandbone.png"),
-               pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/bloodandbone_pixel.png"));
+               pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/bloodandbone_pixel.png"),
+               gbcDescription: "[creature]s power is equal to the bone cost of the opposing creature plus twice the blood cost of the opposing creature.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "BloodAndBone", typeof(BloodAndBone)).Id;
             BloodAndBone.specialStatIcon = icon.iconType;

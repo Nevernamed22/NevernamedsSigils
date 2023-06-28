@@ -17,7 +17,8 @@ namespace NevernamedsSigils
 			   typeof(HalfCharged),
 			   categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part3Rulebook },
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/halfcharged.png"),
-			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/halfcharged_pixel.png"));
+			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/halfcharged_pixel.png"),
+			   gbcDescription: "[creature]s power is equal to half your current energy, rounded up.");
 
 			ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Half Charged", typeof(HalfCharged)).Id;
 			specialStatIcon = icon.iconType;

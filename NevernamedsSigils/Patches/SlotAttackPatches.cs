@@ -7,6 +7,7 @@ using UnityEngine;
 using BepInEx;
 using System.Collections;
 using InscryptionAPI.Card;
+using GBC;
 
 namespace NevernamedsSigils
 {
@@ -16,7 +17,11 @@ namespace NevernamedsSigils
         [HarmonyPostfix]
         public static void Postfix(ref CardSlot opposingSlot, ref bool __result, PlayableCard __instance)
         {
-            if (opposingSlot.Card && opposingSlot.Card.HasAbility(Immaterial.ability)) { __result = true; }
+            if (opposingSlot.Card)
+            {
+               if (opposingSlot.Card.HasAbility(Immaterial.ability)) { __result = true; }
+               else if (opposingSlot.Card.HasAbility(Giant.ability) || (opposingSlot.Card.TemporaryMods.Exists(x => x.singletonId == "waterbirdEmerged") && __instance.HasAbility(Waterbird.ability))) { __result = false; }
+            }
         }
     }
     [HarmonyPatch(typeof(PlayableCard), "AttackIsBlocked", MethodType.Normal)]
@@ -35,7 +40,7 @@ namespace NevernamedsSigils
             {
                 __result = true;
             }
-            else if (opposingSlot.Card && opposingSlot.Card.Info.traits.Contains(NevernamedsTraits.InherentRepulsive)) __result = true;
+            else if (opposingSlot.Card && opposingSlot.Card.Info.GetExtendedProperty("InherentRepulsive") != null) __result = true;
         }
     }
     [HarmonyPatch(typeof(CombatPhaseManager), "SlotAttackSlot", 0)]
@@ -48,7 +53,7 @@ namespace NevernamedsSigils
             {
 
                 //Abstain
-                if (attackingSlot.Card.HasAbility(Abstain.ability))
+                if (attackingSlot.Card.HasAbility(Abstain.ability) || (attackingSlot.Card.GetComponent<Docile>() && attackingSlot.Card.GetComponent<Docile>().turnsUntilNextAttack != 0) || (attackingSlot.Card.GetComponent<VivaLaRevolution>() && attackingSlot.Card.GetComponent<VivaLaRevolution>().wasOpponent != attackingSlot.Card.OpponentCard))
                 {
                     attackingSlot.Card.Anim.StrongNegationEffect();
                     return false;
@@ -70,11 +75,11 @@ namespace NevernamedsSigils
                 }
 
 
+                    PlayableCard card = attackingSlot.Card;
                 if (!attackingSlot.Card.HasAbility(Ability.AllStrike))
                 {
-                    PlayableCard card = attackingSlot.Card;
 
-                    if (attackingSlot.Card.HasAbility(TrophyHunter.ability))
+                    if (attackingSlot.Card.HasAbility(TrophyHunter.ability) || Singleton<BoardManager>.Instance.AllSlots.Find(x => (x.IsPlayerSlot == card.IsPlayerCard()) && x.Card && x.Card.HasAbility(Telepathic.ability)))
                     {
                         PlayableCard target = Tools.GetStrongestCardOnBoard(!card.slot.IsPlayerSlot);
                         if (target && target.slot) opposingSlot = target.slot;
@@ -124,6 +129,13 @@ namespace NevernamedsSigils
                         opposingSlot = toRight;
                     }
                 }
+                if (opposingSlot != null && card.CanAttackDirectly(opposingSlot))
+                {
+                    if (Singleton<BoardManager>.Instance.GetSlots(card.OpponentCard).Exists(x => x.Card != null &&x.Card.HasAbility(Giant.ability)))
+                    {
+                        opposingSlot = Singleton<BoardManager>.Instance.GetSlots(card.OpponentCard).Find(x => x.Card != null && x.Card.HasAbility(Giant.ability));
+                    }
+                }
             }
             return true;
         }
@@ -140,13 +152,32 @@ namespace NevernamedsSigils
             yield return enumerator;
             if (attackingSlot.Card != null)
             {
-                if (attackingSlot.Card.HasAbility(SplashDamage.ability))
+                if (attackingSlot.Card.HasAbility(SplashDamage.ability) || (attackingSlot.Card.HasAbility(SplashDamageWhenPowered.ability) && Singleton<ConduitCircuitManager>.Instance != null && Singleton<ConduitCircuitManager>.Instance.SlotIsWithinCircuit(attackingSlot)))
                 {
                     CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, true);
                     CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, false);
 
                     if (toLeft && toLeft.Card != null) { yield return toLeft.Card.TakeDamage(1, attackingSlot.Card); }
                     if (toRight && toRight.Card != null) { yield return toRight.Card.TakeDamage(1, attackingSlot.Card); }
+                }
+                if (attackingSlot.Card.HasAbility(Piercing.ability))
+                {
+                    PlayableCard queuedCard = Singleton<BoardManager>.Instance.GetCardQueuedForSlot(opposingSlot);
+                    if (queuedCard != null && !queuedCard.Dead)
+                    {
+                        yield return new WaitForSeconds(0.1f);
+                        Singleton<ViewManager>.Instance.SwitchToView(Singleton<BoardManager>.Instance.QueueView, false, false);
+                        if (Tools.GetActAsInt() == 2 && !Singleton<GlobalTriggerHandler>.Instance.AbilitiesTriggeredThisTurn.Contains(Piercing.ability))
+                        {
+                            yield return Singleton<TextBox>.Instance.ShowUntilInput($"{attackingSlot.Card.Info.DisplayedNameLocalized} pierces through and deals 1 damage to {queuedCard.Info.displayedNameLocId}!", 
+                                (TextBox.Style)attackingSlot.Card.Info.temple, 
+                                null, 
+                                TextBox.ScreenPosition.ForceBottom, 0f, true, false, null, false, Emotion.Neutral);
+                        }
+                        yield return new WaitForSeconds(0.3f);
+                        yield return queuedCard.TakeDamage(1, attackingSlot.Card);
+                        Singleton<GlobalTriggerHandler>.Instance.AbilitiesTriggeredThisTurn.Add(Piercing.ability);
+                    }
                 }
                 if (opposingSlot.Card != null && opposingSlot.Card.FaceDown && opposingSlot.Card.HasAbility(SubaquaticSpines.ability) && !attackingSlot.Card.AttackIsBlocked(opposingSlot) && (!attackingSlot.Card.HasAbility(Ability.Flying) || opposingSlot.Card.HasAbility(Ability.Reach)))
                 {
@@ -170,6 +201,7 @@ namespace NevernamedsSigils
                 if (__instance.HasAbility(Resilient.ability) && damage > 1) { __state = 1; damage = 1; }
                 if (__instance.HasAbility(Soak.ability) && damage > 0) { __state--; damage--; }
                 if (__instance.HasAbility(Sturdy.ability) && damage > 0) { __state--; damage--; }
+                if (attacker != null && attacker.HasAbility(Wimpy.ability) && damage > 0) { __state--; damage--; }
             }
         }
         [HarmonyPostfix]

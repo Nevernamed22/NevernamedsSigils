@@ -1,7 +1,9 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using DiskCardGame;
 using HarmonyLib;
 using InscryptionAPI.Card;
+using InscryptionAPI.Guid;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,14 +11,17 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using static InscryptionAPI.Card.AbilityManager;
 
 namespace NevernamedsSigils
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInDependency("cyantist.inscryption.api", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("nevernamed.inscryption.opponentbones", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("nevernamed.inscryption.graveyardhandler", BepInDependency.DependencyFlags.HardDependency)]
     public class Plugin : BaseUnityPlugin
     {
-        private const string PluginGuid = "nevernamed.inscryption.sigils";
+        public const string PluginGuid = "nevernamed.inscryption.sigils";
         private const string PluginName = "NevernamedsSigils";
         private const string PluginVersion = "1.10.0.0";
 
@@ -32,13 +37,12 @@ namespace NevernamedsSigils
 
             NoBonesDecal = Tools.LoadTex("NevernamedsSigils/Resources/Other/preventbonesdecal.png");
 
-            PixelGemifiedDecal = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/PixelGemifiedDecal.png"));
-            PixelGemifiedOrangeLit = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/PixelGemifiedOrange.png"));
-            PixelGemifiedGreenLit = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/PixelGemifiedGreen.png"));
-            PixelGemifiedBlueLit = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/PixelGemifiedBlue.png"));
+            arachnophobiaMode = base.Config.Bind<bool>("General", "Arachnophobia Mode", false, "Replaces certain icons to resemble webs rather than spiders.");
 
 
             NevernamedsTribes.InitTribes();
+            CustomAppearances.Init();
+            CustomDeathcardPortrait.InitialiseDictionaries();
 
             Copier.Init();
             Flighty.Init();
@@ -113,7 +117,6 @@ namespace NevernamedsSigils
             SubaquaticSpines.Init();
             Frail.Init();
             Caustic.Init();
-            Act2Amorphous.Init();
             Unlucky.Init();
             AntGuardian.Init();
             Drop.Init();
@@ -123,7 +126,6 @@ namespace NevernamedsSigils
             Mason.Init();
             Dupeglitch.Init();
             Downdraft.Init();
-            Act2VesselPrinter.Init();
             Recharge.Init();
             VesselShedder.Init();
             GiftBearerCustom.Init();
@@ -233,6 +235,89 @@ namespace NevernamedsSigils
             RubyCore.Init();
             SapphireCore.Init();
             EmeraldCore.Init();
+            TestSigil.Init();
+            Docile.Init();
+            Reroute.Init();
+            Globetrotter.Init();
+            Expulsion.Init();
+            Crunchy.Init();
+            InstantEffect.Init();
+            Wimpy.Init();
+            Osteoklepty.Init();
+            Annihilation.Init();
+            Telepathic.Init();
+            OrangeInspiration.Init();
+            Transmogrification.Init();
+            Divination.Init();
+            Freefall.Init();
+            Disembowel.Init();
+            Exsanguination.Init();
+            FaceToFace.Init();
+            BloodArtist.Init();
+            FriendFinder.Init();
+            NatureOfTheBeast.Init();
+            Quickdraw.Init();
+            Bleach.Init();
+            SkullSwarm.Init();
+            KillingJoke.Init();
+            UnstableGems.Init();
+            GreenInspiration.Init();
+            BlueInspiration.Init();
+            WildShape.Init();
+            EasyPickings.Init();
+            Antimagic.Init();
+            SplashZone.Init();
+            Obedient.Init();
+            Snip.Init();
+            Desperate.Init();
+            Act2TrinketBearer.Init();
+            Omniguardian.Init();
+            Supercharge.Init();
+            Cleaving.Init();
+            MorphMover.Init();
+            Backup.Init();
+            SapphireDependant.Init();
+            RubyDependant.Init();
+            EmeraldDependant.Init();
+            BombsAway.Init();
+            SigilMimic.Init();
+            MysteryMox.Init();
+            Recycle.Init();
+            BatchDelete.Init();
+            Unhammerable.Init();
+            Absorber.Init();
+            Marcescent.Init();
+            DoubleTap.Init();
+            Dripping.Init();
+            UnderPressure.Init();
+            Regenerator.Init();
+            Exhume.Init();
+            Lockdown.Init();
+            Magitech.Init();
+            QuadStrike.Init();
+            GemShedder.Init();
+            SwitchStrike.Init();
+            Bombjuration.Init();
+            Firebomb.Init();
+            Piercing.Init();
+            PreemptiveStrike.Init();
+            Bloodguzzler.Init();
+            Eternal.Init();
+            Giant.Init();
+            HighPowered.Init();
+            Rupture.Init();
+            Ranger.Init();
+            Rememberance.Init();
+            Toxic.Init();
+            Waterbird.Init();
+            Bloated.Init();
+            Draw.Init();
+            FrogFriend.Init();
+            L33pLeaver.Init();
+            Deadringer.Init();
+            PutSentryHere.Init();
+            CircuitMaker.Init();
+            VivaLaRevolution.Init();
 
             //LATCH SIGILS
             WaterborneLatch.Init();
@@ -245,6 +330,10 @@ namespace NevernamedsSigils
             HaunterLatch.Init();
             OverclockedLatch.Init();
             GemLatch.Init();
+            AirborneLatch.Init();
+            AnnoyingLatch.Init();
+            SniperLatch.Init();
+            TotemLatch.Init();
 
             //CONDUIT SIGILS
             //Act 1 "Bonds"
@@ -253,9 +342,28 @@ namespace NevernamedsSigils
             TenderBond.Init();
             BillowingBond.Init();
             //Other Conduits
+            GraveConduit.Init();
+            StimConduit.Init();
+            LootConduit.Init();
+            MalfunctioningConduit.Init();
+            GunConduit.Init();
+            ThornyConduit.Init();
+            ElderConduit.Init();
+            NanoConduit.Init();
+            HotConduit.Init();
+            SapphireConduit.Init();
+            RubyConduit.Init();
+            EmeraldConduit.Init();
 
             //CONDUITREACTIVE
             RepulsiveWhenPowered.Init();
+            SplashDamageWhenPowered.Init();
+            GiftWhenPoweredCustom.Init();
+            DoubleStrikeWhenPowered.Init();
+            OmnipotentWhenPowered.Init();
+            MorselWhenPowered.Init();
+            PoweredQuills.Init();
+            PrintWhenPowered.Init();
 
             //ACTIVATED SIGILS
             Fetch.Init();
@@ -273,6 +381,15 @@ namespace NevernamedsSigils
             Deadbeat.Init();
             Bloodbait.Init();
             TrainedSwimmer.Init();
+            Gorge.Init();
+            PunchingBag.Init();
+            FairTrade.Init();
+            Broodfeast.Init();
+            PickyEater.Init();
+            Escape.Init();
+            Spellsword.Init();
+            Sharpen.Init();
+            ExaltedRune.Init();
 
             //VARIABLE STATS
             AntPlusTwo.Init();
@@ -295,6 +412,14 @@ namespace NevernamedsSigils
             HalfCharged.Init();
             Greenhorn.Init();
             Fabled.Init();
+            MagickePower.Init();
+            CrabDance.Init();
+            HandOnHeart.Init();
+            Lithophile.Init();
+            Firepower.Init();
+            FollowTheLeader.Init();
+            Starved.Init();
+            DrawnOut.Init();
 
             //SPECIAL ABILITIES
             InherentFecundity.Init();
@@ -303,16 +428,22 @@ namespace NevernamedsSigils
             SigilShedder.Init();
             InherentUndying.Init();
             InherentCardOnHit.Init();
-
-            CustomAppearances.Init();
+            InherentGooey.Init();
+            InherentCardShedder.Init();
+            BetterRandomCard.Init();
+            InherentGraveyardShift.Init();
+            Act2SpawnLice.Init();
+            Act2Shapeshifter.Init();
 
             Cards.Init();
+            FaceToFaceCardsInit.Init();
+            Act2ItemCards.Init();
 
             CardManager.BaseGameCards.CardByName("EmptyVessel").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/act2emptyves_pixel.png"));
             CardManager.BaseGameCards.CardByName("EmptyVessel_GreenGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/emeraldvessel_pixel.png"));
             CardManager.BaseGameCards.CardByName("EmptyVessel_OrangeGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/rubyvessel_pixel.png"));
             CardManager.BaseGameCards.CardByName("EmptyVessel_BlueGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/sapphirevessel_pixel.png"));
-            
+
 
 
             CardManager.ModifyCardList += delegate (List<CardInfo> cards)
@@ -322,29 +453,44 @@ namespace NevernamedsSigils
                     if (card.decals == null) card.decals = new List<Texture>();
                     card.decals.Add(NoBonesDecal);
                 }
-               /* foreach (CardInfo card in cards)
+                bool addArachnid = ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.tribes.Contains(NevernamedsTribes.Arachnid)).Count > 0;
+                bool addCrustacean = ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.tribes.Contains(NevernamedsTribes.Crustacean)).Count > 0;
+                bool addRodent = ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.tribes.Contains(NevernamedsTribes.Rodent)).Count > 0;
+                foreach (CardInfo inf in cards)
                 {
-                    card.mods.Add(new CardModificationInfo() { gemify = true });
-                }*/
+                    if (toBeMadeArachnid.Contains(inf.name) && addArachnid) { inf.tribes.Add(NevernamedsTribes.Arachnid); }
+                    if (toBeMadeCrustacean.Contains(inf.name) && addCrustacean) { inf.tribes.Add(NevernamedsTribes.Crustacean); }
+                    if (toBeMadeRodent.Contains(inf.name) && addRodent) { inf.tribes.Add(NevernamedsTribes.Rodent); }
+                    if (inf.GetExtendedProperty("SigilariumGemified") != null) { inf.Mods.Add(new CardModificationInfo() { gemify = true }); }
+                }
+
                 return cards;
             };
-            StartCoroutine(LateAwaken());
+            AbilityManager.ModifyAbilityList += delegate (List<FullAbility> abilities)
+            {
+                return abilities;
+            };
         }
-        private static IEnumerator LateAwaken()
+        public static List<string> toBeMadeRodent = new List<string>()
         {
-            yield return null;
-            if (ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.tribes.Contains(NevernamedsTribes.Arachnid)).Count > 0)
-            {
-                CardManager.BaseGameCards.CardByName("Amalgam").tribes.Add(NevernamedsTribes.Arachnid);
-                CardManager.BaseGameCards.CardByName("Hydra").tribes.Add(NevernamedsTribes.Arachnid);
-            }
-            if (ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.tribes.Contains(NevernamedsTribes.Crustacean)).Count > 0)
-            {
-                CardManager.BaseGameCards.CardByName("Amalgam").tribes.Add(NevernamedsTribes.Crustacean);
-                CardManager.BaseGameCards.CardByName("Hydra").tribes.Add(NevernamedsTribes.Crustacean);
-            }
-            yield break;
-        }
+            "Amalgam",
+            "Hydra",
+            "PackRat",
+            "Porcupine",
+            "Beaver",
+            "FieldMouse",
+            "RatKing"
+        };
+        public static List<string> toBeMadeArachnid = new List<string>()
+        {
+            "Amalgam",
+            "Hydra"
+        };
+        public static List<string> toBeMadeCrustacean = new List<string>()
+        {
+            "Amalgam",
+            "Hydra"
+        };
         public static AssetBundle LoadBundle(string path)
         {
             using (Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream(path.Replace("\\", ".").Replace("/", ".")))
@@ -352,10 +498,18 @@ namespace NevernamedsSigils
                 return AssetBundle.LoadFromStream(s);
             }
         }
+
+        public static List<CardInfo> mycoRequiredCardAdded = new List<CardInfo>();
+        public static List<CardInfo> mycoFusedCardAdded = new List<CardInfo>();
+
+        internal static ConfigEntry<bool> arachnophobiaMode;
+
         public static Texture2D NoBonesDecal;
-        public static Sprite PixelGemifiedDecal;
-        public static Sprite PixelGemifiedOrangeLit;
-        public static Sprite PixelGemifiedBlueLit;
-        public static Sprite PixelGemifiedGreenLit;
+        public static readonly AbilityMetaCategory GrimoraModChair1 = (AbilityMetaCategory)GuidManager.GetEnumValue<AbilityMetaCategory>("arackulele.inscryption.grimoramod", "ElectricChairLevel1");
+        public static readonly AbilityMetaCategory GrimoraModChair2 = (AbilityMetaCategory)GuidManager.GetEnumValue<AbilityMetaCategory>("arackulele.inscryption.grimoramod", "ElectricChairLevel2");
+        public static readonly AbilityMetaCategory GrimoraModChair3 = (AbilityMetaCategory)GuidManager.GetEnumValue<AbilityMetaCategory>("arackulele.inscryption.grimoramod", "ElectricChairLevel3");
+        public static readonly AbilityMetaCategory Part2Modular = (AbilityMetaCategory)GuidManager.GetEnumValue<AbilityMetaCategory>("cyantist.inscryption.api", "Part2Modular");
+
+        public static readonly CardMetaCategory GrimoraChoiceNode = GuidManager.GetEnumValue<CardMetaCategory>("arackulele.inscryption.grimoramod", "GrimoraModChoiceNode");
     }
 }

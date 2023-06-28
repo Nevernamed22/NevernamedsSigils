@@ -14,9 +14,9 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Triple Strike", "creature will strike the opposing space two extra times when attacking.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Triple Strike", "[creature] will strike the opposing space two extra times when attacking.",
                       typeof(TripleStrike),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 5,
                       stackable: false,
                       opponentUsable: false,

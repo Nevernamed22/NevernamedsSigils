@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Snare", "When [creature] is played opposite a creature, that creature is ensnared and stored within the bearer, being released when the bearer perishes.",
                       typeof(Snare),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: true,
@@ -24,8 +24,10 @@ namespace NevernamedsSigils
 
             ability = newSigil.ability;
             closedIcon = Tools.LoadTex("NevernamedsSigils/Resources/Sigils/snare_closed.png");
+            closedPixelIcon = Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/snareclosed_pixel.png");
         }
         public static Texture closedIcon;
+        public static Texture2D closedPixelIcon;
         public static Ability ability;
         public override Ability Ability
         {
@@ -80,7 +82,7 @@ namespace NevernamedsSigils
                 if (opposing.temporaryMods != null && opposing.temporaryMods.Count > 0) storedTempMods.AddRange(opposing.temporaryMods);
                 storedDamage = opposing.Status.damageTaken;
                 UnityEngine.Object.Destroy(opposing.gameObject);
-                base.Card.RenderInfo.OverrideAbilityIcon(Snare.ability, Snare.closedIcon);
+                base.Card.RenderInfo.OverrideAbilityIcon(Snare.ability, Tools.GetActAsInt() == 2 ? Snare.closedPixelIcon : Snare.closedIcon);
                 base.Card.RenderCard();
                 base.Card.Anim.LightNegationEffect();
             }, true);

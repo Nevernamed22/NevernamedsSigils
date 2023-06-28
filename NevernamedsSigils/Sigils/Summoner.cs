@@ -39,54 +39,93 @@ namespace NevernamedsSigils
         }
         public override IEnumerator OnResolveOnBoard()
         {
-            if (Tools.GetActAsInt() == 1)
+            if (base.Card.OpponentCard)
             {
-                List<CardInfo> beastCards = CardLoader.GetUnlockedCards(CardMetaCategory.ChoiceNode, CardTemple.Nature);
-                if (base.Card.Info.GetExtendedProperty("SummonerGivesRareCards") != null) beastCards = CardLoader.GetUnlockedCards(CardMetaCategory.Rare, CardTemple.Nature);
-                if (beastCards.Count >= 0)
+                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
                 {
-                    List<CardInfo> choices = CardLoader.GetDistinctCardsFromPool(SaveManager.SaveFile.GetCurrentRandomSeed() + (timesActivated * 100), Math.Min(beastCards.Count, NumberOfOptions), beastCards, NumberOfSigils, false);
-                    if (choices.Count > 0)
+                    CardInfo toQueue = Tools.GetRandomCardOfTempleAndQuality(base.Card.Info.temple, Tools.GetActAsInt(), base.Card.Info.GetExtendedProperty("SummonerGivesRareCards") != null).Clone() as CardInfo;
+                    if (toQueue != null)
                     {
                         if (base.Card.Info.GetExtendedProperty("SummonerAdoptsMods") != null)
                         {
-                            foreach (CardInfo info in choices) { info.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Summoner.ability })); }
+                            toQueue.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Summoner.ability }));
+                        }
+                        if (NumberOfSigils > 0)
+                        {
+                            for (int i = 0; i < NumberOfSigils; i++)
+                            {
+                                CardModificationInfo inf = new CardModificationInfo();
+                                inf.abilities.Add(Tools.GetModularSigilForActAndCard(Tools.GetActAsInt(), 0, 5, toQueue, new List<Ability>() { Summoner.ability }));
+                                toQueue.Mods.Add(inf);
+                            }
                         }
 
-                        yield return base.PreSuccessfulTriggerSequence();
-                        yield return SpecialCardSelectionHandler.DoSpecialCardSelectionDraw(choices, false);
+                        PlayableCard playableCard = CardSpawner.SpawnPlayableCard(toQueue);
+                        playableCard.SetIsOpponentCard(true);
 
-                        Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+                        Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                        Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                            Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                     }
-                    else { base.Card.Anim.StrongNegationEffect(); }
-                    yield return base.LearnAbility(0.25f);
                 }
+
+
             }
-            else if (Tools.GetActAsInt() == 3)
+            else
             {
-                List<CardInfo> techCards = CardLoader.GetUnlockedCards(CardMetaCategory.Part3Random, CardTemple.Tech);
-                if (base.Card.Info.GetExtendedProperty("SummonerGivesRareCards") != null)
+
+
+                if (Tools.GetActAsInt() == 1)
                 {
-                    List<CardInfo> temp = techCards.FindAll((CardInfo x) => x.metaCategories.Contains(CardMetaCategory.Rare));
-                    techCards = temp;
-                }
-                if (techCards.Count >= 0)
-                {
-                    List<CardInfo> choices = CardLoader.GetDistinctCardsFromPool(SaveManager.SaveFile.GetCurrentRandomSeed() + (timesActivated * 100), Math.Min(techCards.Count, NumberOfOptions), techCards, NumberOfSigils, false);
-                    if (choices.Count > 0)
+                    List<CardInfo> beastCards = CardLoader.GetUnlockedCards(CardMetaCategory.ChoiceNode, CardTemple.Nature);
+                    if (base.Card.Info.GetExtendedProperty("SummonerGivesRareCards") != null) beastCards = CardLoader.GetUnlockedCards(CardMetaCategory.Rare, CardTemple.Nature);
+                    if (beastCards.Count >= 0)
                     {
-                        if (base.Card.Info.GetExtendedProperty("SummonerAdoptsMods") != null)
+                        List<CardInfo> choices = CardLoader.GetDistinctCardsFromPool(SaveManager.SaveFile.GetCurrentRandomSeed() + (timesActivated * 100), Math.Min(beastCards.Count, NumberOfOptions), beastCards, NumberOfSigils, false);
+                        if (choices.Count > 0)
                         {
-                            foreach (CardInfo info in choices) { info.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Summoner.ability })); }
+                            if (base.Card.Info.GetExtendedProperty("SummonerAdoptsMods") != null)
+                            {
+                                foreach (CardInfo info in choices) { info.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Summoner.ability })); }
+                            }
+
+                            yield return base.PreSuccessfulTriggerSequence();
+                            yield return SpecialCardSelectionHandler.DoSpecialCardSelectionDraw(choices);
+
+                            Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
                         }
-
-                        yield return base.PreSuccessfulTriggerSequence();
-                        yield return SpecialCardSelectionHandler.DoSpecialCardSelectionDraw(choices, false);
-
-                        Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+                        else { base.Card.Anim.StrongNegationEffect(); }
+                        yield return base.LearnAbility(0.25f);
                     }
-                    else { base.Card.Anim.StrongNegationEffect(); }
-                    yield return base.LearnAbility(0.25f);
+                }
+                else if (Tools.GetActAsInt() == 3)
+                {
+                    List<CardInfo> techCards = CardLoader.GetUnlockedCards(CardMetaCategory.Part3Random, CardTemple.Tech);
+                    if (base.Card.Info.GetExtendedProperty("SummonerGivesRareCards") != null)
+                    {
+                        List<CardInfo> temp = techCards.FindAll((CardInfo x) => x.metaCategories.Contains(CardMetaCategory.Rare));
+                        techCards = temp;
+                    }
+                    if (techCards.Count >= 0)
+                    {
+                        List<CardInfo> choices = CardLoader.GetDistinctCardsFromPool(SaveManager.SaveFile.GetCurrentRandomSeed() + (timesActivated * 100), Math.Min(techCards.Count, NumberOfOptions), techCards, NumberOfSigils, false);
+                        if (choices.Count > 0)
+                        {
+                            if (base.Card.Info.GetExtendedProperty("SummonerAdoptsMods") != null)
+                            {
+                                foreach (CardInfo info in choices) { info.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Summoner.ability })); }
+                            }
+
+                            yield return base.PreSuccessfulTriggerSequence();
+                            yield return SpecialCardSelectionHandler.DoSpecialCardSelectionDraw(choices);
+
+                            Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
+                        }
+                        else { base.Card.Anim.StrongNegationEffect(); }
+                        yield return base.LearnAbility(0.25f);
+                    }
                 }
             }
             timesActivated++;

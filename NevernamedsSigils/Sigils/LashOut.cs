@@ -15,10 +15,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Lash Out", "At the end of the owner's turn, [creature] will attack a random opposing slot.",
                       typeof(LashOut),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular },
                       powerLevel: 3,
                       stackable: false,
-                      opponentUsable: true,
+                      opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/lashout.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/lashout_pixel.png"));
 

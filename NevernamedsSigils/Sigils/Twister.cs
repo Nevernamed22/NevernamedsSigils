@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Twister", "When struck, [creature] will transform to or from it's alternate form.",
                       typeof(Twister),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: true,
@@ -76,6 +76,8 @@ namespace NevernamedsSigils
                 yield return base.Card.TransformIntoCard(target);
                 yield return new WaitForSeconds(0.3f);
                 yield return base.LearnAbility(0.5f);
+
+                if (base.Card.GetComponent<BloodDependent>()) { base.Card.GetComponent<BloodDependent>().hasAttackedThisTurn = true; }
             }
             else //Gonna do a generic stat transformation
             {

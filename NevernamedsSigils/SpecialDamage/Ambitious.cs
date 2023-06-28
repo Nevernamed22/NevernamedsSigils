@@ -19,7 +19,8 @@ namespace NevernamedsSigils
                typeof(Ambitious),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
                tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/ambitious.png"),
-               pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/ambitious_pixel.png"));
+               pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/ambitious_pixel.png"),
+               gbcDescription: "[creature]s power is equal to the power of the creature with the highest attack power on the board. Recalculates each turn.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Ambitious", typeof(Ambitious)).Id;
 

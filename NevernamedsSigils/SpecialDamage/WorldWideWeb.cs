@@ -18,8 +18,9 @@ namespace NevernamedsSigils
 			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("World Wide Web", "The value represented with this sigil will be equal to the number of arachnid tribe creatures on the board, including opponent creatures.",
 			   typeof(WorldWideWeb),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
-			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/worldwideweb.png"),
-			   pixelTex: null);
+			   tex: Plugin.arachnophobiaMode.Value	? Tools.LoadTex("NevernamedsSigils/Resources/Sigils/web.png") : Tools.LoadTex("NevernamedsSigils/Resources/Other/worldwideweb.png"),
+			   pixelTex: null,
+			   gbcDescription: "[creature]s power is equal to the number of arachnid tribe creatures on the board, including opponent creatures.");
 			ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "WorldWideWeb", typeof(WorldWideWeb)).Id;
 
 			WorldWideWeb.specialStatIcon = icon.iconType;

@@ -9,11 +9,157 @@ using BepInEx.Logging;
 using System.Collections;
 using Pixelplacement;
 using DigitalRuby.LightningBolt;
+using GBC;
+using InscryptionAPI.Resource;
 
 namespace NevernamedsSigils
 {
     public static class Tools
     {
+        public static GameObject act1holotarget = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon");
+        public static GameObject act3holotarget = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/SniperTargetIcon");
+
+        public static int CombinedPower (this List<Ability> abilities)
+        {
+            int toReturn = 0;
+            foreach(Ability inst in abilities) { toReturn += AbilitiesUtil.GetInfo(inst).powerLevel; }
+            return toReturn;
+        }
+        public static List<Ability> GetModularSigilsForAct(int act, int minPower, int maxPower)
+        {
+            List<Ability> all = new List<Ability>();
+            switch (act)
+            {
+                case 1:
+                    List<AbilityInfo> newli0 = ScriptableObjectLoader<AbilityInfo>.AllData.FindAll((AbilityInfo x) => x.powerLevel >= minPower && x.powerLevel <= maxPower && x.metaCategories.Contains(AbilityMetaCategory.Part1Modular));
+                    foreach (AbilityInfo inf in newli0) { all.Add(inf.ability); }
+                    break;
+                case 2:
+                    List<AbilityInfo> newli = ScriptableObjectLoader<AbilityInfo>.AllData.FindAll((AbilityInfo x) => x.powerLevel >= minPower && x.powerLevel <= maxPower && x.metaCategories.Contains(Plugin.Part2Modular));
+                    foreach(AbilityInfo inf in newli) { all.Add(inf.ability); }
+                    break;
+                case 3:
+                    List<AbilityInfo> newli2 = ScriptableObjectLoader<AbilityInfo>.AllData.FindAll((AbilityInfo x) => x.powerLevel >= minPower && x.powerLevel <= maxPower && x.metaCategories.Contains(AbilityMetaCategory.Part3Modular));
+                    foreach (AbilityInfo inf in newli2) { all.Add(inf.ability); }
+                    break;
+                case 4:
+                    List<AbilityInfo> newli3 = ScriptableObjectLoader<AbilityInfo>.AllData.FindAll((AbilityInfo x) => x.powerLevel >= minPower && x.powerLevel <= maxPower && (x.metaCategories.Contains(Plugin.GrimoraModChair1) || x.metaCategories.Contains(Plugin.GrimoraModChair2) || x.metaCategories.Contains(Plugin.GrimoraModChair3)));
+                    foreach (AbilityInfo inf in newli3) { all.Add(inf.ability); }
+                    break;
+            }
+            return all;
+        }
+        public static Ability GetModularSigilForAct(int act, int minpower, int maxpower, List<Ability> forbiddenAbilities)
+        {
+            List<Ability> abilities = GetModularSigilsForAct(act, minpower, maxpower);
+            abilities.RemoveAll((Ability x) => forbiddenAbilities != null && forbiddenAbilities.Contains(x));
+            if (abilities.Count > 0)
+            {
+                return abilities[SeededRandom.Range(0, abilities.Count, GetRandomSeed())];
+            }
+            else return Ability.Sharp;
+        }
+        public static Ability GetModularSigilForActAndCard(int act, int minpower, int maxpower, PlayableCard card, List<Ability> forbiddenAbilities)
+        {
+            List<Ability> abilities = GetModularSigilsForAct(act, minpower, maxpower);
+            abilities.RemoveAll((Ability x) => card.HasAbility(x) || (forbiddenAbilities != null && forbiddenAbilities.Contains(x)));
+            if (abilities.Count > 0)
+            {
+                return abilities[SeededRandom.Range(0, abilities.Count, GetRandomSeed())];
+            }
+            else return Ability.Sharp;
+        }
+        public static Ability GetModularSigilForActAndCard(int act, int minpower, int maxpower, CardInfo card, List<Ability> forbiddenAbilities)
+        {
+            List<Ability> abilities = GetModularSigilsForAct(act, minpower, maxpower);
+            abilities.RemoveAll((Ability x) => card.HasAbility(x) || (forbiddenAbilities != null && forbiddenAbilities.Contains(x)));
+            if (abilities.Count > 0)
+            {
+                return abilities[SeededRandom.Range(0, abilities.Count, GetRandomSeed())];
+            }
+            else return Ability.Sharp;
+        }
+        private static void AddResources()
+        {
+            /*    ResourceBankManager.Add(Plugin.PluginGuid, new ResourceBank.Resource()
+                {
+                    path = $"Art/Cards/Decals/thing",
+                    asset = Tools.LoadTex("NevernamedsSigils/Resources/Sigils/cleaving.png"),
+                });*/
+        }
+        public static bool IsEven(this int num)
+        {
+            return num % 2 == 0;
+        }
+        public static GameObject DeathcardCorner = ResourceBank.Get<GameObject>("Prefabs/GBCCardBattle/PixelDeathcardOverlay");
+        public static IEnumerator GenerateAndGiveCompletelyRandomAct2Deathcard(int statPoints)
+        {
+            yield break;
+        }
+        public static IEnumerator GenerateandGiveAct2Deathcard(CardInfo abilities, CardInfo stats, CardInfo cost)
+        {
+            CardInfo cardByName = CardLoader.GetCardByName("!DEATHCARD_PIXEL_BASE");
+            cardByName.pixelPortrait = abilities.pixelPortrait;
+            cardByName.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>() { CustomAppearances.PixelDeathcardBackground };
+            cardByName.mods.Add(new CardModificationInfo
+            {
+                attackAdjustment = stats.Attack,
+                healthAdjustment = stats.Health,
+                abilities = new List<Ability>(abilities.Abilities),
+                bloodCostAdjustment = cost.BloodCost,
+                bonesCostAdjustment = cost.BonesCost,
+                energyCostAdjustment = cost.EnergyCost,
+                addGemCost = cost.gemsCost
+            });
+            yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(cardByName, null, 0.25f, delegate (PlayableCard c)
+            {
+                GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(DeathcardCorner);
+                PixelCardDisplayer componentInChildren = c.GetComponentInChildren<PixelCardDisplayer>();
+                gameObject.transform.parent = componentInChildren.CardElements.transform;
+                gameObject.transform.localPosition = Vector2.zero;
+                gameObject.transform.Find("Portrait").GetComponent<SpriteRenderer>().sprite = cost.pixelPortrait;
+            });
+            yield break;
+        }
+        public static PlayableCard GenerateandSpawnAct2Deathcard(CardInfo abilities, CardInfo stats, CardInfo cost)
+        {
+            CardInfo cardByName = CardLoader.GetCardByName("!DEATHCARD_PIXEL_BASE");
+            cardByName.pixelPortrait = abilities.pixelPortrait;
+            cardByName.appearanceBehaviour = new List<CardAppearanceBehaviour.Appearance>() { CustomAppearances.PixelDeathcardBackground };
+            cardByName.mods.Add(new CardModificationInfo
+            {
+                attackAdjustment = stats.Attack,
+                healthAdjustment = stats.Health,
+                abilities = new List<Ability>(abilities.Abilities),
+                bloodCostAdjustment = cost.BloodCost,
+                bonesCostAdjustment = cost.BonesCost,
+                energyCostAdjustment = cost.EnergyCost,
+                addGemCost = cost.gemsCost
+            });
+            PlayableCard playableCard = CardSpawner.SpawnPlayableCard(cardByName);
+            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(DeathcardCorner);
+            PixelCardDisplayer componentInChildren = playableCard.GetComponentInChildren<PixelCardDisplayer>();
+            gameObject.transform.parent = componentInChildren.CardElements.transform;
+            gameObject.transform.localPosition = Vector2.zero;
+            gameObject.transform.Find("Portrait").GetComponent<SpriteRenderer>().sprite = cost.pixelPortrait;
+            return playableCard;
+        }
+        public static Texture2D textureFromSprite(this Sprite sprite)
+        {
+            if (sprite.rect.width != sprite.texture.width)
+            {
+                Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+                Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
+                                                             (int)sprite.textureRect.y,
+                                                             (int)sprite.textureRect.width,
+                                                             (int)sprite.textureRect.height);
+                newText.SetPixels(newColors);
+                newText.Apply();
+                return newText;
+            }
+            else
+                return sprite.texture;
+        }
         public static IEnumerator CardZapCard(PlayableCard originator, PlayableCard target, float duration)
         {
             Singleton<TableVisualEffectsManager>.Instance.ThumpTable(0.3f);
@@ -269,7 +415,7 @@ namespace NevernamedsSigils
             card.Status.hiddenAbilities.Add(toRemove);
             card.RenderCard();
         }
-        public static CardInfo GetRandomCardOfTempleAndQuality(CardTemple temple, int act, bool isRare, Tribe requiredTribe = Tribe.None, bool checkDependant = false, List<string> excludedCards = null)
+        public static CardInfo GetRandomCardOfTempleAndQuality(CardTemple temple, int act, bool isRare, Tribe requiredTribe = Tribe.None, bool checkDependant = false, List<string> excludedCards = null, int seedIncrement = 0)
         {
             CardMetaCategory categoryToCheck = CardMetaCategory.NUM_CATEGORIES;
             if (act > 0 && act < 4)
@@ -292,6 +438,7 @@ namespace NevernamedsSigils
                         break;
                     case CardTemple.Undead:
                         if (act == 2) categoryToCheck = CardMetaCategory.GBCPack;
+                        else if (act == 4) categoryToCheck = Plugin.GrimoraChoiceNode;
                         else Debug.LogWarning($"Tried to get a card of the {temple} temple in act {act} which is not a valid act for the given temple.");
                         break;
                     case CardTemple.Wizard:
@@ -318,7 +465,7 @@ namespace NevernamedsSigils
                 ((requiredTribe == Tribe.None) || x.tribes.Contains(requiredTribe) &&
                 (excludedCards == null || !excludedCards.Contains(x.name)))
             );
-                if (cards.Count > 0) return SeededRandomElement(cards, GetRandomSeed());
+                if (cards.Count > 0) return SeededRandomElement(cards, GetRandomSeed() + seedIncrement);
                 else return null;
             }
             else Debug.LogWarning($"Valid category for given criteria was not found!");

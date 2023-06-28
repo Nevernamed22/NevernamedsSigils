@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Cheater", "When [creature] attacks an opposing creature and it perishes, the opponent is dealt 1 damage.",
                       typeof(Cheater),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.BountyHunter },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.BountyHunter, Plugin.Part2Modular },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: true,

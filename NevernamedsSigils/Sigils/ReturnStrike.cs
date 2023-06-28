@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Return Strike", "When [creature] is struck, it attacks in retaliation.",
                       typeof(ReturnStrike),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, Plugin.GrimoraModChair2, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: true,

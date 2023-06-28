@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Tug", "When [creature] is played, it will draw the queued opposing creature into the main opposing space, if possible.",
                       typeof(Tug),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair1 },
                       powerLevel: 1,
                       stackable: false,
                       opponentUsable: false,
@@ -34,11 +34,27 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToResolveOnBoard()
         {
-            return base.Card.slot && base.Card.slot.opposingSlot && !base.Card.slot.opposingSlot.Card && Singleton<BoardManager>.Instance.GetCardQueuedForSlot(base.Card.slot.opposingSlot);
+            return base.Card.slot && base.Card.slot.opposingSlot && !base.Card.slot.opposingSlot.Card;
         }
         public override IEnumerator OnResolveOnBoard()
         {
-            yield return PlayQueuedCard(Singleton<BoardManager>.Instance.GetCardQueuedForSlot(base.Card.slot.opposingSlot));
+            if (base.Card.OpponentCard)
+            {
+                int index = base.Card.slot.Index;
+                if (Singleton<PlayerHand>.Instance.CardsInHand != null && Singleton<PlayerHand>.Instance.CardsInHand.Count > base.Card.slot.Index)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    yield return base.PreSuccessfulTriggerSequence();
+
+                    yield return Singleton<PlayerHand>.Instance.PlayCardOnSlot(Singleton<PlayerHand>.Instance.CardsInHand[index], base.Card.slot.opposingSlot);
+
+                    yield return base.LearnAbility(0.5f);
+                }
+            }
+            else if (Singleton<BoardManager>.Instance.GetCardQueuedForSlot(base.Card.slot.opposingSlot))
+            {
+                yield return PlayQueuedCard(Singleton<BoardManager>.Instance.GetCardQueuedForSlot(base.Card.slot.opposingSlot));
+            }
             yield break;
         }
         public static IEnumerator PlayQueuedCard(PlayableCard queuedCard)

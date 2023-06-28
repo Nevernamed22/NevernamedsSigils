@@ -15,11 +15,12 @@ namespace NevernamedsSigils
 		public static SpecialTriggeredAbility ability;
 		public static void Init()
 		{
-			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Fabled", "The value represented with this sigil will be equal to the number of rare creatures on the board, multiplied by 2.",
+			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Fabled", "The value represented with this sigil will be equal to twice the number of rare creatures on the board.",
 			   typeof(Fabled),
 			   categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook },
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/fabled.png"),
-			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/fabled_pixel.png"));
+			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/fabled_pixel.png"),
+			   gbcDescription: "[creature]s power is equal to twice the number of rare creatures on the board.");
 
 			ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Fabled", typeof(Fabled)).Id;
 			Fabled.specialStatIcon = icon.iconType;

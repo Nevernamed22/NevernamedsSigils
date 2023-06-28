@@ -106,7 +106,7 @@ namespace NevernamedsSigils
                 yield return SpecialCardSelectionHandler.DoSpecialCardSelectionReturn(delegate (CardInfo c)
                 {
                     selectedCard = c;
-                },selectionOptions, false);
+                },selectionOptions);
                 Ability toAdd = selectedCard.Mods.Find((CardModificationInfo x) => x.singletonId == "UpgradeSubroutineCardSelectionChoice").abilities[0];
 
                 CardModificationInfo permamod = new CardModificationInfo(toAdd);

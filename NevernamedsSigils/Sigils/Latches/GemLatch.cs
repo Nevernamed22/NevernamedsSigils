@@ -41,7 +41,7 @@ namespace NevernamedsSigils
 
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Gem Latch", "When [creature] perishes, its owner chooses a creature to become gemified.",
                       typeof(GemLatch),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3BuildACard },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3BuildACard, Plugin.Part2Modular },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

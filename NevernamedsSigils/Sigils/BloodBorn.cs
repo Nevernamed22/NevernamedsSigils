@@ -14,14 +14,14 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("BloodBorn", "When [creature] is sacrificed, it transforms to or from it's alternate form instead of perishing.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Bloodborn", "When [creature] is sacrificed, it transforms to or from it's alternate form instead of perishing.",
                       typeof(BloodBorn),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 1,
                       stackable: false,
                       opponentUsable: false,
-                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/painfulpresence.png"),
-                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/painfulpresence_pixel.png"));
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/bloodborn.png"),
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/bloodborn_pixel.png"));
 
             BloodBorn.ability = newSigil.ability;
         }

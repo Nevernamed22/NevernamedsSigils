@@ -47,7 +47,25 @@ namespace NevernamedsSigils
                 {
                     if (Singleton<ViewManager>.Instance.CurrentView != View.Default) Singleton<ViewManager>.Instance.SwitchToView(View.Default);
                     CardInfo bottleItemCardInfo = bottleItem.cardInfo;
+                    if (base.Card.OpponentCard)
+                    {
+                        if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                        {
+                            PlayableCard playableCard = CardSpawner.SpawnPlayableCard(bottleItemCardInfo);
+                            playableCard.SetIsOpponentCard(true);
+                            Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                            Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                                Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                            Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                        }
+
+                    }
+                    else
+                    {
+
                     yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(bottleItemCardInfo, null, 0.25f);
+                    }
 
                 }
             }

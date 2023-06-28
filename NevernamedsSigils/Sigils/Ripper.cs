@@ -14,9 +14,9 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Ripper", "[creature] will move to and consume any small creatures such as squirrels placed on the board, and becomes stronger for each one consumed.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Ripper", "[creature] will move to and destroy any free, 1 health, non-terrain creatures played, and becomes stronger for each one consumed.",
                       typeof(Ripper),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

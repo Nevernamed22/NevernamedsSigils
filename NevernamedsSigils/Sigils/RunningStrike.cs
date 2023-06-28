@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Running Strike", "After attacking, [creature] will move in the direction inscribed on the sigil, striking the space opposing it's destination as it does so.",
                       typeof(RunningStrike),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, Plugin.GrimoraModChair2, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: true,
@@ -72,7 +72,7 @@ namespace NevernamedsSigils
                     yield return attackSlot(destination.opposingSlot);
                     yield return new WaitForSeconds(0.8f);
                 }
-                if (!base.Card.HasAbility(Stalwart.ability)) yield return this.MoveToSlot(destination);
+                if (!base.Card.HasAbility(Stalwart.ability) && destination.Card == null) yield return this.MoveToSlot(destination);
                 yield return base.LearnAbility(0f);
             }
             else

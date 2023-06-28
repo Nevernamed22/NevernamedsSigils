@@ -18,7 +18,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Harbinger", "When a friendly creatures perishes, [creature] will move to fill it's empty space.",
                       typeof(Harbinger),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.BountyHunter },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.BountyHunter, Plugin.GrimoraModChair2, Plugin.Part2Modular },
                       powerLevel: 1,
                       stackable: false,
                       opponentUsable: true,
@@ -38,7 +38,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
         {
-            if (base.Card.slot != null && (base.Card.slot.IsPlayerSlot == deathSlot.IsPlayerSlot) && fromCombat && card.slot != null && !card.InOpponentQueue && !base.Card.HasAbility(Stalwart.ability))
+            if (base.Card.slot != null && (base.Card.slot.IsPlayerSlot == deathSlot.IsPlayerSlot) && fromCombat && card.slot != null && !card.InOpponentQueue && !base.Card.HasAbility(Stalwart.ability) && !base.Card.Dead)
             {
                 return true;
             }

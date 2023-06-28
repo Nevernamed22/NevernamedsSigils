@@ -32,7 +32,7 @@ namespace NevernamedsSigils
             }
         }
         public static Ability ability;
-      
+
         public override bool RespondsToUpkeep(bool playerUpkeep)
         {
             return playerUpkeep != base.Card.OpponentCard && base.Card.OnBoard;
@@ -50,10 +50,27 @@ namespace NevernamedsSigils
                     yield return new WaitForSeconds(0.2f);
                 }
                 CardInfo termite = CardLoader.GetCardByName("SigilNevernamed Termite");
-                termite.Mods.Add( base.Card.CondenseMods(new List<Ability>() { Termatriarch.ability, TermiteKing.ability }));
+                termite.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Termatriarch.ability, TermiteKing.ability }));
                 termite.Mods.Add(slot.Card.CondenseMods(new List<Ability>() { Termatriarch.ability, TermiteKing.ability }));
-                
-                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(termite);
+
+                if (base.Card.OpponentCard)
+                {
+                    if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                    {
+                        PlayableCard playableCard = CardSpawner.SpawnPlayableCard(termite);
+                        playableCard.SetIsOpponentCard(true);
+                        Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                        Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                            Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                    }
+
+                }
+                else
+                {
+                    yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(termite);
+                }
                 yield return new WaitForSeconds(0.45f);
                 yield return base.LearnAbility(0.1f);
             }

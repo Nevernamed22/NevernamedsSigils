@@ -82,14 +82,32 @@ namespace NevernamedsSigils
                     Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
                     yield return new WaitForSeconds(0.2f);
                 }
+                if (base.Card.OpponentCard)
+                {
+                    if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                    {
+                        PlayableCard playableCard = CardSpawner.SpawnPlayableCard(toDraw);
+                    foreach (CardModificationInfo mod in tempMods) { playableCard.AddTemporaryMod(mod); }
+                    playableCard.Status.damageTaken = damageTaken;
+                        playableCard.SetIsOpponentCard(true);
+                        Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
-                PlayableCard playableCard = CardSpawner.SpawnPlayableCard(toDraw);
-                foreach (CardModificationInfo mod in tempMods) { playableCard.AddTemporaryMod(mod); }
-                playableCard.Status.damageTaken = damageTaken;
+                        Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                            Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                    }
 
-                yield return Singleton<PlayerHand>.Instance.AddCardToHand(playableCard, Singleton<CardSpawner>.Instance.spawnedPositionOffset, 0.25f);
-                yield return new WaitForSeconds(0.4f);
-                Singleton<ViewManager>.Instance.SwitchToView(prev, false, false);
+                }
+                else
+                {
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(toDraw);
+                    foreach (CardModificationInfo mod in tempMods) { playableCard.AddTemporaryMod(mod); }
+                    playableCard.Status.damageTaken = damageTaken;
+
+                    yield return Singleton<PlayerHand>.Instance.AddCardToHand(playableCard, Singleton<CardSpawner>.Instance.spawnedPositionOffset, 0.25f);
+                    yield return new WaitForSeconds(0.4f);
+                    Singleton<ViewManager>.Instance.SwitchToView(prev, false, false);
+                }
             }
             yield return base.PreSuccessfulTriggerSequence();
             yield return MoveToSlot(cardSlot, true);

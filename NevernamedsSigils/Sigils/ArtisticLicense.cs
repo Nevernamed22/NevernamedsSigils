@@ -15,12 +15,12 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Artistic License", "When [creature] is played, the creature opposing it loses all sigils.",
                       typeof(ArtisticLicense),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/artisticlicense.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/artisticlicense_pixel.png"));
 
             ArtisticLicense.ability = newSigil.ability;
         }
@@ -50,12 +50,20 @@ namespace NevernamedsSigils
                 card.Anim.PlayTransformAnimation();
                 CardModificationInfo cardModificationInfo = new CardModificationInfo();
                 cardModificationInfo.negateAbilities = new List<Ability>();
+
+                int sigilsRemoved = 0;
                 foreach (CardModificationInfo cardModificationInfo2 in card.TemporaryMods)
                 {
+                    sigilsRemoved += cardModificationInfo2.abilities.Count;
                     cardModificationInfo.negateAbilities.AddRange(cardModificationInfo2.abilities);
                 }
+                sigilsRemoved += card.Info.abilities.Count;
                 cardModificationInfo.negateAbilities.AddRange(card.Info.Abilities);
                 card.AddTemporaryMod(cardModificationInfo);
+
+
+
+                if (base.Card.gameObject.GetComponent<MagickePower>()) { base.Card.gameObject.GetComponent<MagickePower>().RemovedSigilAmount += sigilsRemoved; }
 
                 yield return base.LearnAbility(0.1f);
 

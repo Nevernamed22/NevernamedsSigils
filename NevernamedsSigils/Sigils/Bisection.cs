@@ -43,17 +43,35 @@ namespace NevernamedsSigils
 
             if (!victim.HasTrait(Trait.Terrain) && !victim.HasTrait(Trait.Pelt)) mod.nameReplacement = victim.displayedName + " Corpse";
 
-            victim.cost = 0;
-            victim.bonesCost = 0;
-            victim.energyCost = 0;
-
-            victim.gemsCost = new List<GemType>() { };
-
-            victim.baseHealth = Math.Max(Mathf.FloorToInt(((float)(victim.Health * 0.5) * -1)), 1);
+            mod.bloodCostAdjustment = -victim.cost;
+            mod.bonesCostAdjustment = -victim.bonesCost;
+            mod.energyCostAdjustment = -victim.energyCost;
+            mod.nullifyGemsCost = true;
+            mod.healthAdjustment = (int)-(victim.Health * 0.5f);
             victim.mods.Add(mod);
 
-            yield return base.CreateDrawnCard();
-            yield return base.CreateDrawnCard();
+            for (int i = 0; i < 2; i++)
+            {
+                if (base.Card.OpponentCard)
+                {
+                    if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                    {
+                        PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardToDraw);
+                        playableCard.SetIsOpponentCard(true);
+                        Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                        Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                            Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                    }
+
+                }
+                else
+                {
+                    yield return base.CreateDrawnCard();
+                }
+            }
+
 
             yield return base.LearnAbility(0.4f);
             yield break;

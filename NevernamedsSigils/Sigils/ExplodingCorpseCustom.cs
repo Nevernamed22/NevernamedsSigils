@@ -16,8 +16,8 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Exploding Corpse", "When [creature] perishes, all empty spaces on the board are filled with it's innards.",
                       typeof(ExplodingCorpseCustom),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
-                      powerLevel: 4,
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.GrimoraModChair2, Plugin.Part2Modular },
+                      powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/explodingcorpse.png"),
@@ -28,9 +28,27 @@ namespace NevernamedsSigils
         public CardInfo GetGuts
         {
             get
-            {
-                CardInfo guts = (base.Card.Info.GetExtendedProperty("ExplodingCorpseGutOverride") != null) ? CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("ExplodingCorpseGutOverride")) : CardLoader.GetCardByName("SigilNevernamed Guts");
-
+            {           
+                CardInfo guts = null;
+                if ((base.Card.Info.GetExtendedProperty("ExplodingCorpseGutOverride") != null))
+                {
+                    guts = CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("ExplodingCorpseGutOverride"));
+                }
+                else
+                {
+                    switch (Tools.GetActAsInt())
+                    {
+                        case 3:
+                            guts = CardLoader.GetCardByName("SigilNevernamed Components");
+                            break;
+                        case 4:
+                            guts = CardLoader.GetCardByName("SigilNevernamed GutsGrimora");
+                            break;
+                        default:
+                            guts = CardLoader.GetCardByName("SigilNevernamed Guts");
+                            break;
+                    }
+                }
                 if (base.Card != null)
                 {
 

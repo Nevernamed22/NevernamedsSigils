@@ -16,10 +16,10 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Fringe Strike", "[creature] will always attack the leftmost and rightmost opponent lanes.",
                       typeof(FringeStrike),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, Plugin.GrimoraModChair2, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 4,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/fringestrike.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/fringestrike_pixel.png"));
 

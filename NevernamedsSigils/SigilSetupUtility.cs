@@ -10,7 +10,7 @@ namespace NevernamedsSigils
     class SigilSetupUtility
     {
         public static AbilityInfo MakeNewSigil(string name, string description, Type behaviour, List<AbilityMetaCategory> categories = null, int powerLevel = 0, bool stackable = false, bool opponentUsable = false, Texture tex = null, Texture2D pixelTex = null,
-            bool isConduit = false, bool isActivated = false)
+            bool isConduit = false, bool isActivated = false, string triggerText = null, bool isConduitCell = false)
         {
             AbilityInfo info = AbilityManager.New("nevernamed.inscryption.sigils",
                 name, description,
@@ -22,16 +22,18 @@ namespace NevernamedsSigils
             info.metaCategories = categories != null ? categories : new List<AbilityMetaCategory>() { };
             info.conduit = isConduit;
             info.activated = isActivated;
+            info.triggerText = triggerText;
+            info.conduitCell = isConduitCell;
             return info;
         }
 
-        public static StatIconInfo MakeNewStatIcon(string name, string description, Type behaviour, Texture2D tex = null, Texture2D pixelTex = null, bool isForHealth = false, List<AbilityMetaCategory> categories = null)
+        public static StatIconInfo MakeNewStatIcon(string name, string description, Type behaviour, Texture2D tex = null, Texture2D pixelTex = null, bool isForHealth = false, List<AbilityMetaCategory> categories = null, string gbcDescription = null)
         {
             StatIconInfo info = StatIconManager.New("nevernamed.inscryption.sigils", name, description, behaviour);
 
             info.iconGraphic = tex != null ? tex : Tools.LoadTex("NevernamedsSigils/Resources/Sigils/placeholdersigil.png");
             info.pixelIconGraphic = pixelTex != null ? Tools.GenerateAct2Portrait(pixelTex) : null;
-
+            info.gbcDescription = gbcDescription;
             info.appliesToAttack = !isForHealth;
             info.appliesToHealth = isForHealth;
 

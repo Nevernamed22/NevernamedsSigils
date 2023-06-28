@@ -16,24 +16,32 @@ namespace NevernamedsSigils
         public static void Init()
         {
             baseIcon = Tools.LoadTex("NevernamedsSigils/Resources/Sigils/spurred.png");
+            basePixelIcon = Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/spurred_pixel.png");
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Spurred", "[creature] gains 1 power while the slot opposing it is occupied.",
                       typeof(Spurred),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.BountyHunter },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.BountyHunter, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair1 },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: true,
                       tex: baseIcon,
-                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/spurred_pixel.png"));
+                      pixelTex: basePixelIcon);
 
             Spurred.ability = newSigil.ability;
             countDownIcons = new Dictionary<int, Texture>()
-            {             
+            {
                 {2, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/spurred2.png") },
                 {3, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/spurred3.png") },
             };
+            countDownPixelIcons = new Dictionary<int, Texture>()
+            {
+                {2, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/spurred2_pixel.png") },
+                {3, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/spurred3_pixel.png") },
+            };
         }
         public static Dictionary<int, Texture> countDownIcons;
+        public static Dictionary<int, Texture> countDownPixelIcons;
         public static Texture baseIcon;
+        public static Texture2D basePixelIcon;
         public static Ability ability;
         private bool initialised;
 
@@ -65,7 +73,14 @@ namespace NevernamedsSigils
         }
         private void ReRenderCard()
         {
-            base.Card.RenderInfo.OverrideAbilityIcon(Spurred.ability, countDownIcons.ContainsKey(BuffAmount) ? countDownIcons[BuffAmount] : baseIcon);
+            if (Tools.GetActAsInt() == 2)
+            {
+                base.Card.RenderInfo.OverrideAbilityIcon(Spurred.ability, countDownPixelIcons.ContainsKey(BuffAmount) ? countDownPixelIcons[BuffAmount] : basePixelIcon);
+            }
+            else
+            {
+                base.Card.RenderInfo.OverrideAbilityIcon(Spurred.ability, countDownIcons.ContainsKey(BuffAmount) ? countDownIcons[BuffAmount] : baseIcon);
+            }
             base.Card.RenderCard();
         }
         public override bool RespondsToDrawn()
@@ -86,6 +101,6 @@ namespace NevernamedsSigils
             if (!initialised) { yield return Initialise(); }
             yield break;
         }
-       
+
     }
 }

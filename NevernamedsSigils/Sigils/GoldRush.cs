@@ -19,7 +19,8 @@ namespace NevernamedsSigils
                       powerLevel: 5,
                       stackable: false,
                       opponentUsable: false,
-                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/goldrush.png"));
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/goldrush.png"),
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/goldrush_pixel.png"));
 
             ability = newSigil.ability;
         }
@@ -50,7 +51,14 @@ namespace NevernamedsSigils
                         if (indiv.Card == null)
                         {
                             yield return new WaitForSeconds(0.25f);
+                            if (Tools.GetActAsInt() == 2)
+                            {
+                                yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("SigilNevernamed Act2GoldNugget"), indiv, 0.1f, true);
+                            }
+                            else
+                            {
                             yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("GoldNugget"), indiv, 0.1f, true);
+                            }
                         }
                     }
                 }

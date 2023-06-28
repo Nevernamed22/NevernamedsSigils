@@ -56,34 +56,7 @@ namespace NevernamedsSigils
             
         }
     }*/
-    [HarmonyPatch(typeof(PixelCardDisplayer), nameof(PixelCardDisplayer.UpdateBackground))]
-    public class PixelCardUpdateBackgroundPatch
-    {
-        [HarmonyPostfix]
-        public static void PixelUpdateBackground(PixelCardDisplayer __instance, CardInfo info)
-        {
-            foreach (CardAppearanceBehaviour.Appearance appearance in info.appearanceBehaviour)
-            {
-                CardAppearanceBehaviourManager.FullCardAppearanceBehaviour fullApp = CardAppearanceBehaviourManager.AllAppearances.Find((CardAppearanceBehaviourManager.FullCardAppearanceBehaviour x) => x.Id == appearance);
-                if (fullApp != null && fullApp.AppearanceBehaviour != null)
-                {
-                    Component behav = __instance.gameObject.GetComponent(fullApp.AppearanceBehaviour);
-                    if (behav == null) behav = __instance.gameObject.AddComponent(fullApp.AppearanceBehaviour);
-
-                    if (behav is PixelAppearanceBehaviour && (behav as PixelAppearanceBehaviour).OverrideBackground() != null)
-                    {
-                        Sprite back = (behav as PixelAppearanceBehaviour).OverrideBackground();
-                        SpriteRenderer component = __instance.GetComponent<SpriteRenderer>();
-                        if (component != null)
-                        {
-                            component.sprite = back;
-                        }
-                    }
-                    UnityEngine.Object.Destroy(behav);
-                }
-            }
-        }
-    }
+    
 
     [HarmonyPatch(typeof(BoardManager3D), "OffsetCardNearBoard", 0)]
     public class OffsetSacrificeDemanderPatch
@@ -110,4 +83,28 @@ namespace NevernamedsSigils
               }
           }
       }*/
+
+    [HarmonyPatch(typeof(CardInfo), "GetGBCDescriptionLocalized")]
+    public class GBCDescriptionPatch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(List<Ability> allAbilities, CardInfo __instance, ref string __result)
+        {
+            if (__instance && __instance.HasTrait(Trait.Pelt))
+            {
+                string altered = $"{__instance.DisplayedNameEnglish} is a pelt." + " \n" + __result;
+                __result = altered;
+            }
+            if (__instance && __instance.GetExtendedProperty("PreventBones") != null)
+            {
+                string altered = "DOES NOT YIELD A BONE." + " \n" + __result;
+                __result = altered;
+            }
+            if (__instance && __instance.GetExtendedProperty("CardAlwaysSacrificeable") != null)
+            {
+                string altered = __result.Replace(Localization.Translate("CAN'T BE SACRIFICED."), "");
+                __result = altered;
+            }
+        }
+    }
 }

@@ -36,7 +36,7 @@ namespace NevernamedsSigils
         {
             return playerUpkeep != base.Card.OpponentCard;
         }
-        bool hasAttackedThisTurn;
+      public  bool hasAttackedThisTurn;
         public override bool RespondsToOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)
         {
             return attacker == base.Card;

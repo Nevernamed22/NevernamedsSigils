@@ -19,7 +19,8 @@ namespace NevernamedsSigils
 			   typeof(DamageDice),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/damagedice.png"),
-			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/damagedice_pixel.png"));
+			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/damagedice_pixel.png"),
+			   gbcDescription: "[creature]s power starts at 3, and will become a random number between 1 and 6 at the start of each subsequent turn.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "DamageDice", typeof(DamageDice)).Id;
 			DamageDice.specialStatIcon = icon.iconType;

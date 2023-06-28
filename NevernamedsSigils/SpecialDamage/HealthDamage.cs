@@ -17,7 +17,8 @@ namespace NevernamedsSigils
 			   typeof(HealthDamage),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/healthdamage.png"),
-			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/healthdamage_pixel.png"));
+			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/healthdamage_pixel.png"),
+			   gbcDescription: "[creature]s power is equal to its health.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "HealthDamage", typeof(HealthDamage)).Id;
 			HealthDamage.specialStatIcon = icon.iconType;

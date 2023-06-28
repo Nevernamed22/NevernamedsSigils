@@ -47,7 +47,23 @@ namespace NevernamedsSigils
 
             for (int i = 0; i < base.Card.Health; i++)
             {
-                yield return base.CreateDrawnCard();
+                if (base.Card.OpponentCard)
+                {
+                    if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
+                    {
+                        PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardToDraw);
+                        playableCard.SetIsOpponentCard(true);
+                        Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
+
+                        Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
+                            Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
+                    }
+                }
+                else
+                {
+                    yield return base.CreateDrawnCard();
+                }
             }
             yield return base.Card.Die(false);
 
@@ -62,6 +78,6 @@ namespace NevernamedsSigils
                 return guts;
             }
         }
-        private CardModificationInfo mods;      
+        private CardModificationInfo mods;
     }
 }

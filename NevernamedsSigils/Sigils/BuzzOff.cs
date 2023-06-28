@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Buzz Off", "At the end of the owner's turn, [creature] will move in the direction inscribed in the sigil and leave a mayfly in it's old place. A mayfly is defined as 1 power, 1 health, airborne, brittle.",
                       typeof(BuzzOff),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

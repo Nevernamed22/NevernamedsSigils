@@ -19,7 +19,8 @@ namespace NevernamedsSigils
 			   typeof(StrengthInNumbers),
 			   categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook },
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/strengthinnumbers.png"),
-			  pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/strengthinnumbers_pixel.png"));
+			  pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/strengthinnumbers_pixel.png"),
+			  gbcDescription: "[creature]s power is equal to the number of creatures bearing the same special damage stat on the board, including opponent creatures.");
 			ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "StrengthInNumbers", typeof(StrengthInNumbers)).Id;
 
 			specialStatIcon = icon.iconType;

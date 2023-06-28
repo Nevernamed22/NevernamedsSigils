@@ -57,6 +57,7 @@ namespace NevernamedsSigils
                 {
                     __result += Tools.GetNumberOfSigilOnBoard(!__instance.OpponentCard, EspritDeCorp.ability);
                 }
+                if (__instance.Info.gemsCost.Contains(GemType.Orange)) { __result += Tools.GetNumberOfSigilOnBoard(!__instance.OpponentCard, OrangeInspiration.ability); }
                 CardSlot toRight2 = Singleton<BoardManager>.Instance.GetAdjacent(__instance.Slot, false); ;
                 if (toRight2 && toRight2.Card && toRight2.Card.HasAbility(UnbalancedLeadership.ability)) { __result += 2; }
 
@@ -102,6 +103,10 @@ namespace NevernamedsSigils
                     {
                         if (slot && slot.Card && slot.Card.HasAbility(DeusHoof.ability)) __result += 1;
                     }
+                }
+                if (__instance.Info.gemsCost != null && __instance.Info.gemsCost.Contains(GemType.Green))
+                {
+                    __result += (Singleton<BoardManager>.Instance.GetSlots(!__instance.OpponentCard).FindAll(x => x.Card != null && !x.Card.Dead && x.Card.HasAbility(GreenInspiration.ability)).Count * 2);
                 }
             }
         }

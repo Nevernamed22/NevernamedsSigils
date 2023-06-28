@@ -15,53 +15,52 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Moxwarp", "While [creature] is alive on the board, any enemy attack that enters a sapphire mox will be returned out of all ruby mox, and vice versa.",
                       typeof(Moxwarp),
-                      categories: new List<AbilityMetaCategory> {  },
+                      categories: new List<AbilityMetaCategory> { },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,
                       tex: null,
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/moxwarp_pixel.png"));
 
-           ability = newSigil.ability;
+            ability = newSigil.ability;
         }
         public static Ability ability;
         public override bool RespondsToOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)
         {
-            Debug.Log("Other card damaged:"+target.Info.name);
-            return amount > 0 && (target.Info.name == "MoxRuby" || target.Info.name == "MoxSapphire");
+            return amount > 0 && (isBlueGem(target) || isOrangeGem(target));
         }
+        public static bool isBlueGem(PlayableCard card)
+        {
+            return card != null && (card.HasAbility(Ability.GainGemBlue) || card.HasAbility(Ability.GainGemTriple)) && card.HasTrait(Trait.Gem);
+        }
+        public static bool isOrangeGem(PlayableCard card)
+        {
+            return card != null && (card.HasAbility(Ability.GainGemOrange) || card.HasAbility(Ability.GainGemTriple)) && card.HasTrait(Trait.Gem);
+        }
+
         public override IEnumerator OnOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)
         {
-            bool triggerBlue = target.Info.name == "MoxRuby";
-            Debug.Log($"Othercard damaged triggered({target.Info.name}). Triggerblue({triggerBlue})");
-
-            bool triggered = false;
+            bool triggerBlue = isOrangeGem(target);
             yield return base.PreSuccessfulTriggerSequence();
             foreach (CardSlot slot in Singleton<BoardManager>.Instance.GetSlots(!base.Card.OpponentCard))
             {
-                Debug.Log("Started slot iteration");
                 if (slot && slot.Card != null)
                 {
-                Debug.Log("Card is not null");
-                    if ((slot.Card.Info.name == "MoxSapphire" && triggerBlue) || (slot.Card.Info.name == "MoxRuby" && !triggerBlue))
+                    if ((isBlueGem(slot.Card) && triggerBlue) || (isOrangeGem(slot.Card) && !triggerBlue))
                     {
-                        triggered = true;
-                        Debug.Log("Card had the right name");
-
                         yield return new WaitForSeconds(0.1f);
+
                         CardModificationInfo statalt = new CardModificationInfo();
                         statalt.attackAdjustment = attacker.Attack - slot.Card.Attack;
                         slot.Card.AddTemporaryMod(statalt);
+
                         FakeCombatHandler.FakeCombatThing fakecombat = new FakeCombatHandler.FakeCombatThing();
                         yield return fakecombat.FakeCombat(!slot.Card.OpponentCard, null, slot);
                         yield return new WaitForSeconds(0.1f);
+
                         slot.Card.RemoveTemporaryMod(statalt);
                     }
                 }
-            }
-            if (triggered)
-            {
-                yield return base.LearnAbility(0.24f);
             }
             yield break;
         }

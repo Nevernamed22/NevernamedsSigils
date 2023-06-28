@@ -16,6 +16,7 @@ namespace NevernamedsSigils
         public static void Init()
         {
             baseIcon = Tools.LoadTex("NevernamedsSigils/Resources/Sigils/soak.png");
+            basePixelIcon = Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak_pixel.png");
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Soak", "Any damage taken by [creature] is reduced by 1. Taking damage decrements the timer rendered on this sigil. When the timer rendered on this sigil reaches 0, the bearer will attack with power equal to it's health, then perish.",
                       typeof(Soak),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
@@ -23,7 +24,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: baseIcon,
-                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak_pixel.png"));
+                      pixelTex: basePixelIcon);
 
             Soak.ability = newSigil.ability;
             countDownIcons = new Dictionary<int, Texture>()
@@ -38,9 +39,23 @@ namespace NevernamedsSigils
                 {8, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/soak8.png") },
                 {9, Tools.LoadTex("NevernamedsSigils/Resources/Sigils/soak9.png") },
             };
+            countDownPixelIcons = new Dictionary<int, Texture>()
+            {
+                {1, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak1_pixel.png") },
+                {2, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak2_pixel.png") },
+                {3, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak3_pixel.png") },
+                {4, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak4_pixel.png") },
+                {5, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak5_pixel.png") },
+                {6, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak6_pixel.png") },
+                {7, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak7_pixel.png") },
+                {8, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak8_pixel.png") },
+                {9, Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak9_pixel.png") },
+            };
         }
         public static Dictionary<int, Texture> countDownIcons;
+        public static Dictionary<int, Texture> countDownPixelIcons;
         public static Texture baseIcon;
+        public static Texture2D basePixelIcon;
         public static Ability ability;
         private bool initialised;
         private int hitsRemaining;
@@ -73,7 +88,14 @@ namespace NevernamedsSigils
         }
         private void ReRenderCard()
         {
-            base.Card.RenderInfo.OverrideAbilityIcon(Soak.ability, countDownIcons.ContainsKey(hitsRemaining) ? countDownIcons[hitsRemaining] : baseIcon);
+            if (Tools.GetActAsInt() == 2)
+            {
+                base.Card.RenderInfo.OverrideAbilityIcon(Soak.ability, countDownPixelIcons.ContainsKey(hitsRemaining) ? countDownPixelIcons[hitsRemaining] : basePixelIcon);
+            }
+            else
+            {
+                base.Card.RenderInfo.OverrideAbilityIcon(Soak.ability, countDownIcons.ContainsKey(hitsRemaining) ? countDownIcons[hitsRemaining] : baseIcon);
+            }
             base.Card.RenderCard();
         }
         public override bool RespondsToDrawn()

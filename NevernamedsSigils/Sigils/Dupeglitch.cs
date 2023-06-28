@@ -42,7 +42,7 @@ namespace NevernamedsSigils
             if (cards.Count > 0)
             {
                 yield return base.PreSuccessfulTriggerSequence();
-                yield return SpecialCardSelectionHandler.DoSpecialCardSelectionDraw(cards, false);
+                yield return SpecialCardSelectionHandler.DoSpecialCardSelectionDraw(cards);
 
                 Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
             }

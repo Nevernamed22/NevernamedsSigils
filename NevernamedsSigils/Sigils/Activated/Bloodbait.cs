@@ -42,6 +42,13 @@ namespace NevernamedsSigils
             
             base.Card.ExitBoard(0.25f, Vector3.zero);
             yield return new WaitForSeconds(0.75f);
+            if (Tools.GetActAsInt() == 2)
+            {
+                Tween.Position(base.transform, base.transform.position + Vector3.down * 2f, 0.25f, 0f, Tween.EaseIn, Tween.LoopType.None, null, delegate ()
+                {
+                    UnityEngine.Object.Destroy(base.gameObject);
+                }, true);
+            }
             if (Singleton<ViewManager>.Instance.CurrentView != View.Default)
             {
                 yield return new WaitForSeconds(0.2f);
