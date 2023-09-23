@@ -462,6 +462,12 @@ namespace NevernamedsSigils
              "Emerald Skeleton", 1, 1, new List<CardMetaCategory> { }, CardTemple.Undead, description: "",
               abilities: new List<Ability>() { Ability.Brittle, Ability.GainGemGreen },
                 pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/emeraldskeleton_pixel.png"));
+
+            SigilSetupUtility.NewCard("SigilNevernamed PinnacleMox",
+             "Pinnacle Mox", 0, 1, new List<CardMetaCategory> { CardMetaCategory.Rare }, CardTemple.Wizard, description: "",
+              abilities: new List<Ability>() { PerfectForm.ability },
+              traits: new List<Trait>() { Trait.Terrain, Trait.Gem },
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/pinnaclemox_pixel.png"));
         }
     }
 }

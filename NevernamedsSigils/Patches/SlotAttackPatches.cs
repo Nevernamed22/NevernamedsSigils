@@ -19,8 +19,8 @@ namespace NevernamedsSigils
         {
             if (opposingSlot.Card)
             {
-               if (opposingSlot.Card.HasAbility(Immaterial.ability)) { __result = true; }
-               else if (opposingSlot.Card.HasAbility(Giant.ability) || (opposingSlot.Card.TemporaryMods.Exists(x => x.singletonId == "waterbirdEmerged") && __instance.HasAbility(Waterbird.ability))) { __result = false; }
+                if (opposingSlot.Card.HasAbility(Immaterial.ability)) { __result = true; }
+                else if (opposingSlot.Card.HasAbility(Giant.ability) || (opposingSlot.Card.TemporaryMods.Exists(x => x.singletonId == "waterbirdEmerged") && __instance.HasAbility(Waterbird.ability))) { __result = false; }
             }
         }
     }
@@ -75,7 +75,7 @@ namespace NevernamedsSigils
                 }
 
 
-                    PlayableCard card = attackingSlot.Card;
+                PlayableCard card = attackingSlot.Card;
                 if (!attackingSlot.Card.HasAbility(Ability.AllStrike))
                 {
 
@@ -131,7 +131,7 @@ namespace NevernamedsSigils
                 }
                 if (opposingSlot != null && card.CanAttackDirectly(opposingSlot))
                 {
-                    if (Singleton<BoardManager>.Instance.GetSlots(card.OpponentCard).Exists(x => x.Card != null &&x.Card.HasAbility(Giant.ability)))
+                    if (Singleton<BoardManager>.Instance.GetSlots(card.OpponentCard).Exists(x => x.Card != null && x.Card.HasAbility(Giant.ability)))
                     {
                         opposingSlot = Singleton<BoardManager>.Instance.GetSlots(card.OpponentCard).Find(x => x.Card != null && x.Card.HasAbility(Giant.ability));
                     }
@@ -169,9 +169,9 @@ namespace NevernamedsSigils
                         Singleton<ViewManager>.Instance.SwitchToView(Singleton<BoardManager>.Instance.QueueView, false, false);
                         if (Tools.GetActAsInt() == 2 && !Singleton<GlobalTriggerHandler>.Instance.AbilitiesTriggeredThisTurn.Contains(Piercing.ability))
                         {
-                            yield return Singleton<TextBox>.Instance.ShowUntilInput($"{attackingSlot.Card.Info.DisplayedNameLocalized} pierces through and deals 1 damage to {queuedCard.Info.displayedNameLocId}!", 
-                                (TextBox.Style)attackingSlot.Card.Info.temple, 
-                                null, 
+                            yield return Singleton<TextBox>.Instance.ShowUntilInput($"{attackingSlot.Card.Info.DisplayedNameLocalized} pierces through and deals 1 damage to {queuedCard.Info.displayedNameLocId}!",
+                                (TextBox.Style)attackingSlot.Card.Info.temple,
+                                null,
                                 TextBox.ScreenPosition.ForceBottom, 0f, true, false, null, false, Emotion.Neutral);
                         }
                         yield return new WaitForSeconds(0.3f);
@@ -202,6 +202,13 @@ namespace NevernamedsSigils
                 if (__instance.HasAbility(Soak.ability) && damage > 0) { __state--; damage--; }
                 if (__instance.HasAbility(Sturdy.ability) && damage > 0) { __state--; damage--; }
                 if (attacker != null && attacker.HasAbility(Wimpy.ability) && damage > 0) { __state--; damage--; }
+                if (__instance.HasAbility(Bastion.ability) && damage > 1)
+                {
+                    float damToFloat = damage;
+                    int final = Mathf.CeilToInt(damToFloat * 0.5f);
+                    __state = final;
+                    damage = final;
+                }
             }
         }
         [HarmonyPostfix]

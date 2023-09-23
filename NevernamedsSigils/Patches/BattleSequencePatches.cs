@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using GBC;
+using InscryptionAPI.Card;
 
 namespace NevernamedsSigils
 {
@@ -96,6 +97,113 @@ namespace NevernamedsSigils
             }
             yield return enumerator;
             yield break;
+        }
+    }
+
+    [HarmonyPatch(typeof(HintsHandler), nameof(HintsHandler.OnNonplayableCardClicked))]
+    public class NonPlayableClicked
+    {
+        [HarmonyPrefix]
+        public static bool NonPlayableClickedPatch(PlayableCard card, List<PlayableCard> cardsInHand)
+        {
+            if (card && card.Info && !SaveManager.SaveFile.IsPart2)
+            {
+                int act = Tools.GetActAsInt();
+                List<string> overrideDialogue = new List<string>();
+
+                if (card.Info.HasAbility(MoxMax.ability) && card.GemsCost() != null && card.GemsCost().Count > 0)
+                {
+                    bool satisfied = true;
+                    GemType unsatisfiedGem = GemType.Blue;
+                    foreach (GemType gem in card.GemsCost())
+                    {
+                        if (Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && (x.Card.HasAbility(gemCostToAbility[gem]) || x.Card.HasAbility(Ability.GainGemTriple))).Count < 2) { satisfied = false; unsatisfiedGem = gem; }
+                    }
+                    if (!satisfied)
+                    {
+                        overrideDialogue.Clear();
+                        overrideDialogue.Add($"You need two {HintsHandler.GetColorCodeForGem(unsatisfiedGem) + Localization.Translate(unsatisfiedGem.ToString()) + " </color>"} gems to play that {card.Info.DisplayedNameLocalized}");
+                    }
+                }
+                if (card.HasTrait( Trait.Gem) && Singleton<BoardManager>.Instance.playerSlots.Exists(x => x.Card != null && x.Card.HasAbility(GemSkeptic.ability)))
+                {
+                    overrideDialogue.Clear();
+                    overrideDialogue.Add("The gem skeptic sigil prevents you from playing that gem.");
+                }
+                if (card.Info.GetExtendedProperty("PreventPlay") != null)
+                {
+                    overrideDialogue.Clear();
+                    if (act == 3) { overrideDialogue.Add("You can't play that one."); }
+                    else if (act == 4) { overrideDialogue.Add("I'm afraid that one's forbidden, dear."); }
+                    else { overrideDialogue.Add("I won't allow you to play that card."); }
+                }
+
+                if (overrideDialogue.Count > 0)
+                {
+                    CustomCoroutine.Instance.StartCoroutine(
+                        Singleton<TextDisplayer>.Instance.ShowThenClear(
+                            Tools.RandomElement(overrideDialogue),
+                           1.5f,
+                            0.1f,
+                            Emotion.Neutral,
+                            act == 3 ? TextDisplayer.LetterAnimation.Jitter : TextDisplayer.LetterAnimation.WavyJitter,
+                            DialogueEvent.Speaker.Single));
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        public static Dictionary<GemType, Ability> gemCostToAbility = new Dictionary<GemType, Ability>()
+        {
+            { GemType.Blue, Ability.GainGemBlue },
+            { GemType.Orange, Ability.GainGemOrange },
+            { GemType.Green, Ability.GainGemGreen },
+        };
+
+    }
+
+    [HarmonyPatch(typeof(HintsHandler), nameof(HintsHandler.OnGBCNonPlayableCardPressed))]
+    public class NonPlayableClickedGBC
+    {
+        [HarmonyPrefix]
+        public static bool NonPlayableClickedPatchGBC(PlayableCard card)
+        {
+            if (card && card.Info)
+            {
+                string text = null;
+
+                if (card.Info.HasAbility(MoxMax.ability) && card.GemsCost() != null && card.GemsCost().Count > 0)
+                {
+                    bool satisfied = true;
+                    GemType unsatisfiedGem = GemType.Blue;
+                    foreach (GemType gem in card.GemsCost())
+                    {
+                        if (Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && (x.Card.HasAbility(NonPlayableClicked.gemCostToAbility[gem]) || x.Card.HasAbility(Ability.GainGemTriple))).Count < 2) { satisfied = false; unsatisfiedGem = gem; }
+                    }
+                    if (!satisfied)
+                    {
+                        string arg = HintsHandler.GetDialogueColorCodeForGem(unsatisfiedGem) + Localization.Translate(unsatisfiedGem.ToString()) + "[c:]";
+                        text = $"You do not have the two {arg} Gems needed to play that. Gain Gems by playing Mox cards.";
+                    }
+                }
+                if (card.HasTrait(Trait.Gem) && Singleton<BoardManager>.Instance.playerSlots.Exists(x => x.Card != null && x.Card.HasAbility(GemSkeptic.ability)))
+                {
+                    text = "You can't play a gem card while a creature with the Gem Skeptic sigil is on your side of the board!";
+                }
+                if (card.Info.GetExtendedProperty("PreventPlay") != null)
+                {
+                    text = "This card cannot be played.";
+                }
+
+                if (text != null)
+                {
+                    CustomCoroutine.Instance.StartCoroutine(Singleton<TextBox>.Instance.ShowUntilInput(
+                        text, TextBox.Style.Neutral, null, TextBox.ScreenPosition.ForceTop, 0f, true, false, null, false, Emotion.Neutral));
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

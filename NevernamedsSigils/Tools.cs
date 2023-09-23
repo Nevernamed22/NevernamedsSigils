@@ -8,6 +8,7 @@ using UnityEngine;
 using BepInEx.Logging;
 using System.Collections;
 using Pixelplacement;
+using InscryptionAPI.Card;
 using DigitalRuby.LightningBolt;
 using GBC;
 using InscryptionAPI.Resource;
@@ -19,10 +20,10 @@ namespace NevernamedsSigils
         public static GameObject act1holotarget = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon");
         public static GameObject act3holotarget = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/SniperTargetIcon");
 
-        public static int CombinedPower (this List<Ability> abilities)
+        public static int CombinedPower(this List<Ability> abilities)
         {
             int toReturn = 0;
-            foreach(Ability inst in abilities) { toReturn += AbilitiesUtil.GetInfo(inst).powerLevel; }
+            foreach (Ability inst in abilities) { toReturn += AbilitiesUtil.GetInfo(inst).powerLevel; }
             return toReturn;
         }
         public static List<Ability> GetModularSigilsForAct(int act, int minPower, int maxPower)
@@ -36,7 +37,7 @@ namespace NevernamedsSigils
                     break;
                 case 2:
                     List<AbilityInfo> newli = ScriptableObjectLoader<AbilityInfo>.AllData.FindAll((AbilityInfo x) => x.powerLevel >= minPower && x.powerLevel <= maxPower && x.metaCategories.Contains(Plugin.Part2Modular));
-                    foreach(AbilityInfo inf in newli) { all.Add(inf.ability); }
+                    foreach (AbilityInfo inf in newli) { all.Add(inf.ability); }
                     break;
                 case 3:
                     List<AbilityInfo> newli2 = ScriptableObjectLoader<AbilityInfo>.AllData.FindAll((AbilityInfo x) => x.powerLevel >= minPower && x.powerLevel <= maxPower && x.metaCategories.Contains(AbilityMetaCategory.Part3Modular));
@@ -417,32 +418,48 @@ namespace NevernamedsSigils
         }
         public static CardInfo GetRandomCardOfTempleAndQuality(CardTemple temple, int act, bool isRare, Tribe requiredTribe = Tribe.None, bool checkDependant = false, List<string> excludedCards = null, int seedIncrement = 0)
         {
-            CardMetaCategory categoryToCheck = CardMetaCategory.NUM_CATEGORIES;
-            if (act > 0 && act < 4)
+            List<CardMetaCategory> allRequired = new List<CardMetaCategory>() { };
+            List<CardMetaCategory> oneRequired = new List<CardMetaCategory>() { };
+            if (act > 0 && act < 5)
             {
                 switch (temple)
                 {
                     case CardTemple.Nature:
                         if (act == 1)
                         {
-                            if (isRare) categoryToCheck = CardMetaCategory.Rare;
-                            else categoryToCheck = CardMetaCategory.ChoiceNode;
+                            if (isRare) allRequired.Add(CardMetaCategory.Rare);
+                            else { oneRequired.Add(CardMetaCategory.ChoiceNode); oneRequired.Add(CardMetaCategory.TraderOffer); }
                         }
-                        else if (act == 2) categoryToCheck = CardMetaCategory.GBCPack;
+                        else if (act == 2) oneRequired.Add(CardMetaCategory.GBCPack);
                         else Debug.LogWarning($"Tried to get a card of the {temple} temple in act {act} which is not a valid act for the given temple.");
                         break;
                     case CardTemple.Tech:
-                        if (act == 2) categoryToCheck = CardMetaCategory.GBCPack;
-                        else if (act == 3) categoryToCheck = CardMetaCategory.Part3Random;
+                        if (act == 2) oneRequired.Add(CardMetaCategory.GBCPack);
+                        else if (act == 3)
+                        {
+                            if (isRare)
+                            {
+                                allRequired.Add(CardMetaCategory.Rare);
+                            }
+                            oneRequired.AddRange(new List<CardMetaCategory>() {
+                                CardMetaCategory.ChoiceNode,
+                                CardMetaCategory.Part3Random,
+                                Plugin.P03KayceesBastionRegion,
+                                Plugin.P03KayceesNatureRegion,
+                                Plugin.P03KayceesNeutralRegion,
+                                Plugin.P03KayceesUndeadRegion,
+                                Plugin.P03KayceesWizardRegion,
+                            });
+                        }
                         else Debug.LogWarning($"Tried to get a card of the {temple} temple in act {act} which is not a valid act for the given temple.");
                         break;
                     case CardTemple.Undead:
-                        if (act == 2) categoryToCheck = CardMetaCategory.GBCPack;
-                        else if (act == 4) categoryToCheck = Plugin.GrimoraChoiceNode;
+                        if (act == 2) oneRequired.Add(CardMetaCategory.GBCPack);
+                        else if (act == 4) oneRequired.Add(Plugin.GrimoraChoiceNode);
                         else Debug.LogWarning($"Tried to get a card of the {temple} temple in act {act} which is not a valid act for the given temple.");
                         break;
                     case CardTemple.Wizard:
-                        if (act == 2) categoryToCheck = CardMetaCategory.GBCPack;
+                        if (act == 2) oneRequired.Add(CardMetaCategory.GBCPack);
                         else Debug.LogWarning($"Tried to get a card of the {temple} temple in act {act} which is not a valid act for the given temple.");
                         break;
                 }
@@ -452,25 +469,31 @@ namespace NevernamedsSigils
 
             if (act != 1) requiredTribe = Tribe.None;
 
-            if (categoryToCheck != CardMetaCategory.NUM_CATEGORIES)
-            {
-                List<CardInfo> cards = ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) =>
-                x.metaCategories.Contains(categoryToCheck) &&
-                x.temple == temple &&
-                ((checkDependant && x.MeetsDependantRequirements()) || !checkDependant) &&
-                !x.specialAbilities.Contains(SpecialTriggeredAbility.RandomCard) &&
-                ConceptProgressionTree.Tree.CardUnlocked(x, false) &&
-                !x.traits.Contains(Trait.Terrain) &&
-                ((x.HasRareTagOrBackground() == isRare) || act == 3) &&
-                ((requiredTribe == Tribe.None) || x.tribes.Contains(requiredTribe) &&
-                (excludedCards == null || !excludedCards.Contains(x.name)))
-            );
-                if (cards.Count > 0) return SeededRandomElement(cards, GetRandomSeed() + seedIncrement);
-                else return null;
-            }
-            else Debug.LogWarning($"Valid category for given criteria was not found!");
+            List<CardInfo> cards = ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) =>
+            x.temple == temple &&
+            ((checkDependant && x.MeetsDependantRequirements()) || !checkDependant) &&
+            !x.specialAbilities.Contains(SpecialTriggeredAbility.RandomCard) &&
+            ConceptProgressionTree.Tree.CardUnlocked(x, false) &&
+            !x.traits.Contains(Trait.Terrain) &&
+            (x.HasRareTagOrBackground() == isRare) &&
+            ((requiredTribe == Tribe.None) || x.tribes.Contains(requiredTribe) &&
+            (excludedCards == null || !excludedCards.Contains(x.name))));
 
-            return null;
+            if (allRequired != null && allRequired.Count > 0)
+            {
+                foreach (CardMetaCategory meta1 in allRequired)
+                {
+                    cards.RemoveAll(x => !x.metaCategories.Contains(meta1));
+                }
+            }
+            List<CardInfo> finality = new List<CardInfo>();
+            foreach (CardInfo inf in cards)
+            {
+                if ((oneRequired == null || oneRequired.Count == 0) || inf.HasAnyOfCardMetaCategories(oneRequired.ToArray())) { finality.Add(inf); }
+            }
+
+            if (finality.Count > 0) return SeededRandomElement(finality, GetRandomSeed() + seedIncrement);
+            else return null;
         }
         public static int GetActAsInt()
         {
@@ -583,12 +606,13 @@ namespace NevernamedsSigils
             }
             return ab;
         }
-        public static PlayableCard GetStrongestCardOnBoard(bool playerSide, bool weakest = false)
+        public static PlayableCard GetStrongestCardOnBoard(bool playerSide, bool weakest = false, Ability sigilToIgnore = Ability.None)
         {
             PlayableCard strongest = null;
             List<CardSlot> viableslots = new List<CardSlot>();
             if (!playerSide) viableslots = Singleton<BoardManager>.Instance.opponentSlots;
             else viableslots = Singleton<BoardManager>.Instance.playerSlots;
+            if (sigilToIgnore != Ability.None) viableslots.RemoveAll(x => x.Card != null && x.Card.HasAbility(sigilToIgnore));
             foreach (CardSlot slot in viableslots)
             {
                 if (slot && slot.Card)

@@ -47,9 +47,10 @@ namespace NevernamedsSigils
             bool isRare = base.Card.Info.HasRareTagOrBackground();
             if ((base.Card.Info.temple == CardTemple.Nature) && (base.Card.Info.tribes.Count > 0) && !isRare) required = Tools.RandomElement(base.Card.Info.tribes);
 
-            CardInfo evolution = Tools.GetRandomCardOfTempleAndQuality(base.Card.Info.temple, Tools.GetActAsInt(), isRare, required, true).Clone() as CardInfo;
-            if (evolution != null)
+            CardInfo orig = Tools.GetRandomCardOfTempleAndQuality(base.Card.Info.temple, Tools.GetActAsInt(), isRare, required, true, new List<string>() { base.Card.Info.name });
+            if (orig != null)
             {
+                CardInfo evolution = orig.Clone() as CardInfo;
                 foreach (CardModificationInfo mod in base.Card.Info.Mods.FindAll((CardModificationInfo x) => !x.nonCopyable))
                 {
                     CardModificationInfo clone = (CardModificationInfo)mod.Clone();
@@ -62,7 +63,7 @@ namespace NevernamedsSigils
                 evolution.mods.Add(cardModificationInfo2);
 
                 yield return base.PreSuccessfulTriggerSequence();
-                if  (evolution != null) yield return base.Card.TransformIntoCard(evolution);
+                if (evolution != null) yield return base.Card.TransformIntoCard(evolution);
                 yield return new WaitForSeconds(0.2f);
                 ResourcesManager.Instance.ForceGemsUpdate();
                 yield return base.LearnAbility(0.5f);

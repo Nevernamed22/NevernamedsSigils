@@ -97,8 +97,8 @@ namespace NevernamedsSigils
         {
             if (__instance && !__result && __instance.HasAbility(BloodFromStone.ability))
             {
-                __result = __instance.Info.BloodCost <= Singleton<BoardManager>.Instance.GetValueOfSacrifices(Singleton<BoardManager>.Instance.playerSlots.FindAll((CardSlot x) => x.Card != null))
-                         && __instance.Info.BonesCost <= Singleton<ResourcesManager>.Instance.PlayerBones
+                __result = __instance.BloodCost() <= Singleton<BoardManager>.Instance.GetValueOfSacrifices(Singleton<BoardManager>.Instance.playerSlots.FindAll((CardSlot x) => x.Card != null))
+                         && __instance.BonesCost() <= Singleton<ResourcesManager>.Instance.PlayerBones
                          && __instance.EnergyCost <= Singleton<ResourcesManager>.Instance.PlayerEnergy
                          && __instance.GemsCostRequirementMet()
                          && Singleton<BoardManager>.Instance.SacrificesCreateRoomForCard(__instance, Singleton<BoardManager>.Instance.PlayerSlotsCopy);
@@ -106,6 +106,44 @@ namespace NevernamedsSigils
             if (__instance?.Info?.GetExtendedProperty("PreventPlay") != null)
             {
                 __result = false;
+            }
+            if (__instance && __instance.Info)
+            {
+                if (__instance.Info.HasAbility(MoxMax.ability) && __instance.GemsCost() != null && __instance.GemsCost().Count > 0)
+                {
+                    bool satisfied = true;
+                    foreach (GemType gem in __instance.GemsCost())
+                    {
+                        if (Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && (x.Card.HasAbility(gemCostToAbility[gem]) || x.Card.HasAbility(Ability.GainGemTriple))).Count < 2) { satisfied = false; }
+                    }
+                    if (!satisfied) { __result = false; }
+                }
+                if (__instance.HasTrait(Trait.Gem))
+                {
+                    if (Singleton<BoardManager>.Instance.playerSlots.Exists(x => x.Card != null && x.Card.HasAbility(GemSkeptic.ability))) { __result = false; }
+                }
+            }
+        }
+        public static Dictionary<GemType, Ability> gemCostToAbility = new Dictionary<GemType, Ability>()
+        {
+            { GemType.Blue, Ability.GainGemBlue },
+            { GemType.Orange, Ability.GainGemOrange },
+            { GemType.Green, Ability.GainGemGreen },
+        };
+    }
+
+    [HarmonyPatch(typeof(Deck), "CardCanBePlayedByTurn2WithHand")]
+    public class CanBeplayedTurn2Patch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(Deck __instance, CardInfo card, List<CardInfo> hand, ref bool __result)
+        {
+            if (__result)
+            {
+                if (card)
+                {
+                    if (card.GetExtendedProperty("PreventPlay") != null || card.HasAbility(MoxMax.ability)) { __result = false; }
+                }
             }
         }
     }
@@ -118,13 +156,13 @@ namespace NevernamedsSigils
         {
             int modification = 0;
             if (card && Singleton<BoardManager>.Instance) { }
-           {
+            {
                 if (card.InHand || !card.OpponentCard) //Friendly
                 {
-                    
+
                     modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
                     modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Exsanguination.ability)).Count;
-                    if (card != null && card.Info !=  null && card.HasAbility(Ability.Flying)) { modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
+                    if (card != null && card.Info != null && card.HasAbility(Ability.Flying)) { modification -= Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
                 }
                 else //Unfriendly
                 {
@@ -173,11 +211,15 @@ namespace NevernamedsSigils
             if (card.InHand || !card.OpponentCard) //Friendly
             {
                 gemsToRemove += Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                gemsToRemove += Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(PerfectForm.ability)).Count;
+                gemsToRemove += Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(ImmaculateForm.ability)).Count * 2;
                 if (card != null && card.Info != null && card.HasAbility(Ability.Flying)) { gemsToRemove += Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
             }
             else //Unfriendly
             {
                 gemsToRemove += Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(TestSigil.ability)).Count;
+                gemsToRemove += Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(PerfectForm.ability)).Count;
+                gemsToRemove += Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(ImmaculateForm.ability)).Count * 2;
                 if (card != null && card.Info != null && card.HasAbility(Ability.Flying)) { gemsToRemove += Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x.Card != null && x.Card.Info != null && x.Card.temporaryMods != null && x.Card.HasAbility(Freefall.ability)).Count; }
             }
 

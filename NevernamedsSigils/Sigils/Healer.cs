@@ -9,21 +9,21 @@ using UnityEngine;
 
 namespace NevernamedsSigils
 {
-    public class Obedient : AbilityBehaviour
+    public class Healer : AbilityBehaviour
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Obedient", "At the end of the owner's turn, [creature] will move to an empty space on the same side of the board, chosen by it's owner.",
-                      typeof(Obedient),
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Healer", "At the end of the owner's turn, [creature]s owner may choose a creature they control. That creature gains 1 health.",
+                      typeof(Healer),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
-                      powerLevel: 2,
+                      powerLevel: 4,
                       stackable: false,
-                      opponentUsable: false,
-                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/obedient.png"),
-                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/obedient_pixel.png")
+                      opponentUsable: true,
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/healer.png"),
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/healer_pixel.png")
                       );
 
-            ability = newSigil.ability;          
+            ability = newSigil.ability;
         }
         public static Ability ability;
         public static GameObject target;
@@ -37,29 +37,37 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToTurnEnd(bool playerTurnEnd)
         {
-            return base.Card != null && base.Card.OpponentCard != playerTurnEnd && !base.Card.HasAbility(Stalwart.ability) && !base.Card.OpponentCard;
+            return base.Card != null && base.Card.OnBoard && base.Card.OpponentCard != playerTurnEnd;
         }
         public override IEnumerator OnTurnEnd(bool playerTurnEnd)
         {
             if (target == null) { target = Tools.GetActAsInt() == 3 ? Tools.act3holotarget : Tools.act1holotarget; }
-            if (!Singleton<BoardManager>.Instance.PlayerSlotsCopy.Exists(x => x.Card == null))
+
+            if (base.Card.OpponentCard)
             {
-                Singleton<ViewManager>.Instance.SwitchToView(View.Board, false, false);
-                yield return new WaitForSeconds(0.25f);
-                base.Card.Anim.StrongNegationEffect();
+                PlayableCard chosen = null;
+                int curMax = int.MaxValue;
+                foreach(CardSlot slot in Singleton<BoardManager>.Instance.OpponentSlotsCopy)
+                {
+                    if (slot.Card != null && slot.Card.Health < curMax && 
+                        !slot.Card.HasAbility(Ability.Brittle) && 
+                        !slot.Card.HasAbility(Doomed.ability) &&
+                        !slot.Card.HasAbility(Frail.ability)) { chosen = slot.Card; }
+                }
+                if (chosen != null)
+                {
+                    base.Card.Anim.LightNegationEffect();
+                    chosen.AddTemporaryMod(new CardModificationInfo(0, 1));
+                }
             }
             else
             {
                 Singleton<ViewManager>.Instance.SwitchToView(View.Board, false, true);
                 yield return new WaitForSeconds(0.25f);
 
-                Vector3 a = base.Card.Slot.IsPlayerSlot ? Vector3.forward : Vector3.back;
-                a *= 0.5f;
-                Tween.Position(base.Card.transform, base.Card.transform.position + a * 2f + Vector3.up * 0.25f, 0.15f, 0f, Tween.EaseOut, Tween.LoopType.None, null, null, true);
-
                 BoardManager instance = Singleton<BoardManager>.Instance;
                 List<CardSlot> allslots = Singleton<BoardManager>.Instance.PlayerSlotsCopy;
-                List<CardSlot> validslots = Singleton<BoardManager>.Instance.PlayerSlotsCopy.FindAll(x => x.Card == null || x.Card == base.Card);
+                List<CardSlot> validslots = Singleton<BoardManager>.Instance.PlayerSlotsCopy.FindAll(x => x.Card != null && !x.Card.Dead);
 
                 yield return instance.ChooseTarget(allslots, validslots, CardSelected, InvalidTargetSelected, CursotEnteredSlot, () => false, CursorType.Target);
 
@@ -70,25 +78,19 @@ namespace NevernamedsSigils
                         UnityEngine.Object.Destroy(instanceTarget);
                     }, true);
                 }
-                if (recentlySelected != null)
+                if (recentlySelected != null && recentlySelected.Card != null)
                 {
-                    yield return Singleton<BoardManager>.Instance.AssignCardToSlot(base.Card, recentlySelected, 0.1f, null, false);
+                    base.Card.Anim.LightNegationEffect();
+                    recentlySelected.Card.AddTemporaryMod(new CardModificationInfo(0, 1));
                 }
 
                 Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;
-
-            }
+            }           
             yield break;
         }
         private CardSlot recentlySelected;
-        private void CardSelected(CardSlot slot)
-        {
-            recentlySelected = slot;
-        }
-        private void InvalidTargetSelected(CardSlot slot)
-        {
-            //base.Card.Anim.StrongNegationEffect();
-        }
+        private void CardSelected(CardSlot slot) { recentlySelected = slot; }
+        private void InvalidTargetSelected(CardSlot slot) { }     
         private void CursotEnteredSlot(CardSlot slot)
         {
             if (Tools.GetActAsInt() != 2)
@@ -101,7 +103,7 @@ namespace NevernamedsSigils
                         UnityEngine.Object.Destroy(inst);
                     }, true);
                 }
-                if (slot.Card == null || slot.Card == base.Card)
+                if (slot.Card != null)
                 {
                     GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(target, slot.transform);
                     gameObject.transform.localPosition = new Vector3(0f, 0.25f, 0f);

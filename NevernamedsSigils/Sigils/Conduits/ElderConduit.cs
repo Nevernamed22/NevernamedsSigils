@@ -52,7 +52,7 @@ namespace NevernamedsSigils
         {
             yield return base.PreSuccessfulTriggerSequence();
             yield return new WaitForSeconds(0.3f);
-            yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(Tools.RandomElement(GemSkeletons)), base.Card.Slot, 0.15f, true);
+            yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(Tools.RandomElement(GemSkeletons)), deathSlot, 0.15f, true);
             yield return base.LearnAbility(0.5f);
             yield break;
         }

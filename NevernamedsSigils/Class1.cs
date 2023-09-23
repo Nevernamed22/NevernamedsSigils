@@ -318,6 +318,17 @@ namespace NevernamedsSigils
             PutSentryHere.Init();
             CircuitMaker.Init();
             VivaLaRevolution.Init();
+            MoxMax.Init();
+            Goated.Init();
+            WingClipper.Init();
+            Gravity.Init();
+            Bastion.Init();
+            Healer.Init();
+            PerfectForm.Init();
+            ImmaculateForm.Init();
+            PureHeart.Init();
+            GemSkeptic.Init();
+            Defiler.Init();
 
             //LATCH SIGILS
             WaterborneLatch.Init();
@@ -364,6 +375,8 @@ namespace NevernamedsSigils
             MorselWhenPowered.Init();
             PoweredQuills.Init();
             PrintWhenPowered.Init();
+            ScavengeWhenPowered.Init();
+            StimulateWhenPowered.Init();
 
             //ACTIVATED SIGILS
             Fetch.Init();
@@ -397,6 +410,7 @@ namespace NevernamedsSigils
             BloodAndBone.Init();
             DirectorOfTheBoard.Init();
             DamageDice.Init();
+            OneDFour.Init();
             BirdsOfAFeather.Init();
             PackHunter.Init();
             HerdingBeast.Init();
@@ -511,5 +525,12 @@ namespace NevernamedsSigils
         public static readonly AbilityMetaCategory Part2Modular = (AbilityMetaCategory)GuidManager.GetEnumValue<AbilityMetaCategory>("cyantist.inscryption.api", "Part2Modular");
 
         public static readonly CardMetaCategory GrimoraChoiceNode = GuidManager.GetEnumValue<CardMetaCategory>("arackulele.inscryption.grimoramod", "GrimoraModChoiceNode");
+
+        public static readonly CardMetaCategory P03KayceesWizardRegion = (CardMetaCategory)GuidManager.GetEnumValue<CardMetaCategory>("zorro.inscryption.infiniscryption.p03kayceerun", "WizardRegionCards");
+        public static readonly CardMetaCategory P03KayceesBastionRegion = (CardMetaCategory)GuidManager.GetEnumValue<CardMetaCategory>("zorro.inscryption.infiniscryption.p03kayceerun", "TechRegionCards");
+        public static readonly CardMetaCategory P03KayceesNatureRegion = (CardMetaCategory)GuidManager.GetEnumValue<CardMetaCategory>("zorro.inscryption.infiniscryption.p03kayceerun", "NatureRegionCards");
+        public static readonly CardMetaCategory P03KayceesUndeadRegion = (CardMetaCategory)GuidManager.GetEnumValue<CardMetaCategory>("zorro.inscryption.infiniscryption.p03kayceerun", "UndeadRegionCards");
+        public static readonly CardMetaCategory P03KayceesNeutralRegion = GuidManager.GetEnumValue<CardMetaCategory>("zorro.inscryption.infiniscryption.p03kayceerun", "NeutralRegionCards");
+
     }
 }

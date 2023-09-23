@@ -23,6 +23,8 @@ namespace NevernamedsSigils
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/firebomb.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/firebomb_pixel.png"),
                       triggerText: "[creature] explodes, spraying fire everywhere!");
+            ability = newSigil.ability;
+
         }
         public static Ability ability;
         public override Ability Ability
