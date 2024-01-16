@@ -22,7 +22,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/drop.png"),
-                      pixelTex: null);
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/drop_pixel.png"));
 
             Drop.ability = newSigil.ability;
         }
@@ -52,7 +52,7 @@ namespace NevernamedsSigils
                 List<CardSlot> availableSlots = Singleton<BoardManager>.Instance.GetSlots(true).FindAll((x) => x != null && x.Card == null);
 
                 yield return base.PreSuccessfulTriggerSequence();
-                yield return Singleton<PlayerHand>.Instance.PlayCardOnSlot(base.Card, Tools.RandomElement(availableSlots));
+                yield return Singleton<PlayerHand>.Instance.PlayCardOnSlot(base.Card, Tools.SeededRandomElement(availableSlots));
                 yield return base.LearnAbility(0.5f);
                 yield return new WaitForSeconds(0.1f);
                 Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Unlocked;

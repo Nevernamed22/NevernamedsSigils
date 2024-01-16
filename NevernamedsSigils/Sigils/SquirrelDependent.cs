@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Squirrel Dependent", "If [creature]'s owner controls no Squirrels, [creature] will perish.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Squirrel Dependent", "If [creature]'s owner controls no Squirrels, [creature] will perish. If this card is a squirrel, it cannot support itself.",
                       typeof(SquirrelDependent),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
                       powerLevel: -3,

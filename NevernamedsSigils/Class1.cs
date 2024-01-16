@@ -329,6 +329,18 @@ namespace NevernamedsSigils
             PureHeart.Init();
             GemSkeptic.Init();
             Defiler.Init();
+            BifurcatedWhenGempowered.Init();
+            SweepingStrikeLeft.Init();
+            SweepingStrikeRight.Init();
+            Entangle.Init();
+            //Slimy.Init();
+            Coward.Init();
+            Reflective.Init();
+            Mirrific.Init();
+            Unspeakable.Init();
+            Prophecy.Init();
+            DiagonalStrike.Init();
+            Retreat.Init();
 
             //LATCH SIGILS
             WaterborneLatch.Init();
@@ -336,7 +348,7 @@ namespace NevernamedsSigils
             BurningLatch.Init();
             BurrowerLatch.Init();
             WeirdLatch.Init();
-            NullLatch.Init();
+            NullLatch.Init(); 
             FrailLatch.Init();
             HaunterLatch.Init();
             OverclockedLatch.Init();
@@ -344,7 +356,8 @@ namespace NevernamedsSigils
             AirborneLatch.Init();
             AnnoyingLatch.Init();
             SniperLatch.Init();
-            TotemLatch.Init();
+            StalwartLatch.Init();
+            TotemLatch.Init(); 
 
             //CONDUIT SIGILS
             //Act 1 "Bonds"
@@ -434,6 +447,7 @@ namespace NevernamedsSigils
             FollowTheLeader.Init();
             Starved.Init();
             DrawnOut.Init();
+            SanguineBond.Init();
 
             //SPECIAL ABILITIES
             InherentFecundity.Init();

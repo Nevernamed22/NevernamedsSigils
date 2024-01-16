@@ -70,7 +70,7 @@ namespace NevernamedsSigils
                         }
                     }
                 }
-                if (emptyAdjacents.Count > 0) return Tools.RandomElement(emptyAdjacents);
+                if (emptyAdjacents.Count > 0) return Tools.SeededRandomElement(emptyAdjacents);
                 else return null;
             }
             else return null;

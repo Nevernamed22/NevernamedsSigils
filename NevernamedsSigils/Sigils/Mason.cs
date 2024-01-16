@@ -42,7 +42,7 @@ namespace NevernamedsSigils
                 List<CardInfo> cards = ScriptableObjectLoader<CardInfo>.AllData.FindAll((CardInfo x) => x.HasTrait(NevernamedsTraits.Obelisk));
                 if (cards != null && cards.Count > 0)
                 {
-                    obelisk = Tools.RandomElement(cards);
+                    obelisk = Tools.SeededRandomElement(cards);
                 }
                 if (obelisk == null)
                 {

@@ -47,7 +47,7 @@ namespace NevernamedsSigils
             get
             {
                 Tribe required = Tribe.None;
-                if ((base.Card.Info.temple == CardTemple.Nature) && (base.Card.Info.tribes.Count > 0)) required = Tools.RandomElement(base.Card.Info.tribes);
+                if ((base.Card.Info.temple == CardTemple.Nature) && (base.Card.Info.tribes.Count > 0)) required = Tools.SeededRandomElement(base.Card.Info.tribes);
                 CardInfo gift = Tools.GetRandomCardOfTempleAndQuality(base.Card.Info.temple, Tools.GetActAsInt(), false, required, false).Clone() as CardInfo;
                 gift.Mods.Add(base.Card.CondenseMods(new List<Ability>() { KinBearer.ability }));
                 return gift;
@@ -65,7 +65,7 @@ namespace NevernamedsSigils
                     Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
                     Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
-                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
                     Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                 }
 

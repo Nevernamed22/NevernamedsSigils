@@ -77,7 +77,7 @@ namespace NevernamedsSigils
         {
             for (int i = 0; i < slotStates.Count; i++)
             {
-                if (slotStates[i].card != null && !slotStates[i].card.HasAbility(Snapshot.ability))
+                if (slotStates[i].card != null && !slotStates[i].card.HasAbility(Snapshot.ability) && actualSlots[i].Card == null)
                 {
                     yield return ApplySlotState(slotStates[i], actualSlots[i]);
                     yield return new WaitForSeconds(0.07f);

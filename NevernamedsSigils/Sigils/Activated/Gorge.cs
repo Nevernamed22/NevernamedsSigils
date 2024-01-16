@@ -40,7 +40,7 @@ namespace NevernamedsSigils
                     List<CardSlot> cardslots = Singleton<BoardManager>.Instance.GetSlots(false).FindAll(x => x.Card && x.Card.CanBeSacrificed && x.Card.PowerLevel < base.Card.PowerLevel);
                     if (cardslots.Count > 0)
                     {
-                        yield return Tools.RandomElement(cardslots).Card.Die(true, null);
+                        yield return Tools.SeededRandomElement(cardslots).Card.Die(true, null);
                         yield return new WaitForSeconds(0.15f);
                         base.Card.Anim.StrongNegationEffect();
                         base.Card.AddTemporaryMod(new CardModificationInfo(0, 3));

@@ -4,6 +4,7 @@ using InscryptionAPI.Card;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace NevernamedsSigils
 {
@@ -15,7 +16,7 @@ namespace NevernamedsSigils
         {
             if (__instance.OnBoard && __instance.slot)
             {
-                    CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(__instance.slot, true);
+                CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(__instance.slot, true);
                 CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(__instance.slot, false);
 
                 if (__instance.HasTrait(Trait.Pelt) || __instance.Info.name == "BeastNevernamed SelkieSkin")
@@ -57,19 +58,33 @@ namespace NevernamedsSigils
                 {
                     __result += Tools.GetNumberOfSigilOnBoard(!__instance.OpponentCard, EspritDeCorp.ability);
                 }
+                if (__instance.HasAbility(Reflective.ability) && __instance?.slot?.opposingSlot?.Card != null) { __result += (int)__instance?.slot?.opposingSlot?.Card.Attack; }
+
                 if (__instance.Info.gemsCost.Contains(GemType.Orange)) { __result += Tools.GetNumberOfSigilOnBoard(!__instance.OpponentCard, OrangeInspiration.ability); }
                 CardSlot toRight2 = Singleton<BoardManager>.Instance.GetAdjacent(__instance.Slot, false); ;
                 if (toRight2 && toRight2.Card && toRight2.Card.HasAbility(UnbalancedLeadership.ability)) { __result += 2; }
 
                 if (__instance.HasAbility(Siphon.ability) && __instance.GetComponent<Siphon>()) { __result += __instance.GetComponent<Siphon>().siphonedDamamge; }
-                    if (toRight && toRight.Card != null && toRight.Card.HasAbility(Siphon.ability))
+                if (toRight && toRight.Card != null && toRight.Card.HasAbility(Siphon.ability))
                 {
                     if (toRight.Card.GetComponent<Siphon>()) { toRight.Card.GetComponent<Siphon>().siphonedDamamge = __instance.Info.Attack + __instance.GetAttackModifications() + __result; }
                     __result = __instance.Info.Attack * -1;
                 }
 
+                if (__instance.gameObject && __instance.gameObject.GetComponent<TangledEffect>() && __instance.gameObject.GetComponent<TangledEffect>().stacks > 0)
+                {
+                    for (int i = 0; i < __instance.gameObject.GetComponent<TangledEffect>().stacks; i++)
+                    {
+                        if (__instance.Info.Attack + __result > 0)
+                        {
+                            
+                            __result = -Mathf.CeilToInt((float)(__instance.Info.Attack + __result) * 0.5f);
+                        }
+                    }
+                }
 
-                if (__instance.HasAbility(Claw.ability))
+
+                if (__instance.HasAbility(Claw.ability)) 
                 {
                     if (__instance.OnBoard)
                     {

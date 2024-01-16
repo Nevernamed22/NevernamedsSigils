@@ -57,7 +57,7 @@ namespace NevernamedsSigils
                     {
                         CardModificationInfo cardModificationInfo2 = new CardModificationInfo();
                         cardModificationInfo2.fromCardMerge = true;
-                        cardModificationInfo2.abilities = new List<Ability>() { Tools.RandomElement(info.abilities) };
+                        cardModificationInfo2.abilities = new List<Ability>() { Tools.SeededRandomElement(info.abilities) };
                         guts.Mods.Add(cardModificationInfo2);
                     }
                 }

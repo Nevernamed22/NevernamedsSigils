@@ -14,16 +14,16 @@ namespace NevernamedsSigils
             switch (Tools.GetActAsInt())
             {
                 case 1:
-                    toReturn = Tools.RandomElement(syllable1) + (UnityEngine.Random.value <= 0.5f ? Tools.RandomElement(syllable2) : "") + Tools.RandomElement(syllable3);
+                    toReturn = Tools.SeededRandomElement(syllable1) + (UnityEngine.Random.value <= 0.5f ? Tools.SeededRandomElement(syllable2) : "") + Tools.SeededRandomElement(syllable3);
                     break;
                 case 2:
                     toReturn = "Amalgam";
                     break;
                 case 3:
-                    toReturn = Tools.RandomElement(RobotSyllable1) + Tools.RandomElement(RobotSyllable2) + Tools.RandomElement(RobotSyllable3);
+                    toReturn = Tools.SeededRandomElement(RobotSyllable1) + Tools.SeededRandomElement(RobotSyllable2) + Tools.SeededRandomElement(RobotSyllable3);
                     break;
                 case 4:
-                    toReturn = (UnityEngine.Random.value <= 0.5f ? Tools.RandomElement(UndeadSyllable1) : "") + Tools.RandomElement(UndeadSyllable2) + Tools.RandomElement(UndeadSyllable3);
+                    toReturn = (UnityEngine.Random.value <= 0.5f ? Tools.SeededRandomElement(UndeadSyllable1) : "") + Tools.SeededRandomElement(UndeadSyllable2) + Tools.SeededRandomElement(UndeadSyllable3);
                     break;
             }
             return toReturn;
@@ -109,9 +109,9 @@ namespace NevernamedsSigils
                 NevernamedsTribes.Rodent
             };
 
-            int tribe1 = Tools.RandomElement(tribes);
-            int tribe2 = Tools.RandomElement(tribes);
-            int tribe3 = Tools.RandomElement(tribes);
+            int tribe1 = Tools.SeededRandomElement(tribes);
+            int tribe2 = Tools.SeededRandomElement(tribes);
+            int tribe3 = Tools.SeededRandomElement(tribes);
             if (Tools.GetActAsInt() == 3) { tribe1 = 19; tribe2 = 19; tribe3 = 19; }
             if (Tools.GetActAsInt() == 4) { tribe1 = 20; tribe2 = 20; tribe3 = 20; }
 
@@ -122,7 +122,7 @@ namespace NevernamedsSigils
                 inf.abilities, //Sigils
                 tribe1, tribe2, tribe3, //Tribes
                 GenerateRandomName(),
-                new List<Tribe>() { Tools.RandomElement(tribeList) }
+                new List<Tribe>() { Tools.SeededRandomElement(tribeList) }
                 );
         }
         public static CardInfo GenerateAnimalDeathcard(int bloodcost, int bonecost, int energyCost, List<GemType> gemsCost, int lightCost, int power, int health, bool hasSpecialStat, SpecialStatIcon specialStat, List<SpecialTriggeredAbility> variableStat, List<Ability> sigils, int tribe1, int tribe2, int tribe3, string name, List<Tribe> tribes)
@@ -149,7 +149,7 @@ namespace NevernamedsSigils
 
             //Debug.Log("Generating Deathcard 2");
             List<int> tribeOrder = new List<int>() { tribe1, tribe2, tribe3 };
-            tribeOrder.Add(Tools.RandomElement(tribeOrder));
+            tribeOrder.Add(Tools.SeededRandomElement(tribeOrder));
             List<int> newTribeOrder = Shuffle(tribeOrder);
 
             if (Tools.GetActAsInt() != 2)

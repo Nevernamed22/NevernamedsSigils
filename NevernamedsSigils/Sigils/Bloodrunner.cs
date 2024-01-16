@@ -34,7 +34,7 @@ namespace NevernamedsSigils
                 return ability;
             }
         }
-        public override bool RespondsToOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target) { return base.Card != null && attacker == base.Card && !base.Card.HasAbility(Stalwart.ability); }
+        public override bool RespondsToOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target) { return base.Card != null && attacker == base.Card && !base.Card.Dead && !base.Card.HasAbility(Stalwart.ability); }
         public override IEnumerator OnOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)
         {
 			CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(base.Card.Slot, true);

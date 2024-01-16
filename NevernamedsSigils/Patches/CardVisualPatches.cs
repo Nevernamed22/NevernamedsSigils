@@ -90,6 +90,11 @@ namespace NevernamedsSigils
         [HarmonyPostfix]
         public static void Postfix(List<Ability> allAbilities, CardInfo __instance, ref string __result)
         {
+            if (__instance && __instance.GetExtendedProperty("InherentRepulsive") != null)
+            {
+                string altered = $"If a creature would attack {__instance.DisplayedNameEnglish}, it does not." + " \n" + __result;
+                __result = altered;
+            }
             if (__instance && __instance.HasTrait(Trait.Pelt))
             {
                 string altered = $"{__instance.DisplayedNameEnglish} is a pelt." + " \n" + __result;

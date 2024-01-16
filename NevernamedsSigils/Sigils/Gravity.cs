@@ -47,7 +47,7 @@ namespace NevernamedsSigils
                 PlayableCard toSteal = Tools.GetStrongestCardOnBoard(true, false, Stalwart.ability);
                 if (toSteal != null && Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => x.Card == null))
                 {
-                    CardSlot target = Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => x.Card == null));
+                    CardSlot target = Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => x.Card == null));
                     if (toSteal.FaceDown)
                     {
                         toSteal.SetFaceDown(false, false);

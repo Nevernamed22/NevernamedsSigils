@@ -53,7 +53,7 @@ namespace NevernamedsSigils
             if (availableSlots.Count > 0)
             {
                 CardSlot oldSlot = base.Card.slot;
-                CardSlot targetSlot = Tools.RandomElement(availableSlots);
+                CardSlot targetSlot = Tools.SeededRandomElement(availableSlots);
                 yield return base.PreSuccessfulTriggerSequence();
                 Vector3 midpoint = (base.Card.Slot.transform.position + targetSlot.transform.position) / 2f;
                 Tween.Position(base.Card.transform, midpoint + Vector3.up * 0.5f, 0.1f, 0f, Tween.EaseIn, Tween.LoopType.None, null, null, true);

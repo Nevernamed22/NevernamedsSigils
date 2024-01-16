@@ -20,6 +20,17 @@ namespace NevernamedsSigils
         public static GameObject act1holotarget = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon");
         public static GameObject act3holotarget = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/SniperTargetIcon");
 
+        public static bool OwnerHasGem(this PlayableCard card, GemType gem)
+        {
+            Ability checkedForGem = Ability.GainGemBlue;
+            switch (gem)
+            {
+                case GemType.Orange: checkedForGem = Ability.GainGemOrange; break;
+                case GemType.Green: checkedForGem = Ability.GainGemGreen; break;
+            }
+            return (card.OpponentCard ? Singleton<BoardManager>.Instance.OpponentSlotsCopy : Singleton<BoardManager>.Instance.PlayerSlotsCopy).Exists((CardSlot x) => x.Card != null && !x.Card.Dead && (x.Card.HasAbility(checkedForGem) || x.Card.HasAbility(Ability.GainGemTriple)));
+        }
+
         public static int CombinedPower(this List<Ability> abilities)
         {
             int toReturn = 0;
@@ -287,7 +298,7 @@ namespace NevernamedsSigils
             if (card.HasAbility(EnergyDependent.ability) && ResourcesManager.Instance.PlayerEnergy <= 0) meetsRequirements = false;
             return meetsRequirements;
         }
-        public static void ClearBoard(List<CardSlot> exemptions = null, bool eraseInsteadOfKill = false, bool glitchout = false)
+        public static void ClearBoard(List<CardSlot> exemptions = null, bool eraseInsteadOfKill = false, bool glitchout = false, bool protectGiant = true)
         {
             foreach (CardSlot cardSlot in Singleton<BoardManager>.Instance.AllSlots)
             {
@@ -296,7 +307,7 @@ namespace NevernamedsSigils
                     if (cardSlot.Card != null)
                     {
                         PlayableCard card = cardSlot.Card;
-                        if (!card.Dead)
+                        if (!card.Dead && (!card.HasTrait(Trait.Giant) || !protectGiant))
                         {
                             if (eraseInsteadOfKill)
                             {
@@ -664,9 +675,9 @@ namespace NevernamedsSigils
         {
             return list[UnityEngine.Random.Range(0, list.Count)];
         }
-        public static T SeededRandomElement<T>(List<T> list, int seed)
+        public static T SeededRandomElement<T>(List<T> list, int seed = -1)
         {
-            return list[SeededRandom.Range(0, list.Count, seed)];
+            return list[SeededRandom.Range(0, list.Count, seed == -1 ? Tools.GetRandomSeed() : seed)];
         }
         public static int GetRandomSeed()
         {

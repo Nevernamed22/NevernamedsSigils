@@ -42,7 +42,7 @@ namespace NevernamedsSigils
             yield return new WaitForSeconds(0.25f);
             List<CardSlot> viableslots = Singleton<BoardManager>.Instance.playerSlots;
             if (base.Card.slot.IsPlayerSlot) viableslots = Singleton<BoardManager>.Instance.opponentSlots;
-            CardSlot cardSlot = Tools.RandomElement(viableslots);
+            CardSlot cardSlot = Tools.SeededRandomElement(viableslots);
             FakeCombatHandler.FakeCombatThing fakecombat = new FakeCombatHandler.FakeCombatThing();
             yield return fakecombat.FakeCombat(!base.Card.OpponentCard, null, base.Card.slot, new List<CardSlot>() { cardSlot });
             yield break;

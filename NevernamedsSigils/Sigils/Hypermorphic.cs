@@ -45,7 +45,7 @@ namespace NevernamedsSigils
 
             Tribe required = Tribe.None;
             bool isRare = base.Card.Info.HasRareTagOrBackground();
-            if ((base.Card.Info.temple == CardTemple.Nature) && (base.Card.Info.tribes.Count > 0) && !isRare) required = Tools.RandomElement(base.Card.Info.tribes);
+            if ((base.Card.Info.temple == CardTemple.Nature) && (base.Card.Info.tribes.Count > 0) && !isRare) required = Tools.SeededRandomElement(base.Card.Info.tribes);
 
             CardInfo orig = Tools.GetRandomCardOfTempleAndQuality(base.Card.Info.temple, Tools.GetActAsInt(), isRare, required, true, new List<string>() { base.Card.Info.name });
             if (orig != null)
@@ -63,9 +63,14 @@ namespace NevernamedsSigils
                 evolution.mods.Add(cardModificationInfo2);
 
                 yield return base.PreSuccessfulTriggerSequence();
+                base.Card.ResetShield();
                 if (evolution != null) yield return base.Card.TransformIntoCard(evolution);
                 yield return new WaitForSeconds(0.2f);
                 ResourcesManager.Instance.ForceGemsUpdate();
+                if (base.Card.Health <= 0 && base.Card.Status.damageTaken > 0)
+                {
+                    base.Card.HealDamage(((base.Card.MaxHealth - base.Card.Status.damageTaken) * -1) + 1);
+                }
                 yield return base.LearnAbility(0.5f);
             }
             yield break;

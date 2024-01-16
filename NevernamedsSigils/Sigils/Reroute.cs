@@ -52,7 +52,7 @@ namespace NevernamedsSigils
             {
 
                 CardSlot oldSlot = base.Card.slot;
-                CardSlot targetSlot = Tools.RandomElement(availableSlots);
+                CardSlot targetSlot = Tools.SeededRandomElement(availableSlots);
                 PlayableCard targetSlotCard = targetSlot.Card;
                 yield return base.PreSuccessfulTriggerSequence();
 

@@ -46,7 +46,7 @@ namespace NevernamedsSigils
             if (base.Card.OpponentCard)
             {
                 PlayableCard strongest = Tools.GetStrongestCardOnBoard(true);
-                CardSlot slot = strongest != null ? strongest.Slot : Tools.RandomElement(Singleton<BoardManager>.Instance.playerSlots);
+                CardSlot slot = strongest != null ? strongest.Slot : Tools.SeededRandomElement(Singleton<BoardManager>.Instance.playerSlots);
                 if (Tools.GetActAsInt() == 1)
                 {
                     if (instanceTarget != null)

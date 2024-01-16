@@ -29,7 +29,7 @@ namespace NevernamedsSigils
         {
             if (cardSlot.Card == null)
             {
-                yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(Tools.RandomElement(Gems)), cardSlot, 0.1f, true);
+                yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName(Tools.SeededRandomElement(Gems)), cardSlot, 0.1f, true);
             }
             yield break;
         }

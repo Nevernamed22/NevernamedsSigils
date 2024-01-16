@@ -52,12 +52,12 @@ namespace NevernamedsSigils
                     RunState.Run.playerDeck.ModifyCard(base.Card.Info, cardModificationInfo);
                 }
                 cardModificationInfo.attackAdjustment = opposer.Attack;
-                cardModificationInfo.healthAdjustment = opposer.Health;
+                cardModificationInfo.healthAdjustment = Mathf.Min(12, opposer.Health);
             }
             else
             {
                 int AtkMod = opposer.Attack - base.Card.Attack;
-                int healthMod = opposer.Health - base.Card.Health;
+                int healthMod = Mathf.Min(12, opposer.Health) - base.Card.Health;
 
                 base.Card.temporaryMods.Add(new CardModificationInfo(AtkMod, healthMod));
             }

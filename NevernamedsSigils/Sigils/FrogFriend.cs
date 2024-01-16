@@ -47,7 +47,7 @@ namespace NevernamedsSigils
                         }
 
                         List<CardInfo> valids = ScriptableObjectLoader<CardInfo>.AllData.FindAll(x => (required == CardTemple.NUM_TEMPLES || x.temple == required) && x.metaCategories.Contains(desired) && (x.DisplayedNameEnglish.ToLower().Contains("frog") || x.DisplayedNameEnglish.ToLower().Contains("toad")));
-                        if (valids.Count > 0) chosen = Tools.RandomElement(valids);
+                        if (valids.Count > 0) chosen = Tools.SeededRandomElement(valids);
                         numtriggers++;
                     }
                 }

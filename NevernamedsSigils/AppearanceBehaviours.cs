@@ -24,6 +24,7 @@ namespace NevernamedsSigils
         public static CardAppearanceBehaviour.Appearance PixelGravestoneCard;
 
         public static CardAppearanceBehaviour.Appearance PixelBloodDecal;
+        public static CardAppearanceBehaviour.Appearance PixelRepulsiveDecal;
         public static CardAppearanceBehaviour.Appearance PixelGooDecal;
         public static CardAppearanceBehaviour.Appearance PixelSmokeDecal;
         public static CardAppearanceBehaviour.Appearance PixelChaosCardDecal;
@@ -68,6 +69,7 @@ namespace NevernamedsSigils
             // TestRedBackground = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "TestRedBackground", typeof(TestRedCardPixel)).Id;
             //PixelGravestoneCard = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelGravestoneCard", typeof(PixelGravestoneCard)).Id;
 
+            PixelRepulsiveDecal = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelRepulsiveDecal", typeof(PixelRepulsiveDecal)).Id;
             PixelBloodDecal = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelBloodDecal", typeof(PixelBloodDecal)).Id;
             PixelGooDecal = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelGooDecal", typeof(PixelGooDecal)).Id;
             PixelSmokeDecal = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelSmokeDecal", typeof(PixelSmokeDecal)).Id;
@@ -100,7 +102,11 @@ namespace NevernamedsSigils
         }
     }
     //Act 2 Card Backgrounds
-    #region PixelCardBackgrounds  
+    #region PixelCardBackgrounds 
+    public class PixelRepulsiveDecal : PixelAppearanceBehaviour
+    {
+        public override Sprite PixelAppearance() { return Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/pixelrepulsivedecal.png")); }
+    }
     public class PixelSmokeDecal : PixelAppearanceBehaviour
     {
         public override Sprite PixelAppearance() { return Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/pixelsmokedecal.png")); }

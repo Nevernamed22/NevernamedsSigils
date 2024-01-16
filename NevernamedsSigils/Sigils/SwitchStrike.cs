@@ -27,7 +27,7 @@ namespace NevernamedsSigils
             ability = newSigil.ability;
         }
         public static Ability ability;
-        public bool isLeft;
+        public bool isLeft = true;
         public override Ability Ability
         {
             get
@@ -43,7 +43,7 @@ namespace NevernamedsSigils
         {
             base.Card.Anim.NegationEffect(false);
             isLeft = !isLeft;
-            base.Card.RenderInfo.SetAbilityFlipped(this.Ability, isLeft);
+            base.Card.RenderInfo.SetAbilityFlipped(this.Ability, !isLeft);
             base.Card.RenderCard();
             yield break;
         }

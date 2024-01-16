@@ -156,6 +156,7 @@
     <None Remove="Resources\Appearances\PixelGemifiedGreen.png" />
     <None Remove="Resources\Appearances\PixelGemifiedOrange.png" />
     <None Remove="Resources\Appearances\pixelgoodecal.png" />
+    <None Remove="Resources\Appearances\pixelrepulsivedecal.png" />
     <None Remove="Resources\Appearances\pixelsmokedecal.png" />
     <None Remove="Resources\Appearances\pixeltombstone.png" />
     <None Remove="Resources\Appearances\pixel_card_empty_deathcard.png" />
@@ -411,6 +412,7 @@
     <None Remove="Resources\Other\preventbonesdecal.png" />
     <None Remove="Resources\Other\rodent_cardback.png" />
     <None Remove="Resources\Other\rodent_tribe.png" />
+    <None Remove="Resources\Other\sanguinebond.png" />
     <None Remove="Resources\Other\sineater.png" />
     <None Remove="Resources\Other\starved.png" />
     <None Remove="Resources\Other\strengthinnumbers.png" />
@@ -485,6 +487,8 @@
     <None Remove="Resources\PixelOther\orangegems_pixel.png" />
     <None Remove="Resources\PixelOther\packpowerplus_pixel.png" />
     <None Remove="Resources\PixelOther\packpower_pixel.png" />
+    <None Remove="Resources\PixelOther\sanguinebond_pixel.png" />
+    <None Remove="Resources\PixelOther\sineater_pixel.png" />
     <None Remove="Resources\PixelOther\starved_pixel.png" />
     <None Remove="Resources\PixelOther\strengthinnumbers_pixel.png" />
     <None Remove="Resources\PixelOther\topdeck_pixel.png" />
@@ -522,6 +526,7 @@
     <None Remove="Resources\PixelSigils\bandageweaver_pixel.png" />
     <None Remove="Resources\PixelSigils\bastion_pixel.png" />
     <None Remove="Resources\PixelSigils\batchdelete_pixel.png" />
+    <None Remove="Resources\PixelSigils\bifurcatedwhengempowered_pixel.png" />
     <None Remove="Resources\PixelSigils\bisection_pixel.png" />
     <None Remove="Resources\PixelSigils\bleachsigil_pixel.png" />
     <None Remove="Resources\PixelSigils\bloated_pixel.png" />
@@ -580,6 +585,7 @@
     <None Remove="Resources\PixelSigils\Conduits\stimconduit_pixel.png" />
     <None Remove="Resources\PixelSigils\Conduits\thornyconduit_pixel.png" />
     <None Remove="Resources\PixelSigils\copier_pixel.png" />
+    <None Remove="Resources\PixelSigils\coward_pixel.png" />
     <None Remove="Resources\PixelSigils\crookedstrikeleft_pixel.png" />
     <None Remove="Resources\PixelSigils\crookedstrikeright_pixel.png" />
     <None Remove="Resources\PixelSigils\crossbones_pixel.png" />
@@ -594,6 +600,7 @@
     <None Remove="Resources\PixelSigils\desperate_pixel.png" />
     <None Remove="Resources\PixelSigils\deushoof_pixel.png" />
     <None Remove="Resources\PixelSigils\dexterstrike_pixel.png" />
+    <None Remove="Resources\PixelSigils\diagonalstrike_pixel.png" />
     <None Remove="Resources\PixelSigils\disembowel_pixel.png" />
     <None Remove="Resources\PixelSigils\distraction2_pixel.png" />
     <None Remove="Resources\PixelSigils\distraction3_pixel.png" />
@@ -628,6 +635,7 @@
     <None Remove="Resources\PixelSigils\draw5_pixel.png" />
     <None Remove="Resources\PixelSigils\draw_pixel.png" />
     <None Remove="Resources\PixelSigils\dripping_pixel.png" />
+    <None Remove="Resources\PixelSigils\drop_pixel.png" />
     <None Remove="Resources\PixelSigils\dupeglitch_pixel.png" />
     <None Remove="Resources\PixelSigils\eager_pixel.png" />
     <None Remove="Resources\PixelSigils\easypickings_pixel.png" />
@@ -639,6 +647,7 @@
     <None Remove="Resources\PixelSigils\enemylines_pixel.png" />
     <None Remove="Resources\PixelSigils\energydependent_pixel.png" />
     <None Remove="Resources\PixelSigils\enraged_pixel.png" />
+    <None Remove="Resources\PixelSigils\entangle_pixel.png" />
     <None Remove="Resources\PixelSigils\erratic_pixel.png" />
     <None Remove="Resources\PixelSigils\espritdecorps_pixel.png" />
     <None Remove="Resources\PixelSigils\eternal_pixel.png" />
@@ -719,6 +728,7 @@
     <None Remove="Resources\PixelSigils\Latches\overclockedlatch_pixel.png" />
     <None Remove="Resources\PixelSigils\Latches\sniperlatch_pixel.png" />
     <None Remove="Resources\PixelSigils\Latches\sprinterlatch_pixel.png" />
+    <None Remove="Resources\PixelSigils\Latches\stalwartlatch_pixel.png" />
     <None Remove="Resources\PixelSigils\Latches\totemlatch_pixel.png" />
     <None Remove="Resources\PixelSigils\Latches\waterbornelatch_pixel.png" />
     <None Remove="Resources\PixelSigils\Latches\weirdlatch_pixel.png" />
@@ -731,6 +741,7 @@
     <None Remove="Resources\PixelSigils\mason_pixel.png" />
     <None Remove="Resources\PixelSigils\mauler_pixel.png" />
     <None Remove="Resources\PixelSigils\medicinal_pixel.png" />
+    <None Remove="Resources\PixelSigils\mirrific_pixel.png" />
     <None Remove="Resources\PixelSigils\mockery_pixel.png" />
     <None Remove="Resources\PixelSigils\morphmover_pixel.png" />
     <None Remove="Resources\PixelSigils\motivator_pixel.png" />
@@ -755,6 +766,7 @@
     <None Remove="Resources\PixelSigils\pinnaclestrike_pixel.png" />
     <None Remove="Resources\PixelSigils\preemptivestrike_pixel.png" />
     <None Remove="Resources\PixelSigils\propagation_pixel.png" />
+    <None Remove="Resources\PixelSigils\prophecy_pixel.png" />
     <None Remove="Resources\PixelSigils\pureheart_pixel.png" />
     <None Remove="Resources\PixelSigils\pushover_pixel.png" />
     <None Remove="Resources\PixelSigils\putsentryhere_pixel.png" />
@@ -764,11 +776,13 @@
     <None Remove="Resources\PixelSigils\ravenous_pixel.png" />
     <None Remove="Resources\PixelSigils\recharge_pixel.png" />
     <None Remove="Resources\PixelSigils\recycle_pixel.png" />
+    <None Remove="Resources\PixelSigils\reflective_pixel.png" />
     <None Remove="Resources\PixelSigils\regenerator_pixel.png" />
     <None Remove="Resources\PixelSigils\rememberance_pixel.png" />
     <None Remove="Resources\PixelSigils\remotecontrolled_pixel.png" />
     <None Remove="Resources\PixelSigils\reroute_pixel.png" />
     <None Remove="Resources\PixelSigils\resilient_pixel.png" />
+    <None Remove="Resources\PixelSigils\retreat_pixel.png" />
     <None Remove="Resources\PixelSigils\returnstrike_pixel.png" />
     <None Remove="Resources\PixelSigils\revolve_pixel.png" />
     <None Remove="Resources\PixelSigils\ripper_pixel.png" />
@@ -791,6 +805,7 @@
     <None Remove="Resources\PixelSigils\siphon_pixel.png" />
     <None Remove="Resources\PixelSigils\skinanimator_pixel.png" />
     <None Remove="Resources\PixelSigils\skullswarm_pixel.png" />
+    <None Remove="Resources\PixelSigils\slimy_pixel.png" />
     <None Remove="Resources\PixelSigils\snakebite_pixel.png" />
     <None Remove="Resources\PixelSigils\snapshot_pixel.png" />
     <None Remove="Resources\PixelSigils\snareclosed_pixel.png" />
@@ -829,6 +844,8 @@
     <None Remove="Resources\PixelSigils\surgingquills8_pixel.png" />
     <None Remove="Resources\PixelSigils\surgingquills9_pixel.png" />
     <None Remove="Resources\PixelSigils\surgingquills_pixel.png" />
+    <None Remove="Resources\PixelSigils\sweepingstrikeleft_pixel.png" />
+    <None Remove="Resources\PixelSigils\sweepingstrikeright_pixel.png" />
     <None Remove="Resources\PixelSigils\switchstrike_pixel.png" />
     <None Remove="Resources\PixelSigils\swoopingstrike_pixel.png" />
     <None Remove="Resources\PixelSigils\telepathic_pixel.png" />
@@ -858,6 +875,7 @@
     <None Remove="Resources\PixelSigils\unfocusedstrike_pixel.png" />
     <None Remove="Resources\PixelSigils\unhammerable_pixel.png" />
     <None Remove="Resources\PixelSigils\unlucky_pixel.png" />
+    <None Remove="Resources\PixelSigils\unspeakable_pixel.png" />
     <None Remove="Resources\PixelSigils\unstablegems_pixel.png" />
     <None Remove="Resources\PixelSigils\valuable_pixel.png" />
     <None Remove="Resources\PixelSigils\vampiric_pixel.png" />
@@ -1021,6 +1039,7 @@
     <None Remove="Resources\Sigils\bandageweaver.png" />
     <None Remove="Resources\Sigils\bastion.png" />
     <None Remove="Resources\Sigils\batchdelete.png" />
+    <None Remove="Resources\Sigils\bifurcatedwhengempowered.png" />
     <None Remove="Resources\Sigils\bisection.png" />
     <None Remove="Resources\Sigils\bleachsigil.png" />
     <None Remove="Resources\Sigils\bloated.png" />
@@ -1086,6 +1105,7 @@
     <None Remove="Resources\Sigils\Conduits\tenderbond.png" />
     <None Remove="Resources\Sigils\Conduits\thornyconduit.png" />
     <None Remove="Resources\Sigils\copier.png" />
+    <None Remove="Resources\Sigils\coward.png" />
     <None Remove="Resources\Sigils\crookedstrikeleft.png" />
     <None Remove="Resources\Sigils\crookedstrikeright.png" />
     <None Remove="Resources\Sigils\crossbones.png" />
@@ -1099,6 +1119,7 @@
     <None Remove="Resources\Sigils\desperate.png" />
     <None Remove="Resources\Sigils\deushoof.png" />
     <None Remove="Resources\Sigils\dexterstrike.png" />
+    <None Remove="Resources\Sigils\diagonalstrike.png" />
     <None Remove="Resources\Sigils\disembowel.png" />
     <None Remove="Resources\Sigils\distraction.png" />
     <None Remove="Resources\Sigils\distraction2.png" />
@@ -1145,6 +1166,7 @@
     <None Remove="Resources\Sigils\enemylines.png" />
     <None Remove="Resources\Sigils\energydependent.png" />
     <None Remove="Resources\Sigils\enraged.png" />
+    <None Remove="Resources\Sigils\entangle.png" />
     <None Remove="Resources\Sigils\erratic.png" />
     <None Remove="Resources\Sigils\espritdecorps.png" />
     <None Remove="Resources\Sigils\eternal.png" />
@@ -1225,6 +1247,7 @@
     <None Remove="Resources\Sigils\Latches\overclockedlatch.png" />
     <None Remove="Resources\Sigils\Latches\sniperlatch.png" />
     <None Remove="Resources\Sigils\Latches\sprinterlatch.png" />
+    <None Remove="Resources\Sigils\Latches\stalwartlatch.png" />
     <None Remove="Resources\Sigils\Latches\totemlatch.png" />
     <None Remove="Resources\Sigils\Latches\waterbornelatch.png" />
     <None Remove="Resources\Sigils\legion.png" />
@@ -1236,6 +1259,7 @@
     <None Remove="Resources\Sigils\mason.png" />
     <None Remove="Resources\Sigils\mauler.png" />
     <None Remove="Resources\Sigils\medicinal.png" />
+    <None Remove="Resources\Sigils\mirrific.png" />
     <None Remove="Resources\Sigils\mockery.png" />
     <None Remove="Resources\Sigils\morphmover.png" />
     <None Remove="Resources\Sigils\motivator.png" />
@@ -1260,6 +1284,7 @@
     <None Remove="Resources\Sigils\pointnemo.png" />
     <None Remove="Resources\Sigils\preemptivestrike.png" />
     <None Remove="Resources\Sigils\propagation.png" />
+    <None Remove="Resources\Sigils\prophecy.png" />
     <None Remove="Resources\Sigils\pureheart.png" />
     <None Remove="Resources\Sigils\pushover.png" />
     <None Remove="Resources\Sigils\putsentryhere.png" />
@@ -1269,11 +1294,13 @@
     <None Remove="Resources\Sigils\ravenous.png" />
     <None Remove="Resources\Sigils\recharge.png" />
     <None Remove="Resources\Sigils\recycle.png" />
+    <None Remove="Resources\Sigils\reflective.png" />
     <None Remove="Resources\Sigils\regenerator.png" />
     <None Remove="Resources\Sigils\rememberance.png" />
     <None Remove="Resources\Sigils\remotecontrolled.png" />
     <None Remove="Resources\Sigils\reroute.png" />
     <None Remove="Resources\Sigils\resilient.png" />
+    <None Remove="Resources\Sigils\retreat.png" />
     <None Remove="Resources\Sigils\returnstrike.png" />
     <None Remove="Resources\Sigils\revolve.png" />
     <None Remove="Resources\Sigils\ripper.png" />
@@ -1296,6 +1323,7 @@
     <None Remove="Resources\Sigils\siphon.png" />
     <None Remove="Resources\Sigils\skinanimator.png" />
     <None Remove="Resources\Sigils\skullswarm.png" />
+    <None Remove="Resources\Sigils\slimy.png" />
     <None Remove="Resources\Sigils\snakebite.png" />
     <None Remove="Resources\Sigils\snapshot.png" />
     <None Remove="Resources\Sigils\snare.png" />
@@ -1336,6 +1364,8 @@
     <None Remove="Resources\Sigils\surgingquills7.png" />
     <None Remove="Resources\Sigils\surgingquills8.png" />
     <None Remove="Resources\Sigils\surgingquills9.png" />
+    <None Remove="Resources\Sigils\sweepingstrikeleft.png" />
+    <None Remove="Resources\Sigils\sweepingstrikeright.png" />
     <None Remove="Resources\Sigils\switchstrike.png" />
     <None Remove="Resources\Sigils\swoopingstrike.png" />
     <None Remove="Resources\Sigils\telepathic.png" />
@@ -1365,6 +1395,7 @@
     <None Remove="Resources\Sigils\unfocusedstrike.png" />
     <None Remove="Resources\Sigils\unhammerable.png" />
     <None Remove="Resources\Sigils\unlucky.png" />
+    <None Remove="Resources\Sigils\unspeakable.png" />
     <None Remove="Resources\Sigils\unstablegems.png" />
     <None Remove="Resources\Sigils\valuable.png" />
     <None Remove="Resources\Sigils\vampiric.png" />
@@ -1528,6 +1559,7 @@
     <EmbeddedResource Include="Resources\Appearances\pikemagebackground_pixel.png" />
     <EmbeddedResource Include="Resources\Appearances\pixelchaoscard.png" />
     <EmbeddedResource Include="Resources\Appearances\pixelgoodecal.png" />
+    <EmbeddedResource Include="Resources\Appearances\pixelrepulsivedecal.png" />
     <EmbeddedResource Include="Resources\Appearances\pixelsmokedecal.png" />
     <EmbeddedResource Include="Resources\Appearances\pixel_card_empty_deathcard.png" />
     <EmbeddedResource Include="Resources\Appearances\pixel_card_empty_rare.png" />
@@ -1718,6 +1750,7 @@
     <EmbeddedResource Include="Resources\Other\lithophile.png" />
     <EmbeddedResource Include="Resources\Other\magickepower.png" />
     <EmbeddedResource Include="Resources\Other\orangegems.png" />
+    <EmbeddedResource Include="Resources\Other\sanguinebond.png" />
     <EmbeddedResource Include="Resources\Other\starved.png" />
     <EmbeddedResource Include="Resources\Other\topdeck.png" />
     <EmbeddedResource Include="Resources\PixelCards\boneeffigy_pixel.png" />
@@ -1758,6 +1791,8 @@
     <EmbeddedResource Include="Resources\PixelOther\lithophile_pixel.png" />
     <EmbeddedResource Include="Resources\PixelOther\magickepower_pixel.png" />
     <EmbeddedResource Include="Resources\PixelOther\orangegems_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelOther\sanguinebond_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelOther\sineater_pixel.png" />
     <EmbeddedResource Include="Resources\PixelOther\starved_pixel.png" />
     <EmbeddedResource Include="Resources\PixelOther\topdeck_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\absorber_pixel.png" />
@@ -1794,6 +1829,7 @@
     <EmbeddedResource Include="Resources\PixelSigils\backup_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\bastion_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\batchdelete_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\bifurcatedwhengempowered_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\bleachsigil_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\bloated_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\bloodartist_pixel.png" />
@@ -1826,10 +1862,12 @@
     <EmbeddedResource Include="Resources\PixelSigils\Conduits\sapphireconduit_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\Conduits\stimconduit_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\Conduits\thornyconduit_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\coward_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\crunchy_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\deadringer_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\defiler_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\desperate_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\diagonalstrike_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\disembowel_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\distraction2_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\distraction3_pixel.png" />
@@ -1858,10 +1896,12 @@
     <EmbeddedResource Include="Resources\PixelSigils\draw5_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\draw_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\dripping_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\drop_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\easypickings_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\emeraldcore_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\emeralddependant_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\emeraldheart_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\entangle_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\eternal_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\exhume_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\expulsion2_pixel.png" />
@@ -1896,11 +1936,13 @@
     <EmbeddedResource Include="Resources\PixelSigils\Latches\airbornelatch_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\Latches\annoyinglatch_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\Latches\sniperlatch_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\Latches\stalwartlatch_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\Latches\totemlatch_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\Latches\weirdlatch_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\lockdown_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\magitech_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\marcescent_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\mirrific_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\morphmover_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\motivator_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\moxmax_pixel.png" />
@@ -1914,15 +1956,18 @@
     <EmbeddedResource Include="Resources\PixelSigils\perfectform_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\piercing_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\preemptivestrike_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\prophecy_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\pureheart_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\putsentryhere_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\quadstrike_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\quickdraw_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\ranger_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\recycle_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\reflective_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\regenerator_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\rememberance_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\reroute_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\retreat_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\rubycore_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\rubydependant_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\rupture_pixel.png" />
@@ -1931,6 +1976,7 @@
     <EmbeddedResource Include="Resources\PixelSigils\sapphireheart_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\sigilmimic_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\skullswarm_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\slimy_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\snareclosed_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\snip_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\soak1_pixel.png" />
@@ -1956,12 +2002,15 @@
     <EmbeddedResource Include="Resources\PixelSigils\surgingquills8_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\surgingquills9_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\surgingquills_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\sweepingstrikeleft_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\sweepingstrikeright_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\switchstrike_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\telepathic_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\toxic_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\transmogrification_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\underpressure_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\unhammerable_pixel.png" />
+    <EmbeddedResource Include="Resources\PixelSigils\unspeakable_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\unstablegems_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\vivalarevolution_pixel.png" />
     <EmbeddedResource Include="Resources\PixelSigils\waterbird_pixel.png" />
@@ -2092,6 +2141,7 @@
     <EmbeddedResource Include="Resources\Sigils\backup.png" />
     <EmbeddedResource Include="Resources\Sigils\bastion.png" />
     <EmbeddedResource Include="Resources\Sigils\batchdelete.png" />
+    <EmbeddedResource Include="Resources\Sigils\bifurcatedwhengempowered.png" />
     <EmbeddedResource Include="Resources\Sigils\bleachsigil.png" />
     <EmbeddedResource Include="Resources\Sigils\bloated.png" />
     <EmbeddedResource Include="Resources\Sigils\bloodartist.png" />
@@ -2126,10 +2176,12 @@
     <EmbeddedResource Include="Resources\Sigils\Conduits\sapphireconduit.png" />
     <EmbeddedResource Include="Resources\Sigils\Conduits\stimconduit.png" />
     <EmbeddedResource Include="Resources\Sigils\Conduits\thornyconduit.png" />
+    <EmbeddedResource Include="Resources\Sigils\coward.png" />
     <EmbeddedResource Include="Resources\Sigils\crunchy.png" />
     <EmbeddedResource Include="Resources\Sigils\deadringer.png" />
     <EmbeddedResource Include="Resources\Sigils\defiler.png" />
     <EmbeddedResource Include="Resources\Sigils\desperate.png" />
+    <EmbeddedResource Include="Resources\Sigils\diagonalstrike.png" />
     <EmbeddedResource Include="Resources\Sigils\disembowel.png" />
     <EmbeddedResource Include="Resources\Sigils\divination.png" />
     <EmbeddedResource Include="Resources\Sigils\docile.png" />
@@ -2149,6 +2201,7 @@
     <EmbeddedResource Include="Resources\Sigils\easypickings.png" />
     <EmbeddedResource Include="Resources\Sigils\emeraldcore.png" />
     <EmbeddedResource Include="Resources\Sigils\emeralddependant.png" />
+    <EmbeddedResource Include="Resources\Sigils\entangle.png" />
     <EmbeddedResource Include="Resources\Sigils\eternal.png" />
     <EmbeddedResource Include="Resources\Sigils\exhume.png" />
     <EmbeddedResource Include="Resources\Sigils\expulsion.png" />
@@ -2180,10 +2233,12 @@
     <EmbeddedResource Include="Resources\Sigils\Latches\airbornelatch.png" />
     <EmbeddedResource Include="Resources\Sigils\Latches\annoyinglatch.png" />
     <EmbeddedResource Include="Resources\Sigils\Latches\sniperlatch.png" />
+    <EmbeddedResource Include="Resources\Sigils\Latches\stalwartlatch.png" />
     <EmbeddedResource Include="Resources\Sigils\Latches\totemlatch.png" />
     <EmbeddedResource Include="Resources\Sigils\lockdown.png" />
     <EmbeddedResource Include="Resources\Sigils\magitech.png" />
     <EmbeddedResource Include="Resources\Sigils\marcescent.png" />
+    <EmbeddedResource Include="Resources\Sigils\mirrific.png" />
     <EmbeddedResource Include="Resources\Sigils\morphmover.png" />
     <EmbeddedResource Include="Resources\Sigils\moxmax.png" />
     <EmbeddedResource Include="Resources\Sigils\mysterymox.png" />
@@ -2195,15 +2250,18 @@
     <EmbeddedResource Include="Resources\Sigils\perfectform.png" />
     <EmbeddedResource Include="Resources\Sigils\piercing.png" />
     <EmbeddedResource Include="Resources\Sigils\preemptivestrike.png" />
+    <EmbeddedResource Include="Resources\Sigils\prophecy.png" />
     <EmbeddedResource Include="Resources\Sigils\pureheart.png" />
     <EmbeddedResource Include="Resources\Sigils\putsentryhere.png" />
     <EmbeddedResource Include="Resources\Sigils\quadstrike.png" />
     <EmbeddedResource Include="Resources\Sigils\quickdraw.png" />
     <EmbeddedResource Include="Resources\Sigils\ranger.png" />
     <EmbeddedResource Include="Resources\Sigils\recycle.png" />
+    <EmbeddedResource Include="Resources\Sigils\reflective.png" />
     <EmbeddedResource Include="Resources\Sigils\regenerator.png" />
     <EmbeddedResource Include="Resources\Sigils\rememberance.png" />
     <EmbeddedResource Include="Resources\Sigils\reroute.png" />
+    <EmbeddedResource Include="Resources\Sigils\retreat.png" />
     <EmbeddedResource Include="Resources\Sigils\rubycore.png" />
     <EmbeddedResource Include="Resources\Sigils\rubydependant.png" />
     <EmbeddedResource Include="Resources\Sigils\rupture.png" />
@@ -2682,6 +2740,7 @@
     <EmbeddedResource Include="Resources\Sigils\siphon.png" />
     <EmbeddedResource Include="Resources\Sigils\skinanimator.png" />
     <EmbeddedResource Include="Resources\Sigils\skullswarm.png" />
+    <EmbeddedResource Include="Resources\Sigils\slimy.png" />
     <EmbeddedResource Include="Resources\Sigils\snakebite.png" />
     <EmbeddedResource Include="Resources\Sigils\snapshot.png" />
     <EmbeddedResource Include="Resources\Sigils\snare.png" />
@@ -2722,6 +2781,8 @@
     <EmbeddedResource Include="Resources\Sigils\surgingquills7.png" />
     <EmbeddedResource Include="Resources\Sigils\surgingquills8.png" />
     <EmbeddedResource Include="Resources\Sigils\surgingquills9.png" />
+    <EmbeddedResource Include="Resources\Sigils\sweepingstrikeleft.png" />
+    <EmbeddedResource Include="Resources\Sigils\sweepingstrikeright.png" />
     <EmbeddedResource Include="Resources\Sigils\switchstrike.png" />
     <EmbeddedResource Include="Resources\Sigils\swoopingstrike.png" />
     <EmbeddedResource Include="Resources\Sigils\telepathic.png" />
@@ -2751,6 +2812,7 @@
     <EmbeddedResource Include="Resources\Sigils\unfocusedstrike.png" />
     <EmbeddedResource Include="Resources\Sigils\unhammerable.png" />
     <EmbeddedResource Include="Resources\Sigils\unlucky.png" />
+    <EmbeddedResource Include="Resources\Sigils\unspeakable.png" />
     <EmbeddedResource Include="Resources\Sigils\unstablegems.png" />
     <EmbeddedResource Include="Resources\Sigils\valuable.png" />
     <EmbeddedResource Include="Resources\Sigils\vampiric.png" />

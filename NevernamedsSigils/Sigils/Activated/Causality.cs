@@ -65,7 +65,7 @@ namespace NevernamedsSigils
                 case 1:
                     Singleton<ViewManager>.Instance.SwitchToView(View.Board, false, false);
                     List<CardSlot> slotsWithCreatures = Singleton<BoardManager>.Instance.playerSlots.FindAll((CardSlot x) => x.Card != null);
-                    PlayableCard card = Tools.RandomElement(slotsWithCreatures).Card;
+                    PlayableCard card = Tools.SeededRandomElement(slotsWithCreatures).Card;
                     card.temporaryMods.Add(new CardModificationInfo(1, 0));
                     card.Anim.LightNegationEffect();
                     switch (act)
@@ -84,7 +84,7 @@ namespace NevernamedsSigils
                 case 2:
                     Singleton<ViewManager>.Instance.SwitchToView(View.Board, false, false);
                     List<CardSlot> slotsWithCreatures2 = Singleton<BoardManager>.Instance.playerSlots.FindAll((CardSlot x) => x.Card != null);
-                    PlayableCard card2 = Tools.RandomElement(slotsWithCreatures2).Card;
+                    PlayableCard card2 = Tools.SeededRandomElement(slotsWithCreatures2).Card;
                     card2.temporaryMods.Add(new CardModificationInfo(0, 1));
                     card2.Anim.LightNegationEffect();
                     switch (act)

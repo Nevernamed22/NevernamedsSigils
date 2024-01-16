@@ -16,6 +16,7 @@ namespace NevernamedsSigils
         [HarmonyPrefix]
         public static void BattleStartPatch(TurnManager __instance)
         {
+            Prophecy.ChosenCards.Clear();
             //if (CardSelectionHandler.instance != null) { UnityEngine.Object.Destroy(CardSelectionHandler.instance.gameObject); }
             //GameObject inst = new GameObject();
             //CardSelectionHandler resinst = inst.AddComponent<CardSelectionHandler>();
@@ -32,6 +33,7 @@ namespace NevernamedsSigils
         public static IEnumerator BattleEndPatch(IEnumerator enumerator, TurnManager __instance)
         {
             //if (CardSelectionHandler.instance != null) { UnityEngine.Object.Destroy(CardSelectionHandler.instance.gameObject); CardSelectionHandler.instance = null; }
+            Prophecy.ChosenCards.Clear();
             yield return enumerator;
             yield break;
         }
@@ -125,7 +127,7 @@ namespace NevernamedsSigils
                         overrideDialogue.Add($"You need two {HintsHandler.GetColorCodeForGem(unsatisfiedGem) + Localization.Translate(unsatisfiedGem.ToString()) + " </color>"} gems to play that {card.Info.DisplayedNameLocalized}");
                     }
                 }
-                if (card.HasTrait( Trait.Gem) && Singleton<BoardManager>.Instance.playerSlots.Exists(x => x.Card != null && x.Card.HasAbility(GemSkeptic.ability)))
+                if (card.HasTrait(Trait.Gem) && Singleton<BoardManager>.Instance.playerSlots.Exists(x => x.Card != null && x.Card.HasAbility(GemSkeptic.ability)))
                 {
                     overrideDialogue.Clear();
                     overrideDialogue.Add("The gem skeptic sigil prevents you from playing that gem.");
@@ -204,6 +206,29 @@ namespace NevernamedsSigils
                 }
             }
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(CardDrawPiles), nameof(CardDrawPiles.DrawCardFromDeck))]
+    public class DrawCardFromDeckPatch
+    {
+        [HarmonyPrefix]
+        public static void DrawCard(CardDrawPiles __instance, ref CardInfo specificCard, Action<PlayableCard> cardAssignedCallback)
+        {
+            if (specificCard == null && Prophecy.ChosenCards.Count > 0)
+            {
+                CardInfo prophetic = null;
+                for (int i = 0; i < Prophecy.ChosenCards.Count; i++)
+                {
+                    if (Prophecy.ChosenCards[i] != null && Singleton<CardDrawPiles>.Instance.Deck.Cards.Contains(Prophecy.ChosenCards[i]))
+                    {
+                        prophetic = Prophecy.ChosenCards[i];
+                        Prophecy.ChosenCards.RemoveAt(i);
+                        break;
+                    }
+                }
+                specificCard = prophetic;
+            }
         }
     }
 }

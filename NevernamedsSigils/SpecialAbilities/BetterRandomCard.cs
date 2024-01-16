@@ -43,14 +43,14 @@ namespace NevernamedsSigils
             if (Tools.GetActAsInt() == 2)
             {
                 CardInfo randomcard = Tools.GetRandomCardOfTempleAndQuality(
-                    Tools.RandomElement(new List<CardTemple>() { CardTemple.Nature, CardTemple.Tech, CardTemple.Undead, CardTemple.Wizard }),
+                    Tools.SeededRandomElement(new List<CardTemple>() { CardTemple.Nature, CardTemple.Tech, CardTemple.Undead, CardTemple.Wizard }),
                     2, false, Tribe.None, false);
 
                 int inc = 1;
                 while (randomcard.SpecialAbilities.Contains(SpecialTriggeredAbility.RandomCard))
                 {
                     randomcard = Tools.GetRandomCardOfTempleAndQuality(
-                Tools.RandomElement(new List<CardTemple>() { CardTemple.Nature, CardTemple.Tech, CardTemple.Undead, CardTemple.Wizard }),
+                Tools.SeededRandomElement(new List<CardTemple>() { CardTemple.Nature, CardTemple.Tech, CardTemple.Undead, CardTemple.Wizard }),
                 2, false, Tribe.None, false, null, inc);
                     inc++;
                 }

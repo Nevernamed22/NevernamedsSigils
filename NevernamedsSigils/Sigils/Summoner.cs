@@ -66,7 +66,7 @@ namespace NevernamedsSigils
                         Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
                         Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
-                            Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                            Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
                         Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                     }
                 }
@@ -105,8 +105,11 @@ namespace NevernamedsSigils
                     List<CardInfo> techCards = CardLoader.GetUnlockedCards(CardMetaCategory.Part3Random, CardTemple.Tech);
                     if (base.Card.Info.GetExtendedProperty("SummonerGivesRareCards") != null)
                     {
-                        List<CardInfo> temp = techCards.FindAll((CardInfo x) => x.metaCategories.Contains(CardMetaCategory.Rare));
-                        techCards = temp;
+                        techCards.RemoveAll(x => !x.metaCategories.Contains(CardMetaCategory.Rare));
+                    }
+                    else
+                    {
+                        techCards.RemoveAll(x => x.metaCategories.Contains(CardMetaCategory.Rare));
                     }
                     if (techCards.Count >= 0)
                     {

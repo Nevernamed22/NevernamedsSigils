@@ -37,6 +37,7 @@ namespace NevernamedsSigils
 
             CardInfo inf = Tools.TrueClone(base.Card.Info);
             inf.mods.Add(new CardModificationInfo() { negateAbilities = new List<Ability>() { Trio.ability } });
+
             yield return Singleton<BoardManager>.Instance.CreateCardInSlot(inf, slot, 0.15f, true);
             yield break;
         }

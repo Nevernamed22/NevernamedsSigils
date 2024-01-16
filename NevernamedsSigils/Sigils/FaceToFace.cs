@@ -125,14 +125,14 @@ namespace NevernamedsSigils
             if (Singleton<TurnManager>.Instance.opponent != null)
             {
                 bossType = Singleton<TurnManager>.Instance.opponent.OpponentType;
-                Debug.Log(bossType);
+                //Debug.Log(bossType);
                 if (Singleton<TurnManager>.Instance.opponent.gameObject.GetComponent<PixelOpponent>() != null)
                 {
                     PixelOpponent opponent = Singleton<TurnManager>.Instance.opponent.gameObject.GetComponent<PixelOpponent>();
                     if (opponent.DialogueSpeaker != null)
                     {
                     characterType = Singleton<TurnManager>.Instance.opponent.gameObject.GetComponent<PixelOpponent>().DialogueSpeaker.characterId;
-                    Debug.Log(characterType);
+                    //Debug.Log(characterType);
                     }
                 }
             }

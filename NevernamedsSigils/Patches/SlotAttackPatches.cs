@@ -51,9 +51,13 @@ namespace NevernamedsSigils
         {
             if (attackingSlot.Card != null)
             {
+                if (attackingSlot.Card.gameObject.GetComponent<TangledEffect>() && !attackingSlot.Card.gameObject.GetComponent<TangledEffect>().primed)
+                {
+                    attackingSlot.Card.gameObject.GetComponent<TangledEffect>().primed = true;
+                }
 
-                //Abstain
-                if (attackingSlot.Card.HasAbility(Abstain.ability) || (attackingSlot.Card.GetComponent<Docile>() && attackingSlot.Card.GetComponent<Docile>().turnsUntilNextAttack != 0) || (attackingSlot.Card.GetComponent<VivaLaRevolution>() && attackingSlot.Card.GetComponent<VivaLaRevolution>().wasOpponent != attackingSlot.Card.OpponentCard))
+                    //Abstain
+                    if (attackingSlot.Card.HasAbility(Abstain.ability) || (attackingSlot.Card.GetComponent<Docile>() && attackingSlot.Card.GetComponent<Docile>().turnsUntilNextAttack != 0) || (attackingSlot.Card.GetComponent<VivaLaRevolution>() && attackingSlot.Card.GetComponent<VivaLaRevolution>().wasOpponent != attackingSlot.Card.OpponentCard))
                 {
                     attackingSlot.Card.Anim.StrongNegationEffect();
                     return false;
@@ -98,7 +102,7 @@ namespace NevernamedsSigils
                         List<CardSlot> viableslots = new List<CardSlot>();
                         if (card.slot.IsPlayerSlot) viableslots = Singleton<BoardManager>.Instance.opponentSlots;
                         else viableslots = Singleton<BoardManager>.Instance.playerSlots;
-                        CardSlot cardSlot = Tools.RandomElement(viableslots);
+                        CardSlot cardSlot = Tools.SeededRandomElement(viableslots);
                         opposingSlot = cardSlot;
                     }
                     if (card.HasAbility(CrookedStrikeLeft.ability) && !card.HasAbility(CrookedStrikeRight.ability))
@@ -113,8 +117,35 @@ namespace NevernamedsSigils
                     {
                         if (Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, card.GetComponent<WaveringStrike>().isLeft) != null) { opposingSlot = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, card.GetComponent<WaveringStrike>().isLeft); }
                     }
+
+                    if (opposingSlot && card.HasAbility(DiagonalStrike.ability))
+                    {
+                        List<CardSlot> slots = Singleton<BoardManager>.Instance.GetAdjacentSlots(opposingSlot);
+                        if (!slots.Exists(x => x.Card == null) || !slots.Exists(x => x.Card != null))
+                        {
+                            opposingSlot = Tools.SeededRandomElement(slots);
+                        }
+                        else
+                        {
+                            opposingSlot = slots.Find(x => x.Card != null);
+                        }
+                    }
                 }
 
+                List<CardSlot> opponentSlotsWithCards = (attackingSlot.Card.IsPlayerCard() ? Singleton<BoardManager>.Instance.opponentSlots : Singleton<BoardManager>.Instance.playerSlots).FindAll(x => x.Card != null);
+               if (!attackingSlot.Card.HasAbility(Diver.ability)) { opponentSlotsWithCards.RemoveAll(x => x.Card.FaceDown); }          
+                if (opponentSlotsWithCards != null && opponentSlotsWithCards.Count > 0)
+                {
+                    if (attackingSlot.Card.HasAbility(SweepingStrikeLeft.ability))
+                    {
+                        if (attackingSlot.Card.HasAbility(SweepingStrikeRight.ability))
+                        {
+                            opposingSlot = UnityEngine.Random.value <= 0.5 ? opposingSlot = opponentSlotsWithCards[0] : opponentSlotsWithCards[opponentSlotsWithCards.Count - 1];
+                        }
+                        else { opposingSlot = opponentSlotsWithCards[0]; }
+                    }
+                    else if (attackingSlot.Card.HasAbility(SweepingStrikeRight.ability)) { opposingSlot = opponentSlotsWithCards[opponentSlotsWithCards.Count - 1]; }
+                }
 
                 if (opposingSlot && (opposingSlot.Card == null || !opposingSlot.Card.HasAbility(TemptingTarget.ability)))
                 {
@@ -152,13 +183,16 @@ namespace NevernamedsSigils
             yield return enumerator;
             if (attackingSlot.Card != null)
             {
-                if (attackingSlot.Card.HasAbility(SplashDamage.ability) || (attackingSlot.Card.HasAbility(SplashDamageWhenPowered.ability) && Singleton<ConduitCircuitManager>.Instance != null && Singleton<ConduitCircuitManager>.Instance.SlotIsWithinCircuit(attackingSlot)))
+                int splashDamageAMT = 0;
+                if (attackingSlot.Card.HasAbility(SplashDamage.ability)) { splashDamageAMT++; }
+                if ((attackingSlot.Card.HasAbility(SplashDamageWhenPowered.ability) && Singleton<ConduitCircuitManager>.Instance != null && Singleton<ConduitCircuitManager>.Instance.SlotIsWithinCircuit(attackingSlot))) { splashDamageAMT++; }
+                if (splashDamageAMT > 0)
                 {
                     CardSlot toLeft = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, true);
                     CardSlot toRight = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, false);
 
-                    if (toLeft && toLeft.Card != null) { yield return toLeft.Card.TakeDamage(1, attackingSlot.Card); }
-                    if (toRight && toRight.Card != null) { yield return toRight.Card.TakeDamage(1, attackingSlot.Card); }
+                    if (toLeft && toLeft.Card != null) { yield return toLeft.Card.TakeDamage(splashDamageAMT, attackingSlot.Card); }
+                    if (toRight && toRight.Card != null) { yield return toRight.Card.TakeDamage(splashDamageAMT, attackingSlot.Card); }
                 }
                 if (attackingSlot.Card.HasAbility(Piercing.ability))
                 {
@@ -242,12 +276,67 @@ namespace NevernamedsSigils
         [HarmonyPostfix]
         public static IEnumerator PostFix(IEnumerator enumerator, int damage, CardSlot attackingSlot, CardSlot opposingSlot)
         {
-            if (attackingSlot && attackingSlot.Card && attackingSlot.Card.HasAbility(Mauler.ability))
+            bool skipOverkill = false;
+            if (attackingSlot && attackingSlot.Card)
             {
-                yield return new WaitForSeconds(0.1f);
-                yield return Singleton<LifeManager>.Instance.ShowDamageSequence(damage, damage, !attackingSlot.Card.slot.IsPlayerSlot, 0.1f, null, 0f, true);
+                if (attackingSlot.Card.HasAbility(Mauler.ability))
+                {
+                    skipOverkill = true;
+                    yield return new WaitForSeconds(0.1f);
+                    yield return Singleton<LifeManager>.Instance.ShowDamageSequence(damage, damage, !attackingSlot.Card.slot.IsPlayerSlot, 0.1f, null, 0f, true);
+                }
+                if (attackingSlot.Card.HasAbility(SweepingStrikeLeft.ability) && opposingSlot != null)
+                {
+                    CardSlot rightslot = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, false);
+                    if (rightslot && rightslot.Card && !rightslot.Card.Dead && (!rightslot.Card.FaceDown || attackingSlot.Card.HasAbility(Diver.ability)))
+                    {
+                        yield return DealHorizontalOverkill(opposingSlot, attackingSlot, false, damage);
+                        skipOverkill = true;
+                    }
+                }
+                if (attackingSlot.Card.HasAbility(SweepingStrikeRight.ability) && opposingSlot != null)
+                {
+                    CardSlot leftslot = Singleton<BoardManager>.Instance.GetAdjacent(opposingSlot, true);
+                    if (leftslot && leftslot.Card && !leftslot.Card.Dead && (!leftslot.Card.FaceDown || attackingSlot.Card.HasAbility(Diver.ability)))
+                    {
+                        yield return DealHorizontalOverkill(opposingSlot, attackingSlot, true, damage);
+                        skipOverkill = true;
+                    }
+                }
             }
-            else { yield return enumerator; }
+            if (!skipOverkill) { yield return enumerator; }
+            yield break;
+        }
+
+        public static IEnumerator DealHorizontalOverkill(CardSlot damagedSlot, CardSlot attackingSlot, bool left, int amountOfOverkill)
+        {
+            CardSlot horizSlot = Singleton<BoardManager>.Instance.GetAdjacent(damagedSlot, left);
+            if (horizSlot && horizSlot.Card && !horizSlot.Card.Dead && (!horizSlot.Card.FaceDown || attackingSlot.Card.HasAbility(Diver.ability)))
+            {
+                bool wasFaceDown = false;
+                if (horizSlot.Card.FaceDown)
+                {
+                    wasFaceDown = true;
+                    horizSlot.Card.SetFaceDown(false, false);
+                    horizSlot.Card.UpdateFaceUpOnBoardEffects();
+                    yield return new WaitForSeconds(0.1f);
+                }
+                yield return new WaitForSeconds(0.1f);
+                int leftovers = amountOfOverkill - horizSlot.Card.Health;
+                yield return horizSlot.Card.TakeDamage(amountOfOverkill, attackingSlot.Card);
+
+                if (wasFaceDown && horizSlot.Card != null && !horizSlot.Card.Dead)
+                {
+                    yield return new WaitForSeconds(0.1f);
+                    horizSlot.Card.SetFaceDown(true, false);
+                    horizSlot.Card.UpdateFaceUpOnBoardEffects();
+                }
+
+                if (leftovers > 0)
+                {
+                    yield return DealHorizontalOverkill(horizSlot, attackingSlot, left, leftovers);
+                }           
+            }
             yield break;
         }
     }

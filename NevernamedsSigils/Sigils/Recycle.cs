@@ -75,7 +75,7 @@ namespace NevernamedsSigils
                     Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
                     Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
-                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
                     Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                 }
 

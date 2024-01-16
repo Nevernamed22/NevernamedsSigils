@@ -44,7 +44,7 @@ namespace NevernamedsSigils
                // Debug.Log("Triggered");
                 int max = 3;
                 if (otherCard.GetAllAbilities().Count > 0) max = 4;
-                switch (UnityEngine.Random.Range(1, max))
+                switch (SeededRandom.Range(1, max, Tools.GetRandomSeed()))
                 {
                     case 1:
                         //Debug.Log("Debuffed Attack");
@@ -66,7 +66,7 @@ namespace NevernamedsSigils
                         break;
                     case 3:
                         //Debug.Log("Debuffed Sigils");
-                        otherCard.TemporarilyRemoveAbilityFromCard(Tools.RandomElement(otherCard.GetAllAbilities()));
+                        otherCard.TemporarilyRemoveAbilityFromCard(Tools.SeededRandomElement(otherCard.GetAllAbilities()));
                             otherCard.Anim.StrongNegationEffect();
                         break;
                 }

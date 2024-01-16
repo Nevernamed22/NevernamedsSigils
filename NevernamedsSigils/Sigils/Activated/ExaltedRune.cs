@@ -69,7 +69,7 @@ namespace NevernamedsSigils
                 List<CardSlot> cardslots = Singleton<BoardManager>.Instance.GetSlots(false).FindAll(x => x.Card != null && x.Card != base.Card && x.Card.PowerLevel < 4 && x.Card.CanBeSacrificed);
                 if (cardslots.Count > 0)
                 {
-                    yield return Tools.RandomElement(cardslots).Card.Die(true, null);
+                    yield return Tools.SeededRandomElement(cardslots).Card.Die(true, null);
                     yield return new WaitForSeconds(0.15f);
                 }
                 if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
@@ -79,7 +79,7 @@ namespace NevernamedsSigils
                     Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
                     Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
-                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
                     Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                 }
             }

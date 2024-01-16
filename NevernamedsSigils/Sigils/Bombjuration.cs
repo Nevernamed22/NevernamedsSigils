@@ -45,7 +45,7 @@ namespace NevernamedsSigils
             if (base.Card.OpponentCard)
             {
                 PlayableCard strongest = Tools.GetStrongestCardOnBoard(true);
-                CardSlot slot = strongest != null ? strongest.Slot : Tools.RandomElement(Singleton<BoardManager>.Instance.playerSlots);
+                CardSlot slot = strongest != null ? strongest.Slot : Tools.SeededRandomElement(Singleton<BoardManager>.Instance.playerSlots);
                 if (Tools.GetActAsInt() != 2)
                 {
                     if (instanceTarget != null)
@@ -68,9 +68,9 @@ namespace NevernamedsSigils
                 }
                 List<CardSlot> allEmptyslots = Singleton<BoardManager>.Instance.playerSlots.FindAll(x => x != null && x.Card == null);
                 allEmptyslots.AddRange(Singleton<BoardManager>.Instance.opponentSlots.FindAll(x => x != null && x.Card == null));
-                CardSlot final = Tools.RandomElement(allEmptyslots);
+                CardSlot final = Tools.SeededRandomElement(allEmptyslots);
                 List<CardSlot> emptyAdjacents = Singleton<BoardManager>.Instance.GetAdjacentSlots(slot).FindAll(x => x != null && x.Card == null);
-                if (emptyAdjacents.Count > 0) { final = Tools.RandomElement(emptyAdjacents); }
+                if (emptyAdjacents.Count > 0) { final = Tools.SeededRandomElement(emptyAdjacents); }
                 else if (slot.opposingSlot != null && slot.opposingSlot.Card == null) { final = slot.opposingSlot; }
 
                 yield return Singleton<BoardManager>.Instance.CreateCardInSlot(CardLoader.GetCardByName("SigilNevernamed MagicBomb"), final, 0.1f, true);

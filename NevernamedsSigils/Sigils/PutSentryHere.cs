@@ -82,7 +82,7 @@ namespace NevernamedsSigils
             }
             abilities.RemoveAll((Ability x) => x == this.Ability);
             CardModificationInfo cardModificationInfo2 = new CardModificationInfo();
-            cardModificationInfo2.fromCardMerge = true;
+            if (Tools.GetActAsInt() == 1) cardModificationInfo2.fromCardMerge = true;
             cardModificationInfo2.abilities = abilities;
             card.Mods.Add(cardModificationInfo2);
         }

@@ -187,7 +187,7 @@ namespace NevernamedsSigils
         public GameObject conduitFakeFrame;
         public override bool RespondsToOtherCardAssignedToSlot(PlayableCard otherCard)
         {
-            return setUp && otherCard.Slot == slot;
+            return setUp && otherCard.Slot == slot && !otherCard.Dead;
         }
 
         public override IEnumerator OnOtherCardAssignedToSlot(PlayableCard otherCard)

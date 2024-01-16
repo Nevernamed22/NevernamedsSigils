@@ -48,10 +48,10 @@ namespace NevernamedsSigils
             {
                 List<CardSlot> terrains = availableSlots.FindAll((x) => x != null && x.Card != base.Card && x.Card.HasTrait(Trait.Terrain));
             yield return base.PreSuccessfulTriggerSequence();
-                Debug.Log("Terrains: " + terrains.Count);
+                //Debug.Log("Terrains: " + terrains.Count);
                 for (int i = terrains.Count - 1; i >= 0; i--)
                 {
-                Debug.Log("Checking Terrain: " + i);
+                //Debug.Log("Checking Terrain: " + i);
                     if (terrains[i] && terrains[i].Card && terrains[i].Card.Info && terrains[i].Card.gameObject)
                     {
                         yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(terrains[i].Card.Info, null, 0.25f, null);

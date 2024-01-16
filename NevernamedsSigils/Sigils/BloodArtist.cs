@@ -78,8 +78,8 @@ namespace NevernamedsSigils
                 switch (act)
                 {
                     case 1:
-                        if (card.Info.tribes.Count > 0) { tribe1 = CustomDeathcardPortrait.tribeToInt[Tools.RandomElement(card.Info.tribes)]; }
-                        else tribe1 = Tools.RandomElement(CustomDeathcardPortrait.validRandomAct1Tribes);
+                        if (card.Info.tribes.Count > 0) { tribe1 = CustomDeathcardPortrait.tribeToInt[Tools.SeededRandomElement(card.Info.tribes)]; }
+                        else tribe1 = Tools.SeededRandomElement(CustomDeathcardPortrait.validRandomAct1Tribes);
                         break;
                     case 3:
                         tribe1 = 19;
@@ -114,8 +114,8 @@ namespace NevernamedsSigils
                 switch (act)
                 {
                     case 1:
-                        if (card.Info.tribes.Count > 0) { tribe2 = CustomDeathcardPortrait.tribeToInt[Tools.RandomElement(card.Info.tribes)]; }
-                        else tribe2 = Tools.RandomElement(CustomDeathcardPortrait.validRandomAct1Tribes);
+                        if (card.Info.tribes.Count > 0) { tribe2 = CustomDeathcardPortrait.tribeToInt[Tools.SeededRandomElement(card.Info.tribes)]; }
+                        else tribe2 = Tools.SeededRandomElement(CustomDeathcardPortrait.validRandomAct1Tribes);
                         break;
                     case 3:
                         tribe2 = 19;
@@ -144,8 +144,8 @@ namespace NevernamedsSigils
                 switch (act)
                 {
                     case 1:
-                        if (card.Info.tribes.Count > 0) { tribe3 = CustomDeathcardPortrait.tribeToInt[Tools.RandomElement(card.Info.tribes)]; }
-                        else tribe3 = Tools.RandomElement(CustomDeathcardPortrait.validRandomAct1Tribes);
+                        if (card.Info.tribes.Count > 0) { tribe3 = CustomDeathcardPortrait.tribeToInt[Tools.SeededRandomElement(card.Info.tribes)]; }
+                        else tribe3 = Tools.SeededRandomElement(CustomDeathcardPortrait.validRandomAct1Tribes);
                         break;
                     case 3:
                         tribe3 = 19;
@@ -186,7 +186,7 @@ namespace NevernamedsSigils
                             Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
                             Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
-                                Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                                Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
                             Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                         }
                     }
@@ -206,7 +206,7 @@ namespace NevernamedsSigils
                             Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
                             Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
-                                Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                                Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
                             Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                         }
 

@@ -1,5 +1,7 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Dialogue;
+using InscryptionAPI.Saves;
 using Pixelplacement;
 using System;
 using System.Collections;
@@ -23,6 +25,18 @@ namespace NevernamedsSigils
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/artisticlicense_pixel.png"));
 
             ArtisticLicense.ability = newSigil.ability;
+
+            DialogueManager.GenerateEvent(Plugin.PluginGuid, "RoyalArtisticLicenseMechanic",
+                new List<CustomLine>()
+                {
+                    new CustomLine()
+                    {
+                         emotion = Emotion.Neutral,
+                         letterAnimation = TextDisplayer.LetterAnimation.Jitter,
+                         speaker = DialogueEvent.Speaker.PirateSkull,
+                         text = "Trying to plunder me sigils? Yer a sour spoilsport!"
+                    }
+                }, null, DialogueEvent.MaxRepeatsBehaviour.PlayLastLine, DialogueEvent.Speaker.PirateSkull);
         }
         public static Ability ability;
         public override Ability Ability
@@ -39,7 +53,20 @@ namespace NevernamedsSigils
         public override IEnumerator OnResolveOnBoard()
         {
             PlayableCard card = base.Card.slot.opposingSlot.Card;
-            if (!card.HasTrait(Trait.Giant))
+            if (card.HasTrait(Trait.Giant))
+            {
+                if (card.Info.name == "!GIANTCARD_MOON" && !ModdedSaveManager.SaveData.GetValueAsBoolean(Plugin.PluginGuid, "hasLearnedArtisticLicenseMoon"))
+                {
+                    yield return Singleton<TextDisplayer>.Instance.ShowUntilInput("Despite your artistry, the soul of the moon is impervious...", -0.65f, 0.4f, Emotion.Neutral, TextDisplayer.LetterAnimation.WavyJitter, DialogueEvent.Speaker.Single, null, true);
+                    ModdedSaveManager.SaveData.SetValue(Plugin.PluginGuid, "hasLearnedArtisticLicenseMoon", true);
+                }
+                if (card.Info.name == "!GIANTCARD_SHIP" && !ModdedSaveManager.SaveData.GetValueAsBoolean(Plugin.PluginGuid, "hasLearnedArtisticLicenseMoon"))
+                {
+                    yield return Singleton<TextDisplayer>.Instance.PlayDialogueEvent("RoyalArtisticLicenseMechanic", TextDisplayer.MessageAdvanceMode.Input, TextDisplayer.EventIntersectMode.Wait, null, null);
+                    ModdedSaveManager.SaveData.SetValue(Plugin.PluginGuid, "hasLearnedArtisticLicenseMoon", true);
+                }
+            }
+            else
             {
                 yield return base.PreSuccessfulTriggerSequence();
                 AudioController.Instance.PlaySound2D("magnificus_brush_splatter_bleach", MixerGroup.None, 0.5f, 0f, null, null, null, null, false);

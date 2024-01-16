@@ -49,19 +49,19 @@ namespace NevernamedsSigils
                 if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
                 {
                     yield return base.PreSuccessfulTriggerSequence();
-                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardLoader.GetCardByName(Tools.RandomElement(moxes)));
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardLoader.GetCardByName(Tools.SeededRandomElement(moxes)));
                     playableCard.SetIsOpponentCard(true);
                     Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
                     Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
-                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
                     Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                 }
             }
             else
             {
                 yield return base.PreSuccessfulTriggerSequence();
-                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName(Tools.RandomElement(moxes)), null, 0.25f);
+                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName(Tools.SeededRandomElement(moxes)), null, 0.25f);
             }
             yield return base.LearnAbility(0.5f);
             yield break;

@@ -37,7 +37,7 @@ namespace NevernamedsSigils
         {
             get
             {
-                int sel = UnityEngine.Random.Range(1, 5);
+                int sel = SeededRandom.Range(1, 5, Tools.GetRandomSeed());
                 CardInfo card =  CardLoader.GetCardByName("Squirrel");
                 switch (sel)
                 {
@@ -49,7 +49,7 @@ namespace NevernamedsSigils
                         break;
                     case 4:
                         List<string> moxes = new List<string>() { "MoxEmerald", "MoxRuby", "MoxSapphire" };
-                        card = CardLoader.GetCardByName(Tools.RandomElement(moxes));
+                        card = CardLoader.GetCardByName(Tools.SeededRandomElement(moxes));
                         break;
                 }
                 return card;
@@ -73,7 +73,7 @@ namespace NevernamedsSigils
                     Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
                     Singleton<BoardManager>.Instance.QueueCardForSlot(playableCard,
-                        Tools.RandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
+                        Tools.SeededRandomElement(Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null)));
                     Singleton<TurnManager>.Instance.Opponent.Queue.Add(playableCard);
                 }
 

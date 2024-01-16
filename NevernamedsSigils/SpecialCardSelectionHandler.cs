@@ -27,57 +27,74 @@ namespace NevernamedsSigils
             cardToReturn(selectedCard.Info);
         }
 
-        public static IEnumerator DoSpecialCardSelectionReturn(Action<CardInfo> cardToReturn, List<CardInfo> cards)
+        public static IEnumerator DoSpecialCardSelectionReturn(Action<CardInfo> cardToReturn, List<CardInfo> cards, bool despawnPile = true)
         {
             CardInfo selectedCard = null;
             yield return HandleInternalSelec(delegate (CardInfo c)
             {
                 selectedCard = c;
-            }, cards);
+            }, cards, despawnPile);
             Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
             cardToReturn(selectedCard);
             yield break;
 
         }
 
-        public static IEnumerator DoSpecialCardSelectionDraw(List<CardInfo> cards)
+        public static IEnumerator DoSpecialCardSelectionDraw(List<CardInfo> cards, bool despawnPile = true)
         {
             CardInfo selectedCard = null;
             yield return HandleInternalSelec(delegate (CardInfo c)
             {
                 selectedCard = c;
-            }, cards);
+            }, cards, despawnPile);
             Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
             yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(Tools.TrueClone(selectedCard), 0.25f);
         }
-        private static IEnumerator HandleInternalSelec(Action<CardInfo> cardSelectedCallback, List<CardInfo> cards)
+        private static IEnumerator HandleInternalSelec(Action<CardInfo> cardSelectedCallback, List<CardInfo> cards, bool despawnPile = true)
         {
             Singleton<ViewManager>.Instance.SwitchToView(View.DeckSelection, false, true);
             SelectableCard selectedCard = null;
 
-            DoingSpecialCardSelection = true;
-            curSpecialCardSelectionCount = (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile.cards.Count;
+            CardPile pile = Singleton<CardDrawPiles>.Instance is CardDrawPiles3D ? (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile : null;
+            int numCards = 0;
+            if (pile != null && despawnPile)
+            {
+                numCards = pile.NumCards;
+                yield return new WaitUntil(() => !pile.DoingCardOperation);
+                Singleton<BoardManager>.Instance.CardSelector.StartCoroutine(pile.DestroyCards(0.5f));
+            }
+
             yield return Singleton<BoardManager>.Instance.CardSelector.SelectCardFrom(cards, null, delegate (SelectableCard x)
             {
                 selectedCard = x;
             }, null, true);
             Tween.Position(selectedCard.transform, selectedCard.transform.position + Vector3.back * 4f, 0.1f, 0f, Tween.EaseIn, Tween.LoopType.None, null, null, true);
             UnityEngine.Object.Destroy(selectedCard.gameObject, 0.1f);
+
+            if (pile != null && despawnPile)
+            {
+                Singleton<BoardManager>.Instance.CardSelector.StartCoroutine(pile.SpawnCards(numCards, 1f));
+            }
+
             cardSelectedCallback(selectedCard.Info);
             yield break;
         }
 
+        /*
         [HarmonyPatch(typeof(SelectableCardArray), "WaitForClearCardPile")]
         public class ClearCardPilePatch
         {
             [HarmonyPostfix]
             public static IEnumerator ClearCardPile(IEnumerator enumerator, CardPile pile, SelectableCardArray __instance)
             {
-                CardPile actPile = (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile;
-                if (DoingSpecialCardSelection && actPile != null)
+                if (Singleton<CardDrawPiles>.Instance && Singleton<CardDrawPiles>.Instance is CardDrawPiles3D)
                 {
-                    yield return new WaitUntil(() => !actPile.DoingCardOperation);
-                    __instance.StartCoroutine(actPile.DestroyCards(0.5f));
+                    CardPile actPile = (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile;
+                    if (DoingSpecialCardSelection && actPile != null)
+                    {
+                        yield return new WaitUntil(() => !actPile.DoingCardOperation);
+                        __instance.StartCoroutine(actPile.DestroyCards(0.5f));
+                    }
                 }
                 yield return enumerator;
                 yield break;
@@ -93,12 +110,12 @@ namespace NevernamedsSigils
                 yield return enumerator;
                 if (DoingSpecialCardSelection && (Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile != null)
                 {
-                    __instance.StartCoroutine((Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile.SpawnCards(curSpecialCardSelectionCount, 1f)); 
+                    __instance.StartCoroutine((Singleton<CardDrawPiles>.Instance as CardDrawPiles3D).Pile.SpawnCards(curSpecialCardSelectionCount, 1f));
                 }
                 yield break;
             }
         }
         public static bool DoingSpecialCardSelection;
-        public static int curSpecialCardSelectionCount;
+        public static int curSpecialCardSelectionCount;*/
     }
 }
