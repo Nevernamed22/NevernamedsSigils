@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Backup", "When [creature] perishes by combat, the first card in it's owner's hand is played in it's place.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Backup", "When [creature] perishes by combat, the first card in its owner's hand is played in its place.",
                       typeof(Backup),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook, Plugin.GrimoraModChair2, Plugin.Part2Modular },
                       powerLevel: 4,

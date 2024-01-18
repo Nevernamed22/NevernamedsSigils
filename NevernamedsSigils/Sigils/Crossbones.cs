@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Crossbones", "When [creature] is played, it grants 2 bones to it's owner.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Crossbones", "When [creature] is played, it grants 2 bones to its owner.",
                       typeof(Crossbones),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair1 },
                       powerLevel: 1,

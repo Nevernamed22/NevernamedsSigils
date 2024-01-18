@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Osteoklepty", "When [creature] is played, it steals all of the opponents bones for it's owner.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Osteoklepty", "When [creature] is played, it steals all of the opponents bones for its owner.",
                       typeof(Osteoklepty),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 4,

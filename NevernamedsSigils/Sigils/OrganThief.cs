@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Organ Thief", "When [creature] kills another creature, it's remains are created in your hand.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Organ Thief", "When [creature] kills another creature, its remains are created in your hand.",
                       typeof(OrganThief),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.Part2Modular, Plugin.GrimoraModChair1 },
                       powerLevel: 2,

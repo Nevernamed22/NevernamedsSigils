@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Twin Bond", "When [creature] is played, a copy of it is created adjacent, killing other creatures to make room if there is none. These cards share a health pool, and when either card dies, it's twin will die as well.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Twin Bond", "When [creature] is played, a copy of it is created adjacent, killing other creatures to make room if there is none. These cards share a health pool, and when either card dies, its twin will die as well.",
                       typeof(TwinBond),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 4,

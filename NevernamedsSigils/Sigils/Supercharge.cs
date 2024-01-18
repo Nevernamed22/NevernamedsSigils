@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Supercharge", "When [creature] is played, it refreshes it's owner's energy to the current maximum.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Supercharge", "When [creature] is played, it refreshes its owner's energy to the current maximum.",
                       typeof(Supercharge),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 3,
@@ -21,7 +21,7 @@ namespace NevernamedsSigils
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/supercharge.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/supercharge_pixel.png"),
-                      triggerText: "[creature] restores it's owner's energy.");
+                      triggerText: "[creature] restores its owner's energy.");
 
             ability = newSigil.ability;
         }

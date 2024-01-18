@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Twister", "When struck, [creature] will transform to or from it's alternate form.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Twister", "When struck, [creature] will transform to or from its alternate form.",
                       typeof(Twister),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 3,

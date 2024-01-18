@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Landscaper", "When [creature] is played, any terrain cards on the board are removed and added to it's owner's hand.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Landscaper", "When [creature] is played, any terrain cards on the board are removed and added to its owner's hand.",
                       typeof(Landscaper),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 2,

@@ -17,7 +17,7 @@ namespace NevernamedsSigils
         {
             baseIcon = Tools.LoadTex("NevernamedsSigils/Resources/Sigils/expulsion.png");
             basePixelIcon = Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/expulsion_pixel.png");
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Expulsion", "When [creature] takes damage, it regurgitates it's contents into the adjacent space to the right.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Expulsion", "When [creature] takes damage, it regurgitates its contents into the adjacent space to the right.",
                       typeof(Expulsion),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2, Plugin.Part2Modular },
                       powerLevel: 2,

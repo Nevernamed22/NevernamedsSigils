@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Recharge", "When [creature] is played, it's owner regains 1 energy. Does not affect the current energy maximum.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Recharge", "When [creature] is played, its owner regains 1 energy. Does not affect the current energy maximum.",
                       typeof(Recharge),
                       categories: new List<AbilityMetaCategory> { },
                       powerLevel: 1,

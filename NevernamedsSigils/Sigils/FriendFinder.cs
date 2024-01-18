@@ -32,7 +32,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Friend Finder", "When [creature] is played, a random friend is created in the slots to it's left and right.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Friend Finder", "When [creature] is played, a random friend is created in the slots to its left and right.",
                       typeof(FriendFinder),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 4,

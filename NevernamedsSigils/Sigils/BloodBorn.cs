@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Bloodborn", "When [creature] is sacrificed, it transforms to or from it's alternate form instead of perishing.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Bloodborn", "When [creature] is sacrificed, it transforms to or from its alternate form instead of perishing.",
                       typeof(BloodBorn),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 1,

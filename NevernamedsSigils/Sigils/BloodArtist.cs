@@ -15,7 +15,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Blood Artist", "Every three cards which perish by combat while [creature] is on the board, [creature] will give it's owner a deathcard constructed from the cost, stats, and sigils of those creatures.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Blood Artist", "Every three cards which perish by combat while [creature] is on the board, [creature] will give its owner a deathcard constructed from the cost, stats, and sigils of those creatures.",
                       typeof(BloodArtist),
                       categories: new List<AbilityMetaCategory> { },
                       powerLevel: 4,

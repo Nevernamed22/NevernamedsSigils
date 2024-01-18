@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Viva La Revolution", "At the start of its owners turn, [creature] will revolve all creatures on the board clockwise. Also, [creature] will not attack it's original owner.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Viva La Revolution", "At the start of its owners turn, [creature] will revolve all creatures on the board clockwise. Also, [creature] will not attack its original owner.",
                       typeof(VivaLaRevolution),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 2,

@@ -15,7 +15,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Magitech", "While [creature] is alive and on the board, playing a mox gem will provide it's owner with an energy cell.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Magitech", "While [creature] is alive and on the board, playing a mox gem will provide its owner with an energy cell.",
                       typeof(Magitech),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular  },
                       powerLevel: 4,

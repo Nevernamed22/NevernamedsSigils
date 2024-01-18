@@ -23,7 +23,7 @@ namespace NevernamedsSigils
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/Conduits/stimconduit.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/Conduits/stimconduit_pixel.png"),
                       isConduit: true,
-                      triggerText: "[creature] increases the health of every creature in it's circuit!");
+                      triggerText: "[creature] increases the health of every creature in its circuit!");
 
             ability = newSigil.ability;
         }

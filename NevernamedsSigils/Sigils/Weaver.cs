@@ -13,7 +13,7 @@ namespace NevernamedsSigils
 	{
 		public static void Init()
 		{
-			AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Weaver", "At the end of the owner's turn, [creature] will move in the direction inscribed on the sigil and leave a Web in it's old space. [creature] can move back over webs it has placed.",
+			AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Weaver", "At the end of the owner's turn, [creature] will move in the direction inscribed on the sigil and leave a Web in its old space. [creature] can move back over webs it has placed.",
 					  typeof(Weaver),
 					  categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
 					  powerLevel: 2,

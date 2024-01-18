@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Running Strike", "After attacking, [creature] will move in the direction inscribed on the sigil, striking the space opposing it's destination as it does so.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Running Strike", "After attacking, [creature] will move in the direction inscribed on the sigil, striking the space opposing its destination as it does so.",
                       typeof(RunningStrike),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, Plugin.GrimoraModChair2, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 3,

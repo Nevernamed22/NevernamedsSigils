@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Commander", "When [creature] is struck, the creatures to it's left and right will attack the striker.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Commander", "When [creature] is struck, the creatures to its left and right will attack the striker.",
                       typeof(Commander),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 4,

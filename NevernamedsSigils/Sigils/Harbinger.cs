@@ -16,7 +16,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Harbinger", "When a friendly creatures perishes, [creature] will move to fill it's empty space.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Harbinger", "When a friendly creatures perishes, [creature] will move to fill its empty space.",
                       typeof(Harbinger),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3BuildACard, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.BountyHunter, Plugin.GrimoraModChair2, Plugin.Part2Modular },
                       powerLevel: 1,

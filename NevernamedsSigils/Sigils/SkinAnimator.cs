@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Skin Animator", "While [creature] is alive on the board, all pelts gain it's attack power.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Skin Animator", "While [creature] is alive on the board, all pelts gain its attack power.",
                       typeof(SkinAnimator),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
                       powerLevel: 3,

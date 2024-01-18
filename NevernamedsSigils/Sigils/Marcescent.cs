@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Marcescent", "When [creature] attacks an opposing creature and it perishes, this card gains it's attack power.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Marcescent", "When [creature] attacks an opposing creature and it perishes, this card gains its attack power.",
                       typeof(Marcescent),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 5,

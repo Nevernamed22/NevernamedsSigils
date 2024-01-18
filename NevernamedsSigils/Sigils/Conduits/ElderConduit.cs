@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Elder Conduit", "When a creature within a circuit completed by [creature] perishes, a Gem Skeleton will be created in it's place.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Elder Conduit", "When a creature within a circuit completed by [creature] perishes, a Gem Skeleton will be created in its place.",
                       typeof(ElderConduit),
                       categories: new List<AbilityMetaCategory> { },
                       powerLevel: 3,

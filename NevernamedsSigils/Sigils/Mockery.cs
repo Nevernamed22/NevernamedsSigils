@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Mockery", "If [creature] is played opposite an opponent's creature, it's stats change to mimic that creature's stats.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Mockery", "If [creature] is played opposite an opponent's creature, its stats change to mimic that creature's stats.",
                       typeof(Mockery),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, Plugin.GrimoraModChair2 },
                       powerLevel: 3,

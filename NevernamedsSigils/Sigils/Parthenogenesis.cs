@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Parthenogenesis", "When [creature] dies to combat, a larval form is left in it's old space that evolves into an exact clone after 1 turn.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Parthenogenesis", "When [creature] dies to combat, a larval form is left in its old space that evolves into an exact clone after 1 turn.",
                       typeof(Parthenogenesis),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 4,

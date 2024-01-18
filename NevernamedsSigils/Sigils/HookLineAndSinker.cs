@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Hook Line And Sinker", "When [creature] perishes by combat, the opposing creature will be pulled into it's old space.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Hook Line And Sinker", "When [creature] perishes by combat, the opposing creature will be pulled into its old space.",
                       typeof(HookLineAndSinker),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, Plugin.Part2Modular },
                       powerLevel: 4,

@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Aculeate Grip", "When a creature is played on the same side of the board as [creature], [creature] will move towards them as far as possible, dealing them one damage and increasing it's own health by 1.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Aculeate Grip", "When a creature is played on the same side of the board as [creature], [creature] will move towards them as far as possible, dealing them one damage and increasing its own health by 1.",
                       typeof(AculeateGrip),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 1,

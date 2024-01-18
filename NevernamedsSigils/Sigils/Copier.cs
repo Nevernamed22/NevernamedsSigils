@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Copier", "When [creature] perishes, a copy of it's murderer is created in your hand.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Copier", "When [creature] perishes, a copy of its murderer is created in your hand.",
                       typeof(Copier),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.GrimoraModChair3, Plugin.Part2Modular },
                       powerLevel: 4,

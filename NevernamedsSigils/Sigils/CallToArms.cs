@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Call To Arms", "When [creature] is played, the creatures to it's left and right will immediately attack.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Call To Arms", "When [creature] is played, the creatures to its left and right will immediately attack.",
                       typeof(CallToArms),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 4,

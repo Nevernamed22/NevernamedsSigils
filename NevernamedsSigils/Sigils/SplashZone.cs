@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Splash Zone", "When [creature] is struck, the creatures to it's left or right are also dealt 1 damage.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Splash Zone", "When [creature] is struck, the creatures to its left or right are also dealt 1 damage.",
                       typeof(SplashZone),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
                       powerLevel: -1,

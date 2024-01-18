@@ -23,7 +23,7 @@ namespace NevernamedsSigils
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/Conduits/malfunctioningconduit.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/Conduits/malfunctioningconduit_pixel.png"),
                       isConduit: true,
-                      triggerText: "[creature] draws cards into it's circuit!");
+                      triggerText: "[creature] draws cards into its circuit!");
 
             ability = newSigil.ability;
         }

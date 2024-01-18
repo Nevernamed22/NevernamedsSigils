@@ -77,7 +77,7 @@ namespace NevernamedsSigils
                     if (swapCard.HasAbility(Stalwart.ability))
                     {
                         yield return swapCard.GetComponent<Stalwart>().ReturnToHome();
-                        //Debug.Log($"Card had stalwart and was returned to it's home in lane {swapCard.GetComponent<Stalwart>().home.Index}");
+                        //Debug.Log($"Card had stalwart and was returned to its home in lane {swapCard.GetComponent<Stalwart>().home.Index}");
                     }
                     else
                     {

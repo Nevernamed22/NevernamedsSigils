@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Downdraft", "[creature] will grant the power of flight to creatures to it's left and right.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Downdraft", "[creature] will grant the power of flight to creatures to its left and right.",
                       typeof(Downdraft),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 3,

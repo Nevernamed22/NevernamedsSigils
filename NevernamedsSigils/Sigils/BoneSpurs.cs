@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Bone Spurs", "When [creature] is struck, it generates a bone for it's owner.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Bone Spurs", "When [creature] is struck, it generates a bone for its owner.",
                       typeof(BoneSpurs),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair1 },
                       powerLevel: 2,

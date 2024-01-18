@@ -21,7 +21,7 @@ namespace NevernamedsSigils
                tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/trinketvitality.png"),
                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/trinketvitality_pixel.png"),
                isForHealth: true,
-               gbcDescription: "[creature]s health is equal to twice the number of items it's owner holds.");
+               gbcDescription: "[creature]s health is equal to twice the number of items its owner holds.");
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Trinket Vitality", typeof(TrinketVitality)).Id;
             specialStatIcon = icon.iconType;

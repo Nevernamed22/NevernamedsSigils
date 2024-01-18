@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Legion", "When [creature] is struck, it creates a number of cards in the owner's hand equal to it's remaining HP, then perishes.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Legion", "When [creature] is struck, it creates a number of cards in the owner's hand equal to its remaining HP, then perishes.",
                       typeof(Legion),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 4,

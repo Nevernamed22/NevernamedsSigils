@@ -15,7 +15,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Exhume", "When [creature] is played, it's owner may search their graveyard for a card, and add that card to their hand.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Exhume", "When [creature] is played, its owner may search their graveyard for a card, and add that card to their hand.",
                       typeof(Exhume),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 5,

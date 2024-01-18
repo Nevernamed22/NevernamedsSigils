@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Rock Eater", "When a Terrain card is played on the same side of the board as [creature], it will be consumed, granting it's stats and sigils to the card.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Rock Eater", "When a Terrain card is played on the same side of the board as [creature], it will be consumed, granting its stats and sigils to the card.",
                       typeof(RockEater),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
                       powerLevel: 0,

@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Crooked Strike Right", "[creature] will attack the space to the right of it's intended target.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Crooked Strike Right", "[creature] will attack the space to the right of its intended target.",
                       typeof(CrookedStrikeRight),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 0,

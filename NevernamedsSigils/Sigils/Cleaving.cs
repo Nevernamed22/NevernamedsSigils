@@ -21,7 +21,7 @@ namespace NevernamedsSigils
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/cleaving.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/cleaving_pixel.png"),
-                      triggerText: "[creature] cleaves it's target in half!");
+                      triggerText: "[creature] cleaves its target in half!");
 
             ability = newSigil.ability;
         }
