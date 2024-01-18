@@ -15,7 +15,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Trinket Bearer", "When [creature] is played, it grants it's owner a random item.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Trinket Bearer", "When [creature] is played, it grants its owner a random item.",
                       typeof(Act2TrinketBearer),
                       categories: new List<AbilityMetaCategory> { Plugin.Part2Modular },
                       powerLevel: 5,

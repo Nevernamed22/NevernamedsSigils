@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Mirrific", "When [creature] perishes, it's owner chooses a creature to gain the Mirror rorriM ability.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Mirrific", "When [creature] perishes, its owner chooses a creature to gain the Mirror rorriM ability.",
                       typeof(Mirrific),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 3,

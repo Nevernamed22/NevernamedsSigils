@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Exploding Corpse", "When [creature] perishes, all empty spaces on the board are filled with it's innards.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Exploding Corpse", "When [creature] perishes, all empty spaces on the board are filled with its innards.",
                       typeof(ExplodingCorpseCustom),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.GrimoraModChair2, Plugin.Part2Modular },
                       powerLevel: 3,

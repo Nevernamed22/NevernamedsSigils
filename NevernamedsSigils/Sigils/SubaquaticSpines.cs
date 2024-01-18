@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Subaquatic Spines", "[creature] will submerge during the opponent's turn. While submerged, opposing creatures attack it's owner directly, and will take 1 damage after attacking.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Subaquatic Spines", "[creature] will submerge during the opponent's turn. While submerged, opposing creatures attack its owner directly, and will take 1 damage after attacking.",
                       typeof(SubaquaticSpines),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair2 },
                       powerLevel: 3,

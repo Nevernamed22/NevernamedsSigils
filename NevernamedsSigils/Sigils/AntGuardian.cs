@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Ant Guardian", "[creature] will deal damage equal to it's attack power to any card which strikes a friendly ant.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Ant Guardian", "[creature] will deal damage equal to its attack power to any card which strikes a friendly ant.",
                       typeof(AntGuardian),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
                       powerLevel: 3,

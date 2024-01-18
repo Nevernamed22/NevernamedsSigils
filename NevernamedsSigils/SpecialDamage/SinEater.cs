@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         public static SpecialTriggeredAbility ability;
         public static void Init()
         {
-            StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Sin Eater", "The value represented with this sigil will be equal to the amount of sigils present on the creatures that were sacrificed to play it's bearer.",
+            StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Sin Eater", "The value represented with this sigil will be equal to the amount of sigils present on the creatures that were sacrificed to play its bearer.",
                typeof(SinEater),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook },
                tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/sineater.png"),

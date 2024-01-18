@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Obedient", "At the end of the owner's turn, [creature] will move to an empty space on the same side of the board, chosen by it's owner.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Obedient", "At the end of the owner's turn, [creature] will move to an empty space on the same side of the board, chosen by its owner.",
                       typeof(Obedient),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 2,

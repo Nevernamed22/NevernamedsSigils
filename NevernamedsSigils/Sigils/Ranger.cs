@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Ranger", "When [creature] is played, it's owner may choose an opponent creature. That creature will take 10 damage.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Ranger", "When [creature] is played, its owner may choose an opponent creature. That creature will take 10 damage.",
                       typeof(Ranger),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 4,

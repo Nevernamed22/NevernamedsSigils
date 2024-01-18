@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         public static SpecialTriggeredAbility ability;
         public static void Init()
         {
-            StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Drawn Out", "The value represented with this sigil will be equal to the number of cards you have drawn this turn while it's bearer is on the board.",
+            StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Drawn Out", "The value represented with this sigil will be equal to the number of cards you have drawn this turn while its bearer is on the board.",
                typeof(DrawnOut),
                categories: new List<AbilityMetaCategory>() {  },
                tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/drawnout.png"),

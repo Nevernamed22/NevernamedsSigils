@@ -17,7 +17,7 @@ namespace NevernamedsSigils
         {
             baseIcon = Tools.LoadTex("NevernamedsSigils/Resources/Sigils/soak.png");
             basePixelIcon = Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/soak_pixel.png");
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Soak", "Any damage taken by [creature] is reduced by 1. Taking damage decrements the timer rendered on this sigil. When the timer rendered on this sigil reaches 0, the bearer will attack with power equal to it's health, then perish.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Soak", "Any damage taken by [creature] is reduced by 1. Taking damage decrements the timer rendered on this sigil. When the timer rendered on this sigil reaches 0, the bearer will attack with power equal to its health, then perish.",
                       typeof(Soak),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
                       powerLevel: 5,

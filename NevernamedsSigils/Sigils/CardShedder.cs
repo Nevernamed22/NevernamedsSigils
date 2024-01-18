@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Card Shedder", "At the end of the owner's turn, [creature] will move in the direction inscribed in the sigil and leave a card in it's wake.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Card Shedder", "At the end of the owner's turn, [creature] will move in the direction inscribed in the sigil and leave a card in its wake.",
                       typeof(CardShedder),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 3,

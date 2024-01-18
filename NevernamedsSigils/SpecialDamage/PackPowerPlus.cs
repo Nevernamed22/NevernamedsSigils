@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook },
                tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/packpowerplus.png"),
                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/packpowerplus_pixel.png"),
-               gbcDescription: "[creature]s power is equal to twice the number of items it's owner holds.");
+               gbcDescription: "[creature]s power is equal to twice the number of items its owner holds.");
 
 
             ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Pack Power Plus", typeof(PackPowerPlus)).Id;

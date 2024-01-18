@@ -22,7 +22,7 @@ namespace NevernamedsSigils
                       opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/batchdelete.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/batchdelete_pixel.png"),
-                      triggerText: "[creature] shreds any other cards with the same cost as it's victim...");
+                      triggerText: "[creature] shreds any other cards with the same cost as its victim...");
 
             ability = newSigil.ability;
         }

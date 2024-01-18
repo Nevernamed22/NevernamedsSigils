@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Caustic", "When [creature] perishes, it's killer perishes as well.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Caustic", "When [creature] perishes, its killer perishes as well.",
                       typeof(Caustic),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
                       powerLevel: 3,

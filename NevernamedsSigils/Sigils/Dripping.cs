@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Dripping", "At the end of the owner's turn, [creature] will move in the direction inscribed in the sigil and leave part of it's own body in it's wake.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Dripping", "At the end of the owner's turn, [creature] will move in the direction inscribed in the sigil and leave part of its own body in its wake.",
                       typeof(Dripping),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 4,

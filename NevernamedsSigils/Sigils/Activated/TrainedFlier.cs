@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Trained Flier", "Grant [creature] the effect of the Airborne sigil until next upkeep. If the card already has Airborne, this will remove it's effect until next upkeep.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Trained Flier", "Grant [creature] the effect of the Airborne sigil until next upkeep. If the card already has Airborne, this will remove its effect until next upkeep.",
                       typeof(TrainedFlier),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3Modular },
                       powerLevel: 1,

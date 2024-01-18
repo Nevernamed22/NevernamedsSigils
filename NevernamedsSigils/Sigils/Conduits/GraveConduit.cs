@@ -23,7 +23,7 @@ namespace NevernamedsSigils
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/Conduits/graveconduit.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/Conduits/graveconduit_pixel.png"),
                       isConduit: true,
-                      triggerText: "[creature] grants a bone for every creature in it's circuit.");
+                      triggerText: "[creature] grants a bone for every creature in its circuit.");
 
             ability = newSigil.ability;
         }

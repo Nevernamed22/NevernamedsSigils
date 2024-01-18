@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Fire In The Hole", "When [creature] perishes, it's owner may choose an opponent slot. The creature in that slot will take ten damage.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Fire In The Hole", "When [creature] perishes, its owner may choose an opponent slot. The creature in that slot will take ten damage.",
                       typeof(FireInTheHole),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 4,

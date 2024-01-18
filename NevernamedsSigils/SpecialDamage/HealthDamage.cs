@@ -13,7 +13,7 @@ namespace NevernamedsSigils
         public static SpecialTriggeredAbility ability;
 		public static void Init()
 		{
-			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Health Damage", "The value represented with this sigil will be equal to it's bearer's current health.",
+			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Health Damage", "The value represented with this sigil will be equal to its bearer's current health.",
 			   typeof(HealthDamage),
                categories: new List<AbilityMetaCategory>() { AbilityMetaCategory.Part1Rulebook},
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/healthdamage.png"),

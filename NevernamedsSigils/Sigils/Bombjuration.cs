@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Bombjuration", "When [creature] is played, it's owner may choose an empty slot on either side of the board. A magic bomb is created in the chosen slot.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Bombjuration", "When [creature] is played, its owner may choose an empty slot on either side of the board. A magic bomb is created in the chosen slot.",
                       typeof(Bombjuration),
                       categories: new List<AbilityMetaCategory> { Plugin.Part2Modular },
                       powerLevel: 3,

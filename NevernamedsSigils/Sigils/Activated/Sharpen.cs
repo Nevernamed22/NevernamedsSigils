@@ -22,7 +22,7 @@ namespace NevernamedsSigils
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/Activated/sharpen.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/Activated/sharpen_pixel.png"),
                       isActivated: true,
-                      triggerText: "[creature] sacrifices an orange gem to sharpen it's attack!");
+                      triggerText: "[creature] sacrifices an orange gem to sharpen its attack!");
 
             ability = newSigil.ability;
         }

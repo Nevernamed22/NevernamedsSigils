@@ -23,7 +23,7 @@ namespace NevernamedsSigils
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/Conduits/lootconduit.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/Conduits/lootconduit_pixel.png"),
                       isConduit: true,
-                      triggerText: "[creature] draws a card for every empty space in it's circuit!");
+                      triggerText: "[creature] draws a card for every empty space in its circuit!");
 
             ability = newSigil.ability;
         }

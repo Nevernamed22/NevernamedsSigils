@@ -13,7 +13,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Gravity", "When [creature] is played, it's owner may choose any opponent creature, and move it to any open space on their side of the board.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Gravity", "When [creature] is played, its owner may choose any opponent creature, and move it to any open space on their side of the board.",
                       typeof(Gravity),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
                       powerLevel: 5,

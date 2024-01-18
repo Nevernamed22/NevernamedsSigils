@@ -20,7 +20,7 @@ namespace NevernamedsSigils
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/greenhorn.png"),
 			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/greenhorn_pixel.png"),
 			   isForHealth: true,
-			   gbcDescription: "[creature]s health is equal to twice the number of Green gems on the on it's owner's side of the board when it was played.");
+			   gbcDescription: "[creature]s health is equal to twice the number of Green gems on the on its owner's side of the board when it was played.");
 
 			ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Greenhorn", typeof(Greenhorn)).Id;
 			specialStatIcon = icon.iconType;
