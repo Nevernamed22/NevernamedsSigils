@@ -35,36 +35,50 @@ namespace NevernamedsSigils
         private IEnumerator SpawnCardOnSlot(CardSlot slot)
         {
 
-            CardInfo inf = Tools.TrueClone(base.Card.Info);
-            inf.mods.Add(new CardModificationInfo() { negateAbilities = new List<Ability>() { TwinBond.ability } });
-            yield return Singleton<BoardManager>.Instance.CreateCardInSlot(inf, slot, 0.15f, true);
+            CardInfo inf = CardLoader.GetCardByName(base.Card.Info.name);
+            foreach (CardModificationInfo cardModificationInfo in base.Card.Info.Mods.FindAll((CardModificationInfo x) => !x.nonCopyable))
+            {
+                CardModificationInfo item = (CardModificationInfo)cardModificationInfo.Clone();
+                inf.Mods.Add(item);
+            }
+            foreach (CardModificationInfo cardModificationInfo in base.Card.temporaryMods.FindAll((CardModificationInfo x) => !x.nonCopyable))
+            {
+                CardModificationInfo item = (CardModificationInfo)cardModificationInfo.Clone();
+                inf.Mods.Add(item);
+            }
+
+            if ((slot != null && slot.Card == null) || slot.Card.Dead)
+            {
+                PlayableCard playableCard = CardSpawner.SpawnPlayableCard(inf);
+                if (!slot.IsPlayerSlot)
+                {
+                    playableCard.SetIsOpponentCard(true);
+                    Singleton<TurnManager>.Instance.Opponent.ModifySpawnedCard(playableCard);
+                }
+                playableCard.gameObject.GetComponent<TwinBond>().doResolve = false;
+                yield return Singleton<BoardManager>.Instance.TransitionAndResolveCreatedCard(playableCard, slot, 0.1f, true);
+            }
+
             while (slot.Card == null) yield return null;
             if (slot.Card)
             {
-                //Debug.Log("Got into the if");
                 PlayableCard twin = slot.Card;
-                foreach (CardModificationInfo mod in Card.Info.Mods.FindAll((x) => x != null && x.negateAbilities.Contains(TwinBond.ability)))
-                {
-                    mod.negateAbilities.Remove(TwinBond.ability);
-                    twin.Status.hiddenAbilities.Remove(TwinBond.ability);
-                }
-                twin.AddTemporaryMod(new CardModificationInfo(TwinBond.ability));
                 twin.GetComponent<TwinBond>().twinCard = base.Card;
                 twinCard = twin;
                 twinset = true;
                 twin.GetComponent<TwinBond>().twinset = true;
                 twin.GetComponent<TwinBond>().twindamagetakenlastchecked = base.Card.Status.damageTaken;
                 twindamagetakenlastchecked = twin.Status.damageTaken;
-
             }
             yield break;
         }
         public override bool RespondsToResolveOnBoard()
         {
-            return !twinset;
+            return !twinset && doResolve;
         }
         public PlayableCard twinCard;
         public bool twinset = false;
+        public bool doResolve = true;
         public IEnumerator RecalculateTwinStatus()
         {
             if (twinCard != null && !twinCard.Dead)
@@ -79,7 +93,7 @@ namespace NevernamedsSigils
                 }
             }
             if (twinCard == null || twinCard.Dead || !twinCard.OnBoard)
-            {               
+            {
                 if (!base.Card.Dead) yield return base.Card.Die(false);
             }
             yield break;
@@ -137,7 +151,7 @@ namespace NevernamedsSigils
             }
             else if (toRight != null)
             {
-                yield return toLeft.Card.Die(false);
+                yield return toRight.Card.Die(false);
                 yield return new WaitForSeconds(0.1f);
                 yield return this.SpawnCardOnSlot(toRight);
             }

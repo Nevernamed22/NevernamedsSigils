@@ -115,7 +115,7 @@ namespace NevernamedsSigils
                 yield return new WaitForSeconds(0.1f);
             }
             int num = NumToDraw;
-            for (int i = 0; i < NumToDraw; i = num + 1)
+            for (int i = 0; i < NumToDraw; i++)
             {
                 if (Singleton<CardDrawPiles>.Instance is CardDrawPiles3D)
                 {

@@ -82,7 +82,7 @@ namespace NevernamedsSigils
                             //Fix Rend
                             List<PixelCardAbilityIcons> icons = sigils.GetComponentsInParent<PixelCardAbilityIcons>().ToList();
                             icons.AddRange(sigils.GetComponentsInChildren<PixelCardAbilityIcons>().ToList());
-                            foreach (PixelCardAbilityIcons i in icons) if (i != null) DestroyImmediate(i);
+                            for (int i = icons.Count - 1; i >= 0; i--) { if (icons[i] != null) DestroyImmediate(icons[i]); }
 
                             sigils.SetActive(true);
                             createdSigils.Add(sigils);

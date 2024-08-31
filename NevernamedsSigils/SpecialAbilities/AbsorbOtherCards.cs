@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 using InscryptionAPI.Card;
+using Pixelplacement;
 
 namespace NevernamedsSigils
 {
@@ -25,20 +26,33 @@ namespace NevernamedsSigils
         }
         public override IEnumerator OnOtherCardResolve(PlayableCard otherCard)
         {
+            if (otherCard == null) { yield break; }
+            base.PlayableCard.Anim.StrongNegationEffect();
+            yield return new WaitForSeconds(0.2f);
             CardModificationInfo assimilation = new CardModificationInfo(otherCard.Attack, otherCard.Health);
-
             foreach (Ability ab in otherCard.GetAllAbilities())
             {
-                assimilation.abilities.Add(ab);
+                AbilityInfo info = AbilitiesUtil.GetInfo(ab);
+                if (info && info.powerLevel >= 0)
+                {
+                    assimilation.abilities.Add(ab);
+                }
             }
-            base.PlayableCard.Info.tribes.AddRange(otherCard.Info.tribes);
-
-            base.PlayableCard.AddTemporaryMod(assimilation);
             otherCard.UnassignFromSlot();
+            bool impactFrameReached = false;
+            Tween.Position(otherCard.transform, base.PlayableCard.transform.position + new Vector3(0, 0.1f, 0.5f), 0.3f, 0f, Tween.EaseOut, Tween.LoopType.None, null, delegate ()
+            {
+                impactFrameReached = true;
+            }, true);
+            yield return new WaitUntil(() => impactFrameReached);
+            yield return new WaitForSeconds(0.1f);
+            otherCard.Anim.PlayDeathAnimation(true);
+            yield return new WaitForSeconds(1f);
             UnityEngine.Object.Destroy(otherCard.gameObject);
-
-            base.Card.Anim.StrongNegationEffect();
-            base.PlayableCard.RenderCard();
+            base.PlayableCard.Anim.PlayTransformAnimation();
+            yield return new WaitForSeconds(0.15f);
+            base.PlayableCard.AddTemporaryMod(assimilation);
+            base.PlayableCard.RenderCard();        
             yield break;
         }
     }

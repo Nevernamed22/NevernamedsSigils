@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Unbalanced Leadership", "Creatures to the left of [creature] gain 2 power.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Unbalanced Leadership", "The creature directly to the left of [creature] gains 2 power.",
                       typeof(UnbalancedLeadership),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 3,

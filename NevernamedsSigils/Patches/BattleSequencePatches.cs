@@ -132,6 +132,12 @@ namespace NevernamedsSigils
                     overrideDialogue.Clear();
                     overrideDialogue.Add("The gem skeptic sigil prevents you from playing that gem.");
                 }
+                if (card.Info.HasAbility(Malware.ability) && (((LifeManager.GOAL_BALANCE * 2) - Singleton<LifeManager>.Instance.DamageUntilPlayerWin) > 3))
+                {
+                    overrideDialogue.Clear();
+                    if (act == 3) { overrideDialogue.AddRange(new List<string>() { "You can't play that until you're 3 off dying.", "You want to play that? Start losing.", "You can't play it, genius." }); }
+                    else { overrideDialogue.Add("You cannot play that card with the scales in this state."); }
+                }
                 if (card.Info.GetExtendedProperty("PreventPlay") != null)
                 {
                     overrideDialogue.Clear();
@@ -193,7 +199,12 @@ namespace NevernamedsSigils
                 {
                     text = "You can't play a gem card while a creature with the Gem Skeptic sigil is on your side of the board!";
                 }
+                if (card.Info.HasAbility(Malware.ability) && (((LifeManager.GOAL_BALANCE * 2) - Singleton<LifeManager>.Instance.DamageUntilPlayerWin) > 3))
+                {
+                    text = "This card cannot be played unless you are three or less damage from losing!";
+                }
                 if (card.Info.GetExtendedProperty("PreventPlay") != null)
+
                 {
                     text = "This card cannot be played.";
                 }
@@ -229,6 +240,29 @@ namespace NevernamedsSigils
                 }
                 specificCard = prophetic;
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(TurnManager), nameof(TurnManager.OpponentTurn))]
+    public class OpponentTurnPatch
+    {
+        [HarmonyPostfix]
+        public static IEnumerator OpponentTurnPatc(IEnumerator enumerator, TurnManager __instance)
+        {
+            if (Tools.GetActAsInt() == 2 && __instance.opponent.SkipNextTurn)
+            {
+                if (Singleton<PlayerHand>.Instance != null)
+                {
+                    Singleton<PlayerHand>.Instance.PlayingLocked = true;
+                }
+                Singleton<ViewManager>.Instance.Controller.LockState = ViewLockState.Locked;
+                __instance.opponent.SkipNextTurn = false;
+            }
+            else
+            {
+                yield return enumerator;
+            }
+            yield break;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Meaningless Bond", "[creature] may complete a bond, but provides no additional effect.",
                       typeof(MeaninglessBond),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook},
                       powerLevel: 1,
                       stackable: false,
                       opponentUsable: false,

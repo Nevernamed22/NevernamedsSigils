@@ -93,6 +93,18 @@ namespace NevernamedsSigils
         protected virtual IEnumerator PostSuccessfulMoveSequence(CardSlot oldSlot)
         {
             string cardIdentifier = "SigilNevernamed LooseFlesh";
+            switch (Tools.GetActAsInt())
+            {
+                case 3:
+                    cardIdentifier = "SigilNevernamed Components";
+                    break;
+                case 4:
+                    cardIdentifier = "SigilNevernamed LooseFleshGrimora";
+                    break;
+                default:
+                    cardIdentifier = "SigilNevernamed LooseFlesh";
+                    break;
+            }
             if (base.Card.Info.GetExtendedProperty("DrippingLeaveBehind") != null) { cardIdentifier = base.Card.Info.GetExtendedProperty("DrippingLeaveBehind"); }
 
             yield return new WaitForSeconds(0.1f);

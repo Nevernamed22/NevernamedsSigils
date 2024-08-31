@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Endangered", "At the end of the turn, [creature] has a one in four chance to perish.",
                       typeof(Endangered),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: -2,
                       stackable: false,
                       opponentUsable: false,

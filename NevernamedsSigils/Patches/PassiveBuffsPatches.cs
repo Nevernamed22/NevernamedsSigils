@@ -77,14 +77,15 @@ namespace NevernamedsSigils
                     {
                         if (__instance.Info.Attack + __result > 0)
                         {
-                            
+
                             __result = -Mathf.CeilToInt((float)(__instance.Info.Attack + __result) * 0.5f);
                         }
                     }
                 }
 
+                if (__instance.slot.SlotHasModifier("SlimySlot") && !__instance.HasAbility(Ability.MadeOfStone)) { __result--; }
 
-                if (__instance.HasAbility(Claw.ability)) 
+                if (__instance.HasAbility(Claw.ability))
                 {
                     if (__instance.OnBoard)
                     {

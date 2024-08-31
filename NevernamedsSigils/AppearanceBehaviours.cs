@@ -18,6 +18,7 @@ namespace NevernamedsSigils
         public static CardAppearanceBehaviour.Appearance LeshyCardBackground;
         public static CardAppearanceBehaviour.Appearance InstantEffectBackground;
         public static CardAppearanceBehaviour.Appearance GrueAppearance;
+        public static CardAppearanceBehaviour.Appearance TarotCardAppearance;
         public static CardAppearanceBehaviour.Appearance RareTerrainBackground;
         public static CardAppearanceBehaviour.Appearance TechPaperCardBackground;
         public static CardAppearanceBehaviour.Appearance TestRedBackground;
@@ -28,6 +29,8 @@ namespace NevernamedsSigils
         public static CardAppearanceBehaviour.Appearance PixelGooDecal;
         public static CardAppearanceBehaviour.Appearance PixelSmokeDecal;
         public static CardAppearanceBehaviour.Appearance PixelChaosCardDecal;
+
+        public static CardAppearanceBehaviour.Appearance PixelInstantEffectBackground;
 
         //Act 2 Card Backs
         public static CardAppearanceBehaviour.Appearance PixelDeathcardBackground;
@@ -62,6 +65,7 @@ namespace NevernamedsSigils
             TechPaperCardBackground = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "TechPaperCardBackground", typeof(TechPaperCardBackground)).Id;
             InstantEffectBackground = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "InstantEffectBackground", typeof(InstantEffectCardBackground)).Id;
             LeshyCardBackground = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "CabinFinaleOpponentCardBackground", typeof(LeshyCardBackground)).Id;
+            TarotCardAppearance = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "TarotCardAppearance", typeof(TarotCardBackground)).Id;
 
             HiddenStats = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "HiddenStats", typeof(HiddenStats)).Id;
             //Decals
@@ -75,6 +79,9 @@ namespace NevernamedsSigils
             PixelSmokeDecal = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelSmokeDecal", typeof(PixelSmokeDecal)).Id;
 
             PixelChaosCardDecal = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelChaosCard", typeof(PixelChaosCardDecal)).Id;
+
+            PixelInstantEffectBackground = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelInstantEffectBackground", typeof(PixelInstantEffectBackground)).Id;
+
 
             //Act 2 Card Backgrounds
             PixelDeathcardBackground = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "PixelDeathcardBackground", typeof(PixelDeathcardBackground)).Id;
@@ -103,6 +110,16 @@ namespace NevernamedsSigils
     }
     //Act 2 Card Backgrounds
     #region PixelCardBackgrounds 
+    public class PixelInstantEffectBackground : PixelAppearanceBehaviour
+    {
+        public static Sprite tex = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/instanteffectcardback_pixel.png"));
+        public static Sprite texrare = Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/instanteffectrarecardback_pixel.png"));
+        public override Sprite OverrideBackground()
+        {
+            if (base.Card != null && base.Card.Info != null && base.Card.Info.metaCategories.Contains(CardMetaCategory.Rare)) { return texrare; }
+            else { return tex; }
+        }
+    }
     public class PixelRepulsiveDecal : PixelAppearanceBehaviour
     {
         public override Sprite PixelAppearance() { return Tools.GenerateAct2Portrait(Tools.LoadTex("NevernamedsSigils/Resources/Appearances/pixelrepulsivedecal.png")); }
@@ -275,6 +292,25 @@ namespace NevernamedsSigils
             base.Card.renderInfo.baseTextureOverride = Tools.LoadTex("NevernamedsSigils/Resources/Appearances/tech_bg.png");
         }
     }
+    public class TarotCardBackground : CardAppearanceBehaviour
+    {
+        public override void ApplyAppearance()
+        {
+            base.Card.renderInfo.baseTextureOverride = Tools.LoadTex("NevernamedsSigils/Resources/Appearances/tarotcardbackground.png");
+            base.Card.renderInfo.attackTextColor = Color.white;
+            base.Card.renderInfo.healthTextColor = Color.white;
+            base.Card.renderInfo.healthTextOffset = new Vector2(0, 0.07f);
+            base.Card.renderInfo.defaultAbilityColor = Color.white;
+        }
+        public override void OnPreRenderCard()
+        {
+            base.Card.renderInfo.attackTextColor = Color.white;
+            base.Card.renderInfo.healthTextColor = Color.white;
+            base.Card.renderInfo.healthTextOffset = new Vector2(0, 0.07f);
+            base.Card.renderInfo.defaultAbilityColor = Color.white;
+            base.OnPreRenderCard();
+        }
+    }
     public class GrueBackground : CardAppearanceBehaviour
     {
         public override void ApplyAppearance()
@@ -284,6 +320,14 @@ namespace NevernamedsSigils
             base.Card.renderInfo.healthTextColor = Color.white;
             base.Card.renderInfo.healthTextOffset = new Vector2(0, 0.07f);
             base.Card.renderInfo.defaultAbilityColor = Color.white;
+        }
+        public override void OnPreRenderCard()
+        {
+            base.Card.renderInfo.attackTextColor = Color.white;
+            base.Card.renderInfo.healthTextColor = Color.white;
+            base.Card.renderInfo.healthTextOffset = new Vector2(0, 0.07f);
+            base.Card.renderInfo.defaultAbilityColor = Color.white;
+            base.OnPreRenderCard();
         }
     }
     public class RareTerrainBackground : CardAppearanceBehaviour

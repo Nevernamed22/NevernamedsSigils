@@ -38,18 +38,23 @@ namespace NevernamedsSigils
         {
             return !base.Card.OpponentCard && Singleton<CardDrawPiles>.Instance.Deck.cards.Count > 0;
         }
-
-        public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
+        public override IEnumerator OnPreDeathAnimation(bool wasSacrifice)
         {
             yield return base.PreSuccessfulTriggerSequence();
 
             PlayableCard cardToDiscard = null;
+
+            View preview = Singleton<ViewManager>.Instance.CurrentView;
+            Singleton<ViewManager>.Instance.SwitchToView(View.Hand, false, false);
+            yield return new WaitForSeconds(0.1f);
+
             yield return Singleton<CardDrawPiles>.Instance.DrawCardFromDeck(null, delegate (PlayableCard x)
             {
                 cardToDiscard = x;
             });
+            if (Tools.GetActAsInt() != 2) Singleton<CardDrawPiles3D>.Instance.Pile.Draw();
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.6f);
             if (cardToDiscard != null && cardToDiscard.InHand)
             {
                 cardToDiscard.SetInteractionEnabled(false);
@@ -57,6 +62,8 @@ namespace NevernamedsSigils
                 UnityEngine.Object.Destroy(cardToDiscard.gameObject, 1f);
                 Singleton<PlayerHand>.Instance.RemoveCardFromHand(cardToDiscard);
             }
+            yield return new WaitForSeconds(0.3f);
+            Singleton<ViewManager>.Instance.SwitchToView(preview, false, false);
 
             yield return base.LearnAbility(0.5f);
             yield break;

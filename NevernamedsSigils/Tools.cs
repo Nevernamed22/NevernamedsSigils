@@ -19,7 +19,6 @@ namespace NevernamedsSigils
     {
         public static GameObject act1holotarget = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon");
         public static GameObject act3holotarget = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/SniperTargetIcon");
-
         public static bool OwnerHasGem(this PlayableCard card, GemType gem)
         {
             Ability checkedForGem = Ability.GainGemBlue;
@@ -31,6 +30,10 @@ namespace NevernamedsSigils
             return (card.OpponentCard ? Singleton<BoardManager>.Instance.OpponentSlotsCopy : Singleton<BoardManager>.Instance.PlayerSlotsCopy).Exists((CardSlot x) => x.Card != null && !x.Card.Dead && (x.Card.HasAbility(checkedForGem) || x.Card.HasAbility(Ability.GainGemTriple)));
         }
 
+        public static bool IsRegistered(this Ability ability)
+        {
+            return AbilitiesUtil.GetInfo(ability) != null;
+        }
         public static int CombinedPower(this List<Ability> abilities)
         {
             int toReturn = 0;
@@ -207,7 +210,13 @@ namespace NevernamedsSigils
             List<CardInfo> cards = new List<CardInfo>();
             foreach (CardInfo inf in Singleton<CardDrawPiles>.Instance.Deck.cards)
             {
-                cards.Add(TrueClone(inf));
+                CardInfo cloned = CardLoader.GetCardByName(inf.name);
+                foreach (CardModificationInfo cardModificationInfo in inf.Mods)
+                {
+                    CardModificationInfo item = (CardModificationInfo)cardModificationInfo.Clone();
+                    cloned.Mods.Add(item);
+                }
+                cards.Add(cloned);
             }
             return cards;
         }
@@ -216,26 +225,32 @@ namespace NevernamedsSigils
             CardModificationInfo mod = new CardModificationInfo();
             foreach (CardModificationInfo mod1 in card.temporaryMods)
             {
-                if (excludedabilities != null) mod.abilities.AddRange(mod1.abilities.FindAll((x) => !excludedabilities.Contains(x)));
-                else mod.abilities.AddRange(mod1.abilities);
-                if (!sigilsOnly)
+                if (!mod1.nonCopyable)
                 {
-                    mod.attackAdjustment += mod1.attackAdjustment;
-                    mod.healthAdjustment += mod1.healthAdjustment;
+                    if (excludedabilities != null) mod.abilities.AddRange(mod1.abilities.FindAll((x) => !excludedabilities.Contains(x)));
+                    else mod.abilities.AddRange(mod1.abilities);
+                    if (!sigilsOnly)
+                    {
+                        mod.attackAdjustment += mod1.attackAdjustment;
+                        mod.healthAdjustment += mod1.healthAdjustment;
+                    }
+                    if (mod1.gemify) mod.gemify = true;
                 }
-                if (mod1.gemify) mod.gemify = true;
             }
             foreach (CardModificationInfo mod2 in card.Info.mods)
             {
-                if (excludedabilities != null) mod.abilities.AddRange(mod2.abilities.FindAll((x) => !excludedabilities.Contains(x)));
-                if (!sigilsOnly)
+                if (!mod2.nonCopyable)
                 {
-                    mod.attackAdjustment += mod2.attackAdjustment;
-                    mod.healthAdjustment += mod2.healthAdjustment;
+                    if (excludedabilities != null) mod.abilities.AddRange(mod2.abilities.FindAll((x) => !excludedabilities.Contains(x)));
+                    if (!sigilsOnly)
+                    {
+                        mod.attackAdjustment += mod2.attackAdjustment;
+                        mod.healthAdjustment += mod2.healthAdjustment;
+                    }
+                    if (mod2.gemify) mod.gemify = true;
                 }
-                if (mod2.gemify) mod.gemify = true;
             }
-            if (mod.abilities.Count > 0) mod.fromCardMerge = true;
+            if (mod.abilities.Count > 0 && Tools.GetActAsInt() == 1) mod.fromCardMerge = true;
             return mod;
         }
         public static bool CardIsInSideDeck(this CardInfo card)
@@ -500,7 +515,12 @@ namespace NevernamedsSigils
             List<CardInfo> finality = new List<CardInfo>();
             foreach (CardInfo inf in cards)
             {
-                if ((oneRequired == null || oneRequired.Count == 0) || inf.HasAnyOfCardMetaCategories(oneRequired.ToArray())) { finality.Add(inf); }
+                if (oneRequired != null && oneRequired.Count > 0)
+                {
+                    if (oneRequired.Contains(Plugin.GrimoraChoiceNode) && inf.name.StartsWith("arackulele.inscryption.grimoramod")) { finality.Add(inf); }
+                    else if (inf.HasAnyOfCardMetaCategories(oneRequired.ToArray())) { finality.Add(inf); }
+                }
+                else { finality.Add(inf); }
             }
 
             if (finality.Count > 0) return SeededRandomElement(finality, GetRandomSeed() + seedIncrement);
@@ -679,9 +699,9 @@ namespace NevernamedsSigils
         {
             return list[SeededRandom.Range(0, list.Count, seed == -1 ? Tools.GetRandomSeed() : seed)];
         }
-        public static int GetRandomSeed()
+        public static int GetRandomSeed(int manualIncrement = 0)
         {
-            return SaveManager.SaveFile.GetCurrentRandomSeed() + Singleton<GlobalTriggerHandler>.Instance.NumTriggersThisBattle;
+            return SaveManager.SaveFile.GetCurrentRandomSeed() + Singleton<GlobalTriggerHandler>.Instance.NumTriggersThisBattle + manualIncrement;
         }
     }
 }

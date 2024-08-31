@@ -36,6 +36,7 @@ namespace NevernamedsSigils
                 if (this.DamageDealtThisPhase > 0 && !isCombatPhase)
                 {
                     yield return new WaitForSeconds(0.4f);
+                    yield return this.VisualizeDamageMovingToScales(playerIsAttacker);
                     int excessDamage = 0;
                     if (playerIsAttacker)
                     {
@@ -66,6 +67,71 @@ namespace NevernamedsSigils
                 }
                 yield break;
             }
+             private IEnumerator VisualizeDamageMovingToScales(bool playerIsAttacker)
+            {
+                if (Singleton<LifeManager>.Instance.Scales3D != null)
+                {
+                    Vector3 scalesPos = playerIsAttacker ? Singleton<LifeManager>.Instance.Scales3D.OpponentSide : Singleton<LifeManager>.Instance.Scales3D.PlayerSide;
+                    foreach (Transform transform in this.damageWeights)
+                    {
+                        Tween.Position(transform, scalesPos, 0.2f, 0f, Tween.EaseOut, Tween.LoopType.None, null, null, true);
+                        UnityEngine.Object.Destroy(transform.gameObject, 0.2f);
+                        yield return new WaitForSeconds(0.02f);
+                    }
+                    scalesPos = default(Vector3);
+                }
+                else
+                {
+                    foreach (Transform transform2 in this.damageWeights)
+                    {
+                        Part1Scales.DissolveWeight(transform2.gameObject);
+                        yield return new WaitForSeconds(0.02f);
+                    }
+                }
+                yield return new WaitForSeconds(0.25f);
+                yield break;
+            }
+            public IEnumerator SpecialVisualiseAttacking(CardSlot attackingSlot, CardSlot targetSlot, int damage)
+            {
+                if (Singleton<CombatPhaseManager>.Instance)
+                {
+                    if (Singleton<CombatPhaseManager>.Instance is CombatPhaseManager3D)
+                    {
+                        List<Transform> newWeights = new List<Transform>();
+                        for (int i = 0; i < Mathf.Min(20, damage); i++)
+                        {
+                            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>((Singleton<CombatPhaseManager>.Instance as CombatPhaseManager3D).weightPrefab);
+                            Vector3 vector = new Vector3(0f, 0f, attackingSlot.IsPlayerSlot ? 0.75f : -0.75f);
+                            gameObject.transform.position = targetSlot.transform.position + vector + new Vector3((float)i * 0.1f, 0f, (float)i * 0.1f);
+                            gameObject.transform.eulerAngles = UnityEngine.Random.insideUnitSphere;
+                            newWeights.Add(gameObject.transform);
+                        }
+                        this.damageWeights.AddRange(newWeights);
+                        attackingSlot.Card.Anim.PlayAttackAnimation(true, targetSlot, delegate ()
+                        {
+                            if (Singleton<TableVisualEffectsManager>.Instance != null)
+                            {
+                                Singleton<TableVisualEffectsManager>.Instance.ThumpTable(0.075f * (float)Mathf.Min(10, damage));
+                            }
+                            foreach (Transform transform in newWeights)
+                            {
+                                if (transform != null)
+                                {
+                                    transform.gameObject.SetActive(true);
+                                    transform.GetComponent<Rigidbody>().AddForce(Vector3.up * 4f, (ForceMode)2);
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        attackingSlot.Card.Anim.PlayAttackAnimation(true, targetSlot, delegate ()
+                        {
+                        });
+                    }
+                }                
+                yield break;
+            }
             public IEnumerator SlotAttackSlot(CardSlot attackingSlot, CardSlot opposingSlot, float waitAfter = 0f, int overrideDMG = -1)
             {
                 yield return Singleton<GlobalTriggerHandler>.Instance.TriggerCardsOnBoard(Trigger.SlotTargetedForAttack, false, new object[] { opposingSlot, attackingSlot.Card });
@@ -87,7 +153,7 @@ namespace NevernamedsSigils
                         if (attackingSlot.Card.CanAttackDirectly(opposingSlot))
                         {
                             this.DamageDealtThisPhase += overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack;
-                            yield return Singleton<CombatPhaseManager>.Instance.VisualizeCardAttackingDirectly(attackingSlot, opposingSlot, 0);
+                            yield return this.SpecialVisualiseAttacking(attackingSlot, opposingSlot, overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack);
 
                             if (attackingSlot.Card.TriggerHandler.RespondsToTrigger(Trigger.DealDamageDirectly, new object[] { overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack }))
                             {
@@ -116,7 +182,7 @@ namespace NevernamedsSigils
                                 }
                                 attackingSlot.Card.Anim.SetAnimationPaused(false);
                                 yield return new WaitForSeconds(0.05f);
-                                int overkillDamage = overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack - opposingSlot.Card.Health;
+                                int overkillDamage = overrideDMG > -1 ? overrideDMG - opposingSlot.Card.Health : attackingSlot.Card.Attack - opposingSlot.Card.Health;
 
                                 yield return opposingSlot.Card.TakeDamage(overrideDMG > -1 ? overrideDMG : attackingSlot.Card.Attack, attackingSlot.Card);
                                 yield return this.DealOverkillDamage(overkillDamage, attackingSlot, opposingSlot);
@@ -161,7 +227,7 @@ namespace NevernamedsSigils
             }
             protected virtual IEnumerator DealOverkillDamage(int damage, CardSlot attackingSlot, CardSlot opposingSlot)
             {
-                if (attackingSlot && attackingSlot.Card && attackingSlot.Card.HasAbility(Mauler.ability))
+                if (attackingSlot && attackingSlot.Card && attackingSlot.Card.HasAbility(Mauler.ability) & damage > 0)
                 {
                     yield return new WaitForSeconds(0.1f);
                     yield return Singleton<LifeManager>.Instance.ShowDamageSequence(damage, damage, !attackingSlot.Card.slot.IsPlayerSlot, 0.1f, null, 0f, true);
@@ -191,6 +257,7 @@ namespace NevernamedsSigils
                 yield break;
             }
 
+            private List<Transform> damageWeights = new List<Transform>();
             public static Ability ability;
             public static bool isCombatPhase;
         }

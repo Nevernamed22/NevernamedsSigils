@@ -19,7 +19,7 @@ namespace NevernamedsSigils
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 1,
                       stackable: false,
-                      opponentUsable: true,
+                      opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/immaterial.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/immaterial_pixel.png"));
 

@@ -35,11 +35,11 @@ namespace NevernamedsSigils
                 return ability;
             }
         }
-        public override bool RespondsToDie(bool wasSacrifice, PlayableCard killer)
+        public override bool RespondsToResolveOnBoard()
         {
-            return !wasSacrifice && Singleton<BoardManager>.Instance.GetSlots(base.Card.OpponentCard).Exists(x => x.Card != null);
+            return Singleton<BoardManager>.Instance.GetSlots(base.Card.OpponentCard).Exists(x => x.Card != null);
         }
-        public override IEnumerator OnDie(bool wasSacrifice, PlayableCard killer)
+        public override IEnumerator OnResolveOnBoard()
         {
             target = Tools.GetActAsInt()== 3 ?  Tools.act3holotarget : Tools.act1holotarget; 
             if (base.Card.OpponentCard)
@@ -48,6 +48,24 @@ namespace NevernamedsSigils
                 CardSlot slot = strongest != null ? strongest.Slot : null;
                 if (slot != null)
                 {
+                    if (instanceTarget != null)
+                    {
+                        GameObject inst = instanceTarget;
+                        Tween.LocalScale(inst.transform, Vector3.zero, 0.1f, 0f, Tween.EaseIn, Tween.LoopType.None, null, delegate ()
+                        {
+                            UnityEngine.Object.Destroy(inst);
+                        }, true);
+                    }
+                    GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(target, slot.transform);
+                    gameObject.transform.localPosition = new Vector3(0f, 0.25f, 0f);
+                    gameObject.transform.localRotation = Quaternion.identity;
+                    instanceTarget = gameObject;
+                    yield return new WaitForSeconds(0.5f);
+                    Tween.LocalScale(instanceTarget.transform, Vector3.zero, 0.1f, 0f, Tween.EaseIn, Tween.LoopType.None, null, delegate ()
+                    {
+                        UnityEngine.Object.Destroy(instanceTarget);
+                    }, true);
+
                     if (slot.Card != null) { yield return slot.Card.TakeDamage(10, null); }
                 }
             }

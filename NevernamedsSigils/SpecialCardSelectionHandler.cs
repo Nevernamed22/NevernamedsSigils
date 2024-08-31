@@ -48,7 +48,14 @@ namespace NevernamedsSigils
                 selectedCard = c;
             }, cards, despawnPile);
             Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
-            yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(Tools.TrueClone(selectedCard), 0.25f);
+
+            CardInfo inf = CardLoader.GetCardByName(selectedCard.name);
+            foreach (CardModificationInfo cardModificationInfo in selectedCard.Mods.FindAll((CardModificationInfo x) => !x.nonCopyable))
+            {
+                CardModificationInfo item = (CardModificationInfo)cardModificationInfo.Clone();
+                inf.Mods.Add(item);
+            }
+            yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(inf, 0.25f);
         }
         private static IEnumerator HandleInternalSelec(Action<CardInfo> cardSelectedCallback, List<CardInfo> cards, bool despawnPile = true)
         {

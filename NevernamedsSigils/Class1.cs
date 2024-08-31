@@ -333,7 +333,7 @@ namespace NevernamedsSigils
             SweepingStrikeLeft.Init();
             SweepingStrikeRight.Init();
             Entangle.Init();
-            //Slimy.Init();
+            StickyTrail.Init();
             Coward.Init();
             Reflective.Init();
             Mirrific.Init();
@@ -341,6 +341,26 @@ namespace NevernamedsSigils
             Prophecy.Init();
             DiagonalStrike.Init();
             Retreat.Init();
+            FileExplorer.Init();
+            DataBreach.Init();
+            FleaRidden.Init();
+            SharpBones.Init();
+            Leaper.Init();
+            Glitterheart.Init();
+            Malware.Init();
+            Duppelgang.Init();
+            Bejeweled.Init();
+            BloodMagic.Init();
+            Potent.Init();
+            TimeTravel.Init();
+            Wriggle.Init();
+            Writhe.Init();
+            Confusion.Init();
+            Bewilder.Init();
+            Slimeball.Init();
+            Kindred.Init();
+            Enchanting.Init();
+            GoldDigger.Init();
 
             //LATCH SIGILS
             WaterborneLatch.Init();
@@ -397,7 +417,6 @@ namespace NevernamedsSigils
             EternalGallop.Init();
             Flip.Init();
             TrainedFlier.Init();
-            EnlargeCustom.Init();
             Dredge.Init();
             Bonefed.Init();
             Bonestrike.Init();
@@ -416,6 +435,7 @@ namespace NevernamedsSigils
             Spellsword.Init();
             Sharpen.Init();
             ExaltedRune.Init();
+            DeckDrain.Init();
 
             //VARIABLE STATS
             AntPlusTwo.Init();
@@ -448,6 +468,7 @@ namespace NevernamedsSigils
             Starved.Init();
             DrawnOut.Init();
             SanguineBond.Init();
+            DamageScaling.Init();
 
             //SPECIAL ABILITIES
             InherentFecundity.Init();
@@ -462,17 +483,13 @@ namespace NevernamedsSigils
             InherentGraveyardShift.Init();
             Act2SpawnLice.Init();
             Act2Shapeshifter.Init();
+            PoopDeck.Init();
+            PackRatEater.Init();
+            InherentFledgling.Init();
 
             Cards.Init();
             FaceToFaceCardsInit.Init();
             Act2ItemCards.Init();
-
-            CardManager.BaseGameCards.CardByName("EmptyVessel").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/act2emptyves_pixel.png"));
-            CardManager.BaseGameCards.CardByName("EmptyVessel_GreenGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/emeraldvessel_pixel.png"));
-            CardManager.BaseGameCards.CardByName("EmptyVessel_OrangeGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/rubyvessel_pixel.png"));
-            CardManager.BaseGameCards.CardByName("EmptyVessel_BlueGem").SetPixelPortrait(Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/sapphirevessel_pixel.png"));
-
-
 
             CardManager.ModifyCardList += delegate (List<CardInfo> cards)
             {
@@ -545,6 +562,9 @@ namespace NevernamedsSigils
         public static readonly CardMetaCategory P03KayceesNatureRegion = (CardMetaCategory)GuidManager.GetEnumValue<CardMetaCategory>("zorro.inscryption.infiniscryption.p03kayceerun", "NatureRegionCards");
         public static readonly CardMetaCategory P03KayceesUndeadRegion = (CardMetaCategory)GuidManager.GetEnumValue<CardMetaCategory>("zorro.inscryption.infiniscryption.p03kayceerun", "UndeadRegionCards");
         public static readonly CardMetaCategory P03KayceesNeutralRegion = GuidManager.GetEnumValue<CardMetaCategory>("zorro.inscryption.infiniscryption.p03kayceerun", "NeutralRegionCards");
+
+        public static readonly Ability GrimoraBurning = (Ability)GuidManager.GetEnumValue<Ability>("arackulele.inscryption.grimoramod", "Burning");
+
 
     }
 }

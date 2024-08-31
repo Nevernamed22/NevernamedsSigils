@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Medicinal", "When [creature] is played, it heals all friendly creatures by 2 and removes all negative sigils from friendly creatures.",
                       typeof(Medicinal),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

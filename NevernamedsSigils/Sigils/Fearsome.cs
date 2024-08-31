@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Fearsome", "When [creature] targets a slot occupied by another creature, that creature will move to make way for it if there is room to do so.",
                       typeof(Fearsome),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.GrimoraModChair1, Plugin.Part2Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.GrimoraModChair1, Plugin.Part2Modular, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: true,

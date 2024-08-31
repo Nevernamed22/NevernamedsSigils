@@ -194,7 +194,7 @@ namespace NevernamedsSigils
                     if (toLeft && toLeft.Card != null) { yield return toLeft.Card.TakeDamage(splashDamageAMT, attackingSlot.Card); }
                     if (toRight && toRight.Card != null) { yield return toRight.Card.TakeDamage(splashDamageAMT, attackingSlot.Card); }
                 }
-                if (attackingSlot.Card.HasAbility(Piercing.ability))
+                if (attackingSlot.Card != null && attackingSlot.Card.HasAbility(Piercing.ability))
                 {
                     PlayableCard queuedCard = Singleton<BoardManager>.Instance.GetCardQueuedForSlot(opposingSlot);
                     if (queuedCard != null && !queuedCard.Dead)
@@ -213,7 +213,7 @@ namespace NevernamedsSigils
                         Singleton<GlobalTriggerHandler>.Instance.AbilitiesTriggeredThisTurn.Add(Piercing.ability);
                     }
                 }
-                if (opposingSlot.Card != null && opposingSlot.Card.FaceDown && opposingSlot.Card.HasAbility(SubaquaticSpines.ability) && !attackingSlot.Card.AttackIsBlocked(opposingSlot) && (!attackingSlot.Card.HasAbility(Ability.Flying) || opposingSlot.Card.HasAbility(Ability.Reach)))
+                if (attackingSlot.Card != null && opposingSlot.Card != null && opposingSlot.Card.FaceDown && opposingSlot.Card.HasAbility(SubaquaticSpines.ability) && !attackingSlot.Card.AttackIsBlocked(opposingSlot) && (!attackingSlot.Card.HasAbility(Ability.Flying) || opposingSlot.Card.HasAbility(Ability.Reach)))
                 {
                     yield return new WaitForSeconds(0.55f);
                     yield return attackingSlot.Card.TakeDamage(1, opposingSlot.Card);
@@ -282,8 +282,11 @@ namespace NevernamedsSigils
                 if (attackingSlot.Card.HasAbility(Mauler.ability))
                 {
                     skipOverkill = true;
-                    yield return new WaitForSeconds(0.1f);
-                    yield return Singleton<LifeManager>.Instance.ShowDamageSequence(damage, damage, !attackingSlot.Card.slot.IsPlayerSlot, 0.1f, null, 0f, true);
+                    if (damage > 0)
+                    {
+                        yield return new WaitForSeconds(0.1f);
+                        yield return Singleton<LifeManager>.Instance.ShowDamageSequence(damage, damage, !attackingSlot.Card.slot.IsPlayerSlot, 0.1f, null, 0f, true);
+                    }
                 }
                 if (attackingSlot.Card.HasAbility(SweepingStrikeLeft.ability) && opposingSlot != null)
                 {

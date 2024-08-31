@@ -37,7 +37,7 @@ namespace NevernamedsSigils
         {
             target.Anim.NegationEffect(true);
             target.ResetShield();
-            if (Tools.GetActAsInt() == 1)
+            if (Tools.GetActAsInt() != 3)
             {
                 target.Status.hiddenAbilities.Remove(Ability.DeathShield);
             }

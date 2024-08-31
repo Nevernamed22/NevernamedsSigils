@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Ignition", "When [creature] strikes a creature, that creature gains the Burning sigil.",
                       typeof(Ignition),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular, Plugin.GrimoraModChair2 },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: true,
@@ -38,13 +38,19 @@ namespace NevernamedsSigils
             return true;
         }
 
+        public Ability toAdd()
+        {
+            if (Tools.GetActAsInt() == 4 && Plugin.GrimoraBurning.IsRegistered()) return Plugin.GrimoraBurning;
+            return Burning.ability;
+        }
+
         public override IEnumerator OnDealDamage(int amount, PlayableCard target)
         {
-            if (!target.HasAbility(Ability.MadeOfStone) && !target.HasAbility(Burning.ability))
+            if (!target.HasAbility(Ability.MadeOfStone) && !target.HasAbility(toAdd()))
             {
                 yield return base.PreSuccessfulTriggerSequence();
                 CardModificationInfo fire = new CardModificationInfo();
-                fire.abilities.Add(Burning.ability);
+                fire.abilities.Add(toAdd());
                 target.AddTemporaryMod(fire);
                 target.RenderCard();
             }

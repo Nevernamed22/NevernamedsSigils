@@ -59,7 +59,7 @@ namespace NevernamedsSigils
                 int AtkMod = opposer.Attack - base.Card.Attack;
                 int healthMod = Mathf.Min(12, opposer.Health) - base.Card.Health;
 
-                base.Card.temporaryMods.Add(new CardModificationInfo(AtkMod, healthMod));
+                base.Card.AddTemporaryMod(new CardModificationInfo(AtkMod, healthMod));
             }
 
 

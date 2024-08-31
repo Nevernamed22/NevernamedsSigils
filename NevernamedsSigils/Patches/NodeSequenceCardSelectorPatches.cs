@@ -19,6 +19,9 @@ namespace NevernamedsSigils
 
             list.RemoveAll((CardInfo x) => x.GetExtendedProperty("BannedSigilTransferTarget") != null);
 
+            List<CardInfo> deck = new List<CardInfo>(RunState.DeckList);
+            list.AddRange(new List<CardInfo>(deck.FindAll((CardInfo x) => x.GetExtendedProperty("AlwaysValidForSigilTransfer") != null && !list.Contains(x))));
+
             __result = list;
         }
     }

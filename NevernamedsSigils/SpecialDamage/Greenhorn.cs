@@ -14,13 +14,13 @@ namespace NevernamedsSigils
 		public static SpecialTriggeredAbility ability;
 		public static void Init()
 		{
-			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Greenhorn", "The value represented with this sigil will be equal to twice the number of Green gems on the on the owner's side of the board when the bearer was played.",
+			StatIconInfo icon = SigilSetupUtility.MakeNewStatIcon("Greenhorn", "The value represented with this sigil will be equal to twice the number of Green gems on the owner's side of the board when the bearer was played.",
 			   typeof(Greenhorn),
 			   categories: new List<AbilityMetaCategory>() {  },
 			   tex: Tools.LoadTex("NevernamedsSigils/Resources/Other/greenhorn.png"),
 			   pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelOther/greenhorn_pixel.png"),
 			   isForHealth: true,
-			   gbcDescription: "[creature]s health is equal to twice the number of Green gems on the on it's owner's side of the board when it was played.");
+			   gbcDescription: "[creature]s health is equal to twice the number of Green gems on it's owner's side of the board when it was played.");
 
 			ability = SpecialTriggeredAbilityManager.Add("nevernamed.inscryption.sigils", "Greenhorn", typeof(Greenhorn)).Id;
 			specialStatIcon = icon.iconType;

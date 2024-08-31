@@ -35,7 +35,19 @@ namespace NevernamedsSigils
         private IEnumerator SpawnCardOnSlot(CardSlot slot)
         {
 
-            CardInfo inf = Tools.TrueClone(base.Card.Info);
+            CardInfo inf = CardLoader.GetCardByName(base.Card.Info.name);
+            foreach (CardModificationInfo cardModificationInfo in base.Card.Info.Mods.FindAll((CardModificationInfo x) => !x.nonCopyable))
+            {
+                CardModificationInfo item = (CardModificationInfo)cardModificationInfo.Clone();
+                item.abilities.Remove(Trio.ability);
+                inf.Mods.Add(item);
+            }
+            foreach (CardModificationInfo cardModificationInfo in base.Card.temporaryMods.FindAll((CardModificationInfo x) => !x.nonCopyable))
+            {
+                CardModificationInfo item = (CardModificationInfo)cardModificationInfo.Clone();
+                item.abilities.Remove(Trio.ability);
+                inf.Mods.Add(item);
+            }
             inf.mods.Add(new CardModificationInfo() { negateAbilities = new List<Ability>() { Trio.ability } });
 
             yield return Singleton<BoardManager>.Instance.CreateCardInSlot(inf, slot, 0.15f, true);

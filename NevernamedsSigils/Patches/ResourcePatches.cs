@@ -84,6 +84,7 @@ namespace NevernamedsSigils
                     PlayableCard saccer = Singleton<BoardManager>.Instance.CurrentSacrificeDemandingCard;
                     if (saccer.HasAbility(BloodFromStone.ability)) __result = true;
                 }
+                if (Tools.GetNumberOfSigilOnBoard(true, BloodMagic.ability) > 0 && __instance.HasTrait(Trait.Gem)) { __result = true; }
                 if (__instance.Info.GetExtendedProperty("CardAlwaysSacrificeable") != null) { __result = true; }
             }
 
@@ -95,15 +96,18 @@ namespace NevernamedsSigils
         [HarmonyPostfix]
         public static void Postfix(PlayableCard __instance, ref bool __result)
         {
-            if (__instance && !__result && __instance.HasAbility(BloodFromStone.ability))
+            if (__instance && !__result)
             {
-                __result = __instance.BloodCost() <= Singleton<BoardManager>.Instance.GetValueOfSacrifices(Singleton<BoardManager>.Instance.playerSlots.FindAll((CardSlot x) => x.Card != null))
+                if (__instance.HasAbility(BloodFromStone.ability))
+                {
+                    __result = __instance.BloodCost() <= Singleton<BoardManager>.Instance.GetValueOfSacrifices(Singleton<BoardManager>.Instance.playerSlots.FindAll((CardSlot x) => x.Card != null))
                          && __instance.BonesCost() <= Singleton<ResourcesManager>.Instance.PlayerBones
                          && __instance.EnergyCost <= Singleton<ResourcesManager>.Instance.PlayerEnergy
                          && __instance.GemsCostRequirementMet()
                          && Singleton<BoardManager>.Instance.SacrificesCreateRoomForCard(__instance, Singleton<BoardManager>.Instance.PlayerSlotsCopy);
+                }            
             }
-            if (__instance?.Info?.GetExtendedProperty("PreventPlay") != null)
+            if (__instance?.Info?.GetExtendedProperty("PreventPlay") != null || (__instance.Info.HasAbility(Malware.ability) && (((LifeManager.GOAL_BALANCE * 2) - Singleton<LifeManager>.Instance.DamageUntilPlayerWin) > 3)))
             {
                 __result = false;
             }
@@ -142,7 +146,7 @@ namespace NevernamedsSigils
             {
                 if (card)
                 {
-                    if (card.GetExtendedProperty("PreventPlay") != null || card.HasAbility(MoxMax.ability)) { __result = false; }
+                    if (card.GetExtendedProperty("PreventPlay") != null || card.HasAbility(MoxMax.ability) || card.HasAbility(InstantEffect.ability)) { __result = false; }
                 }
             }
         }

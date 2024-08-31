@@ -64,6 +64,7 @@ namespace NevernamedsSigils
         {
             CardInfo bud;
             string budName = "SigilNevernamed Bud";
+            if (Tools.GetActAsInt() == 4) { budName = "SigilNevernamed GrimoraBud"; }
             if (Card.Info.GetExtendedProperty("PropagationOverride") != null) { budName = Card.Info.GetExtendedProperty("PropagationOverride"); }
             bud = CardLoader.GetCardByName(budName).Clone() as CardInfo;
 
