@@ -55,7 +55,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)
         {
-            return target.Info.name.ToLowerInvariant().Contains("bell") || target.Info.DisplayedNameEnglish.ToLowerInvariant().Contains("bell");
+            return (target.Info.name.ToLowerInvariant().Contains("bell") || target.Info.DisplayedNameEnglish.ToLowerInvariant().Contains("bell")) && base.Card.Attack < 5;
         }
         public override IEnumerator OnOtherCardDealtDamage(PlayableCard attacker, int amount, PlayableCard target)
         {

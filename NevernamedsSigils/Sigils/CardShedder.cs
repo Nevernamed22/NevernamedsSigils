@@ -93,6 +93,18 @@ namespace NevernamedsSigils
         protected virtual IEnumerator PostSuccessfulMoveSequence(CardSlot oldSlot)
         {
             string cardIdentifier = "SigilNevernamed ShadowedCreature";
+            switch (Tools.GetActAsInt())
+            {
+                case 2:
+                    cardIdentifier = "Skeleton";
+                    break;
+                case 3:
+                    cardIdentifier = "SigilNevernamed Endoskeleton";
+                    break;
+                case 4:
+                    cardIdentifier = "Skeleton";
+                    break;
+            }
             if (base.Card.Info.GetExtendedProperty("CardShedderLeaveBehind") != null) { cardIdentifier = base.Card.Info.GetExtendedProperty("CardShedderLeaveBehind"); }
 
             yield return new WaitForSeconds(0.1f);

@@ -273,7 +273,8 @@ namespace NevernamedsSigils
                 CardTemple.Nature,
                 description: "",
                 defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/bud.png"),
-               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/bud_emission.png")
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/bud_emission.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/bud_pixel.png")
                 );
 
             SigilSetupUtility.NewCard("SigilNevernamed GrimoraBud",
@@ -507,6 +508,75 @@ namespace NevernamedsSigils
                 abilities: new List<Ability>() { },
                 appearanceBehaviour: new List<CardAppearanceBehaviour.Appearance>() { },
                   defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/swabber.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed Micromachine",
+               "Micromachine",
+               1,
+               1,
+               new List<CardMetaCategory> { },
+               CardTemple.Tech,
+               description: "",
+               energyCost: 2,
+                tribes: new List<Tribe>() {  },
+                abilities: new List<Ability>() {  },
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/micromachine.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/micromachine_pixel.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed VagrantSpirit",
+               "Vagrant Spirit",
+               1,
+               2,
+               new List<CardMetaCategory> { },
+               CardTemple.Undead,
+               description: "",
+               bonesCost: 3,
+                tribes: new List<Tribe>() { },
+                abilities: new List<Ability>() { },
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/vagrantspirit.png"),
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/vagrantspirit_emission.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/vagrantspirit_pixel.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed Endoskeleton",
+               "Endoskeleton",
+               1,
+               1,
+               new List<CardMetaCategory> { },
+               CardTemple.Tech,
+               description: "",
+                tribes: new List<Tribe>() { },
+                abilities: new List<Ability>() { Ability.Brittle },
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/endoskeleton.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/endoskeleton_pixel.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed SkeletalBeast",
+               "Skeletal Beast",
+               1,
+               1,
+               new List<CardMetaCategory> { },
+               CardTemple.Nature,
+               description: "",
+                tribes: new List<Tribe>() { },
+                abilities: new List<Ability>() { Ability.Brittle },
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/skeletalbeast.png"),
+               emissionTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/skeletalbeast_emission.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/skeletalbeast_pixel.png")
+               );
+
+            SigilSetupUtility.NewCard("SigilNevernamed Buttress",
+               "Buttress",
+               0,
+               3,
+               new List<CardMetaCategory> { },
+               CardTemple.Tech,
+               description: "",
+                tribes: new List<Tribe>() { },
+                abilities: new List<Ability>() {  },
+                defaultTex: Tools.LoadTex("NevernamedsSigils/Resources/Cards/buttress.png"),
+                pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelCards/buttress_pixel.png")
                );
         }
     }

@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,
-                      tex: null,
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/woodsielord.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/woodsielord_pixel.png"));
 
             WoodsieLord.ability = newSigil.ability;

@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: true,
-                      tex: null,
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/moxcraft.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/moxcraft_pixel.png"));
 
             Moxcraft.ability = newSigil.ability;

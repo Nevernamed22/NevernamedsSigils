@@ -15,7 +15,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("File Explorer", "When [creature] is played, choose two creatures from random selection of your deck. These creatures will define this cards power and health at random. If this card dies, the creatures used to define its stats perish as well.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("File Explorer", "When [creature] is played, choose two creatures from a random selection of your deck. These creatures will define this cards power and health at random. If this card dies, the creatures used to define its stats perish as well.",
                       typeof(FileExplorer),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 3,

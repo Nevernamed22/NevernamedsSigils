@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Ripper", "[creature] will move to and destroy any free, 1 health, non-terrain creatures played, and becomes stronger for each one consumed.",
                       typeof(Ripper),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, Plugin.GrimoraModChair3 },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, Plugin.GrimoraModChair3, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

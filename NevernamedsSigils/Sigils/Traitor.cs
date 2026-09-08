@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Traitor", "When [creature] is played, it will move onto the opponent's side of the board if unobstructed.",
                       typeof(Traitor),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: -3,
                       stackable: false,
                       opponentUsable: false,

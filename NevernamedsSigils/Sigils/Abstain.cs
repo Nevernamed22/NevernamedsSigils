@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Abstain", "[creature] will not attack unless forced to attack by another effect.",
                       typeof(Abstain),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook},
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: -2,
                       stackable: false,
                       opponentUsable: false,

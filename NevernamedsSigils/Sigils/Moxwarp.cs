@@ -15,11 +15,11 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Moxwarp", "While [creature] is alive on the board, any enemy attack that enters a sapphire mox will be returned out of all ruby mox, and vice versa.",
                       typeof(Moxwarp),
-                      categories: new List<AbilityMetaCategory> { },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.MagnificusRulebook },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,
-                      tex: null,
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/moxwarp.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/moxwarp_pixel.png"));
 
             ability = newSigil.ability;

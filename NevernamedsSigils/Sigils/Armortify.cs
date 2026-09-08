@@ -36,7 +36,6 @@ namespace NevernamedsSigils
         public static void Rearmor(PlayableCard target)
         {
             target.Anim.NegationEffect(true);
-            target.ResetShield();
             if (Tools.GetActAsInt() == 1)
             {
                 target.Status.hiddenAbilities.Remove(Ability.DeathShield);
@@ -45,7 +44,7 @@ namespace NevernamedsSigils
             {
                 target.Status.hiddenAbilities.Add(Ability.DeathShield);
             }
-            target.temporaryMods.Add(new CardModificationInfo(Ability.DeathShield));
+            target.AddTemporaryMod(new CardModificationInfo(Ability.DeathShield));
             target.RenderCard();
         }
         public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)

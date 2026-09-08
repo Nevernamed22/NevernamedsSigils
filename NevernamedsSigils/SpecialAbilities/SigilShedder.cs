@@ -42,7 +42,20 @@ namespace NevernamedsSigils
             cardModificationInfo.negateAbilities.AddRange(base.PlayableCard.Info.Abilities);
             mice.AddRange(base.PlayableCard.Info.Abilities);
             base.PlayableCard.AddTemporaryMod(cardModificationInfo);
-            string cardDef = (base.Card.Info.GetExtendedProperty("OverrideSigilShedderDefinition") != null) ? base.Card.Info.GetExtendedProperty("OverrideSigilShedderDefinition") : "SigilNevernamed UnnaturalCreature";
+
+
+
+            string cardDef = "SigilNevernamed UnnaturalCreature";
+            switch (Tools.GetActAsInt())
+            {
+                case 3:
+                    cardDef = "SigilNevernamed Micromachine";
+                    break;
+                case 4:
+                    cardDef = "SigilNevernamed VagrantSpirit";
+                    break;
+            }
+            if (base.Card.Info.GetExtendedProperty("OverrideSigilShedderDefinition") != null) cardDef = base.Card.Info.GetExtendedProperty("OverrideSigilShedderDefinition");
 
             if (mice.Count > 0)
             {

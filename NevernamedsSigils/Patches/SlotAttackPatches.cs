@@ -233,6 +233,7 @@ namespace NevernamedsSigils
             {
                 if (__instance.HasShield() && __instance.GetComponent<Healshield>()) { __instance.GetComponent<Healshield>().tookDamageThisTurn = true; }
                 if (__instance.HasAbility(Resilient.ability) && damage > 1) { __state = 1; damage = 1; }
+                if (__instance.HasAbility(BlastResistant.ability) && damage >= 10) { __state = 1; damage = 1; }
                 if (__instance.HasAbility(Soak.ability) && damage > 0) { __state--; damage--; }
                 if (__instance.HasAbility(Sturdy.ability) && damage > 0) { __state--; damage--; }
                 if (attacker != null && attacker.HasAbility(Wimpy.ability) && damage > 0) { __state--; damage--; }

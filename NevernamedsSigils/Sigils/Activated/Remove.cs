@@ -20,7 +20,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/Activated/remove.png"),
-                      pixelTex: null,
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/Activated/remove_pixel.png"),
                       isActivated: true);
 
             Remove.ability = newSigil.ability;

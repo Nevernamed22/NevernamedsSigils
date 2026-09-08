@@ -85,7 +85,7 @@ namespace NevernamedsSigils
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(triggerDialogue[Tools.GetActAsInt()][TimesProphecyTriggeredthisRun]))
+                    if (triggerDialogue.ContainsKey(Tools.GetActAsInt()) && triggerDialogue[Tools.GetActAsInt()].ContainsKey(TimesProphecyTriggeredthisRun))
                     {
                         if (Tools.GetActAsInt() == 2)
                         {

@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Confusion", "When [creature] is played opposite an opponents creature, swap that creatures power and health.",
                       typeof(Confusion),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.GrimoraModChair2 },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.GrimoraModChair2, AbilityMetaCategory.GrimoraRulebook },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: true,

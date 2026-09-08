@@ -1,5 +1,6 @@
 ﻿using APIPlugin;
 using DiskCardGame;
+using InscryptionAPI.Card;
 using Pixelplacement;
 using System;
 using System.Collections;
@@ -42,7 +43,7 @@ namespace NevernamedsSigils
         public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
         {
             yield return base.PreSuccessfulTriggerSequence();
-            if (base.Card.Info.name == "BeastNevernamed Biscione")
+            if (base.Card.Info.name == "BeastNevernamed Biscione" || base.Card.Info.GetExtendedProperty("VampiricIsPermanent") != null)
             {
                 CardModificationInfo cardModificationInfo = base.Card.Info.Mods.Find((CardModificationInfo x) => x.singletonId == "biscione");
                 if (cardModificationInfo == null)

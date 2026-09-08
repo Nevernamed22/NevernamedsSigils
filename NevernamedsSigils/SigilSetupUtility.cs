@@ -118,7 +118,7 @@ namespace NevernamedsSigils
             if (!string.IsNullOrEmpty(phantasmicLeaveBehind)) newInfo.SetExtendedProperty("PhantasmicLeaveBehind", phantasmicLeaveBehind);
 
             if (!string.IsNullOrEmpty(customDoomedLifespan)) newInfo.SetExtendedProperty("CustomDoomedDuration", customDoomedLifespan);
-
+           
             if (preventBones == true) { newInfo.SetExtendedProperty("PreventBones", "Yes"); }
             if (preventCampfire == true) { newInfo.SetExtendedProperty("BannedFromCampfire", "Yes"); }
             if (preventCampfireDamage == true) { newInfo.SetExtendedProperty("BannedFromCampfireDamage", "Yes"); }
@@ -136,7 +136,7 @@ namespace NevernamedsSigils
             if (altTexture != null) newInfo.SetAltPortrait(altTexture);
             if (altTextureEmission != null) newInfo.SetEmissiveAltPortrait(altTextureEmission);
             if (titleGraphic != null) newInfo.titleGraphic = titleGraphic;
-
+            
             if (tailLostTexture != null) newInfo.SetLostTailPortrait(tailLostTexture, FilterMode.Point);
             //else if (defaultTex != null && !string.IsNullOrEmpty(defaultTailCard)) newInfo.SetLostTailPortrait(defaultTex, FilterMode.Point);
 
@@ -152,6 +152,7 @@ namespace NevernamedsSigils
 
             CardManager.Add("SigilNevernamed", newInfo);
 
+            
             return newInfo;
         }
     }

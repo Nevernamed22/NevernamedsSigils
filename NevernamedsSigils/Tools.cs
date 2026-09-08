@@ -637,13 +637,15 @@ namespace NevernamedsSigils
             }
             return ab;
         }
-        public static PlayableCard GetStrongestCardOnBoard(bool playerSide, bool weakest = false, Ability sigilToIgnore = Ability.None)
+        public static PlayableCard GetStrongestCardOnBoard(bool playerSide, bool weakest = false, Ability sigilToIgnore = Ability.None, bool ignoreZeroHealth = false, List<PlayableCard> ignoreCards = null)
         {
             PlayableCard strongest = null;
             List<CardSlot> viableslots = new List<CardSlot>();
             if (!playerSide) viableslots = Singleton<BoardManager>.Instance.opponentSlots;
             else viableslots = Singleton<BoardManager>.Instance.playerSlots;
             if (sigilToIgnore != Ability.None) viableslots.RemoveAll(x => x.Card != null && x.Card.HasAbility(sigilToIgnore));
+            if (ignoreZeroHealth) viableslots.RemoveAll(x => x.Card != null && x.Card.Health <= 0);
+            if (ignoreCards != null) { viableslots.RemoveAll(x => x.Card != null && ignoreCards.Contains(x.Card)); }
             foreach (CardSlot slot in viableslots)
             {
                 if (slot && slot.Card)

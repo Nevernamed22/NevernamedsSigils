@@ -73,9 +73,20 @@ namespace NevernamedsSigils
         {
             get
             {
-                CardInfo guts = (base.Card.Info.GetExtendedProperty("LegionCardOverride") != null) ? CardLoader.GetCardByName(base.Card.Info.GetExtendedProperty("LegionCardOverride")) : CardLoader.GetCardByName("SigilNevernamed SpiritBeast");
-                if (mods != null) guts.Mods.Add(mods);
-                return guts;
+                string cardID = "SigilNevernamed SpiritBeast";
+                switch (Tools.GetActAsInt())
+                {
+                    case 3:
+                        cardID = "SigilNevernamed Micromachine";
+                        break;
+                    case 4:
+                        cardID = "SigilNevernamed VagrantSpirit";
+                        break;
+                }
+                if (base.Card.Info.GetExtendedProperty("LegionCardOverride") != null) { cardID = base.Card.Info.GetExtendedProperty("LegionCardOverride"); }
+                CardInfo toSpawn = CardLoader.GetCardByName(cardID);
+                if (mods != null) toSpawn.Mods.Add(mods);
+                return toSpawn;
             }
         }
         private CardModificationInfo mods;

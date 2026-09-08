@@ -14,7 +14,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Mox Max", "[creature] cannot be played unless two cards which grant its respective mox cost colour are present on the owners side of the board..",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Mox Max", "[creature] cannot be played unless two cards which grant its respective mox cost colour are present on the owners side of the board.",
                       typeof(MoxMax),
                       categories: new List<AbilityMetaCategory> { },
                       powerLevel: -3,

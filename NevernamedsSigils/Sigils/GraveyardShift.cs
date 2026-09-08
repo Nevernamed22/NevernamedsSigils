@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Graveyard Shift", "When [creature] perishes by combat, it leaves something else in it's old space. Unlike Frozen Away, this new creature will retain the sigils and buffs of the original.",
                       typeof(GraveyardShift),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook,AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook,AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

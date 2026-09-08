@@ -34,7 +34,7 @@ namespace NevernamedsSigils
         }
         public override bool RespondsToPreDeathAnimation(bool wasSacrifice)
         {
-            return true;
+            return base.Card.OnBoard;
         }
         public override IEnumerator OnPreDeathAnimation(bool wasSacrifice)
         {

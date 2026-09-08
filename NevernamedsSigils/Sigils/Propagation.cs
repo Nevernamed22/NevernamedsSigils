@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Propagation", "When [creature] attacks an opposing creature and it perishes, a creature is created on the board to the left or right of this card.",
                       typeof(Propagation),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook, AbilityMetaCategory.Part3Modular, AbilityMetaCategory.BountyHunter },
                       powerLevel: 2,
                       stackable: false,
                       opponentUsable: false,
@@ -63,11 +63,21 @@ namespace NevernamedsSigils
         private IEnumerator SpawnCardOnSlot(CardSlot slot)
         {
             CardInfo bud;
-            string budName = "SigilNevernamed Bud";
-            if (Tools.GetActAsInt() == 4) { budName = "SigilNevernamed GrimoraBud"; }
-            if (Card.Info.GetExtendedProperty("PropagationOverride") != null) { budName = Card.Info.GetExtendedProperty("PropagationOverride"); }
-            bud = CardLoader.GetCardByName(budName).Clone() as CardInfo;
 
+            string cardID = "SigilNevernamed Bud";
+
+            switch (Tools.GetActAsInt())
+            {
+                case 3:
+                    cardID = "SigilNevernamed Buttress";
+                    break;
+                case 4:
+                    cardID = "SigilNevernamed GrimoraBud";
+                    break;
+            }
+            if (Card.Info.GetExtendedProperty("PropagationOverride") != null) { cardID = Card.Info.GetExtendedProperty("PropagationOverride"); }
+
+            bud = CardLoader.GetCardByName(cardID).Clone() as CardInfo;
             bud.Mods.Add(base.Card.CondenseMods(new List<Ability>() { Propagation.ability }));
 
             yield return Singleton<BoardManager>.Instance.CreateCardInSlot(bud, slot, 0.1f, true);

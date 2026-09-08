@@ -15,6 +15,7 @@ namespace NevernamedsSigils
     {
         public static CardAppearanceBehaviour.Appearance HiddenStats;
         public static CardAppearanceBehaviour.Appearance GreyBackground;
+        public static CardAppearanceBehaviour.Appearance SpectralCard;
         public static CardAppearanceBehaviour.Appearance LeshyCardBackground;
         public static CardAppearanceBehaviour.Appearance InstantEffectBackground;
         public static CardAppearanceBehaviour.Appearance GrueAppearance;
@@ -66,6 +67,7 @@ namespace NevernamedsSigils
             InstantEffectBackground = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "InstantEffectBackground", typeof(InstantEffectCardBackground)).Id;
             LeshyCardBackground = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "CabinFinaleOpponentCardBackground", typeof(LeshyCardBackground)).Id;
             TarotCardAppearance = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "TarotCardAppearance", typeof(TarotCardBackground)).Id;
+            SpectralCard = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "SpectralCardAppearance", typeof(SpectralCard)).Id;
 
             HiddenStats = CardAppearanceBehaviourManager.Add("nevernamed.inscryption.sigils", "HiddenStats", typeof(HiddenStats)).Id;
             //Decals
@@ -155,6 +157,29 @@ namespace NevernamedsSigils
         public override Sprite OverrideBackground() { return tex; }
     }
     #endregion
+
+    public class SpectralCard : CardAppearanceBehaviour
+    {
+        public static Texture2D spectralCardtex = Tools.LoadTex("NevernamedsSigils/Resources/Appearances/spectral_carback.png");
+        public override void ApplyAppearance()
+        {
+            base.Card.RenderInfo.forceEmissivePortrait = true;
+            base.Card.StatsLayer.SetEmissionColor(GameColors.Instance.brightNearWhite);
+            base.Card.renderInfo.baseTextureOverride = spectralCardtex;
+            this.UpdateAttackHidden();
+        }
+        public override void OnPreRenderCard() { this.UpdateAttackHidden(); }
+        private void UpdateAttackHidden()
+        {
+            base.Card.RenderInfo.hiddenHealth = true;
+            if (base.Card is PlayableCard && (base.Card as PlayableCard).Health > 1) { base.Card.RenderInfo.hiddenHealth = false; }
+        }
+        public override void ResetAppearance()
+        {
+            base.Card.RenderInfo.forceEmissivePortrait = false;
+            base.Card.StatsLayer.SetEmissionColor(GameColors.Instance.glowSeafoam);
+        }
+    }
     public class HiddenStats : CardAppearanceBehaviour
     {
         public override void ApplyAppearance() { this.UpdateAttackHidden(); }

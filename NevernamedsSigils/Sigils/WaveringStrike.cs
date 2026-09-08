@@ -19,7 +19,7 @@ namespace NevernamedsSigils
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, Plugin.Part2Modular },
                       powerLevel: 0,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/waveringstrike.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/waveringstrike_pixel.png"));
 

@@ -36,16 +36,18 @@ namespace NevernamedsSigils
                 return ability;
             }
         }
+        private bool hasTriggeredOnceWithZeroHealth = false;
         public override bool RespondsToTakeDamage(PlayableCard source)
         {
-            return true;
+            return !hasTriggeredOnceWithZeroHealth || base.Card.Health > 0;
         }
         public override IEnumerator OnTakeDamage(PlayableCard source)
         {
+            if (base.Card.Health <= 0) { hasTriggeredOnceWithZeroHealth = true; }
             if (target == null) { target = ResourceBank.Get<GameObject>("Prefabs/Cards/SpecificCardModels/CannonTargetIcon"); }
             if (base.Card.OpponentCard)
             {
-                PlayableCard strongest = Tools.GetStrongestCardOnBoard(true);
+                PlayableCard strongest = Tools.GetStrongestCardOnBoard(true, false, Ability.None, true);
                 if (strongest != null)
                 {
                     if (Tools.GetActAsInt() == 1)
@@ -75,7 +77,7 @@ namespace NevernamedsSigils
             {
                 BoardManager instance = Singleton<BoardManager>.Instance;
                 List<CardSlot> opponentSlotsCopy = Singleton<BoardManager>.Instance.OpponentSlotsCopy;
-                List<CardSlot> opponentSlotsCopy2 = Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll((CardSlot x) => x.Card != null && !x.Card.Dead);
+                List<CardSlot> opponentSlotsCopy2 = Singleton<BoardManager>.Instance.OpponentSlotsCopy.FindAll((CardSlot x) => x.Card != null && !x.Card.Dead && x.Card.Health > 0);
                 if (opponentSlotsCopy2.Count > 0)
                 {
                     Singleton<ViewManager>.Instance.Controller.SwitchToControlMode(Singleton<BoardManager>.Instance.ChoosingSlotViewMode, false);

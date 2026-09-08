@@ -15,7 +15,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Punching Bag", "Once per turn, choose any creature. That creature will strike this card for 1 damage. Afterwards, this card regains 1 health.",
                       typeof(PunchingBag),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 1,
                       stackable: false,
                       opponentUsable: false,

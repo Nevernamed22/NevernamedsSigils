@@ -361,6 +361,10 @@ namespace NevernamedsSigils
             Kindred.Init();
             Enchanting.Init();
             GoldDigger.Init();
+            Afterlife.Init();
+            BlastResistant.Init();
+            Lanky.Init();
+            PeerPressure.Init();
 
             //LATCH SIGILS
             WaterborneLatch.Init();
@@ -436,6 +440,7 @@ namespace NevernamedsSigils
             Sharpen.Init();
             ExaltedRune.Init();
             DeckDrain.Init();
+            Healthy.Init();
 
             //VARIABLE STATS
             AntPlusTwo.Init();
@@ -469,6 +474,8 @@ namespace NevernamedsSigils
             DrawnOut.Init();
             SanguineBond.Init();
             DamageScaling.Init();
+
+            demo.Init();
 
             //SPECIAL ABILITIES
             InherentFecundity.Init();

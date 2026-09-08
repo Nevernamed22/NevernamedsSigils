@@ -42,7 +42,7 @@ namespace NevernamedsSigils
         {
             if (base.Card.OpponentCard)
             {
-                if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null) && GraveyardManager.instance.opponentGraveyard.Count > 0)
+                if (GraveyardManager.instance.opponentGraveyard.Count > 0)
                 {
                     CardInfo toSteal = null;
                     foreach(CardInfo inf in GraveyardManager.instance.opponentGraveyard.FindAll(x => x.abilities.Count > 0))

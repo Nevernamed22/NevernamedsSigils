@@ -19,7 +19,7 @@ namespace NevernamedsSigils
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: true,
-                      tex: null,
+                      tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/deckedout.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/deckedout_pixel.png"));
 
             DeckedOut.ability = newSigil.ability;

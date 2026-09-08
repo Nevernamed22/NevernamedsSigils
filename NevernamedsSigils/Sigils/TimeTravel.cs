@@ -15,7 +15,7 @@ namespace NevernamedsSigils
     {
         public static void Init()
         {
-            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Time Travel", "While [creature] is played, the opponent is obligated to skip their next turn.",
+            AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Time Travel", "After [creature] is played, the opponent is obligated to skip their next turn.",
                       typeof(TimeTravel),
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
                       powerLevel: 5,

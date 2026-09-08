@@ -33,9 +33,32 @@ namespace NevernamedsSigils
             }
         }
         public static Ability ability;
+        public string CardIDToSpawn
+        {
+            get
+            {
+                string cardID = "Skeleton";
+                switch (Tools.GetActAsInt())
+                {
+                    case 1:
+                        cardID = "SigilNevernamed SkeletalBeast";
+                        break;
+                    case 2:
+                        cardID = "Skeleton";
+                        break;
+                    case 3:
+                        cardID = "SigilNevernamed Endoskeleton";
+                        break;
+                    case 4:
+                        cardID = "Skeleton";
+                        break;
+                }
+                return cardID;
+            }
+        }
         public override bool RespondsToOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
         {
-            return fromCombat && card.OpponentCard == base.Card.OpponentCard && card != base.Card && base.Card.OnBoard && card.Info.name != "Skeleton";
+            return fromCombat && card.OpponentCard == base.Card.OpponentCard && card != base.Card && base.Card.OnBoard && card.Info.name != CardIDToSpawn;
         }
         public override IEnumerator OnOtherCardDie(PlayableCard card, CardSlot deathSlot, bool fromCombat, PlayableCard killer)
         {
@@ -43,7 +66,7 @@ namespace NevernamedsSigils
             {
                 if (Singleton<BoardManager>.Instance.OpponentSlotsCopy.Exists(x => Singleton<BoardManager>.Instance.GetCardQueuedForSlot(x) == null))
                 {
-                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardLoader.GetCardByName("Skeleton"));
+                    PlayableCard playableCard = CardSpawner.SpawnPlayableCard(CardLoader.GetCardByName(CardIDToSpawn));
                     playableCard.SetIsOpponentCard(true);
                     Singleton<TurnManager>.Instance.Opponent.ModifyQueuedCard(playableCard);
 
@@ -56,7 +79,13 @@ namespace NevernamedsSigils
             else
             {
                 yield return base.PreSuccessfulTriggerSequence();
-                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName("Skeleton"), null, 0.25f);
+                if (Singleton<ViewManager>.Instance.CurrentView != View.Default)
+                {
+                    yield return new WaitForSeconds(0.2f);
+                    Singleton<ViewManager>.Instance.SwitchToView(View.Default, false, false);
+                    yield return new WaitForSeconds(0.2f);
+                }
+                yield return Singleton<CardSpawner>.Instance.SpawnCardToHand(CardLoader.GetCardByName(CardIDToSpawn), null, 0.25f);
                 yield return base.LearnAbility(0.5f);
             }
             yield break;

@@ -36,6 +36,11 @@ namespace NevernamedsSigils
                     if (toLeft != null && toLeft.Card == null) __result += 1;
                     if (toRight != null && toRight.Card == null) __result += 1;
                 }
+                if (__instance.HasAbility(PeerPressure.ability))
+                {
+                    if (toLeft != null && toLeft.Card != null) __result += 1;
+                    if (toRight != null && toRight.Card != null) __result += 1;
+                }
                 if (__instance.Info.tribes.Contains(Tribe.Hooved))
                 {
                     List<CardSlot> viableslots = new List<CardSlot>();

@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Clawed", "When [creature] is played, claws are created to the left and right. Any creatures in those spaces will be killed.",
                       typeof(Clawed),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 4,
                       stackable: false,
                       opponentUsable: false,

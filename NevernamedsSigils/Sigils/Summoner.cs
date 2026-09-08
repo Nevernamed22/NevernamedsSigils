@@ -16,7 +16,7 @@ namespace NevernamedsSigils
         {
             AbilityInfo newSigil = SigilSetupUtility.MakeNewSigil("Summoner", "When [creature] is played, it's owner may choose from a selection of random cards to add to their hand.",
                       typeof(Summoner),
-                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular },
+                      categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.Part1Modular, AbilityMetaCategory.Part3Rulebook },
                       powerLevel: 3,
                       stackable: false,
                       opponentUsable: false,

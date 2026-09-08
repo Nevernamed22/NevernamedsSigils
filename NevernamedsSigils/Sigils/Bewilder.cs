@@ -18,7 +18,7 @@ namespace NevernamedsSigils
                       categories: new List<AbilityMetaCategory> { AbilityMetaCategory.Part1Rulebook, AbilityMetaCategory.GrimoraRulebook, Plugin.GrimoraModChair3 },
                       powerLevel: 4,
                       stackable: false,
-                      opponentUsable: false,
+                      opponentUsable: true,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/bewilder.png"),
                       pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/bewilder_pixel.png")
                       );

@@ -21,7 +21,7 @@ namespace NevernamedsSigils
                       stackable: false,
                       opponentUsable: false,
                       tex: Tools.LoadTex("NevernamedsSigils/Resources/Sigils/Activated/dredge.png"),
-                      pixelTex: null,
+                      pixelTex: Tools.LoadTex("NevernamedsSigils/Resources/PixelSigils/Activated/dredge_pixel.png"),
                       isActivated: true);
 
             Dredge.ability = newSigil.ability;
